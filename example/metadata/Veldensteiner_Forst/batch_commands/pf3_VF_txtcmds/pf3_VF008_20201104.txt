@@ -1,0 +1,5 @@
+1
+3 
+/example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_008/20201104/
+/example/metadata/Veldensteiner_Forst/CSV/VF008_20201104_Meta.csv 
+Y 

@@ -1,0 +1,4 @@
+1 
+1 
+/example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104/
+/example/metadata/Veldensteiner_Forst/JSON/Test/VF007_20201104_BI.json 

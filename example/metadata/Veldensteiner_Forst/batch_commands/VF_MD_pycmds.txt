@@ -1,0 +1,15 @@
+'python run_tf_detector_batch.py md_v4.1.0.pb ' 
+'../example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF007_20201104_BatchInput.json '
+'../example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF007_20201104_MD.json '
+'&& '
+
+'python run_tf_detector_batch.py md_v4.1.0.pb ' 
+'../example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF008_20201104_BatchInput.json '
+'../example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF008_20201104_MD.json '
+'&& '
+
+'python run_tf_detector_batch.py md_v4.1.0.pb ' 
+'../example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF009_20201104_BatchInput.json '
+'../example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF009_20201104_MD.json '
+'&& '
+

@@ -1,0 +1,6 @@
+1
+2 
+/example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_008/20201104/
+/example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF008_20201104_MegaDetected.json 
+/example/metadata/Veldensteiner_Forst/CSV/VF008_20201104_Meta.csv 
+
