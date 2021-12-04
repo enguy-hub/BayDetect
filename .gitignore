@@ -14,3 +14,6 @@ __pycache__
 *.iml
 out
 gen
+
+# MegaDetector model
+cameratraps/md_v4.1.0.pb
