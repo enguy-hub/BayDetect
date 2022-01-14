@@ -1,0 +1,6 @@
+Image Name,DateTime,Trigger,Station,Session,Predicted Category,Image Path
+I_00012b.JPG,2020:07:19 15:42:42,00012,EF_007,20201104,['2'],/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00012b.JPG
+I_00012c.JPG,2020:07:19 15:42:42,00012,EF_007,20201104,['2'],/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00012c.JPG
+I_00021b.JPG,2020:08:30 05:26:22,00021,EF_007,20201104,['1'],/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021b.JPG
+I_00021c.JPG,2020:08:30 05:26:22,00021,EF_007,20201104,['Empty'],/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021c.JPG
+I_00021d.JPG,2020:08:30 05:26:22,00021,EF_007,20201104,['1'],/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021d.JPG

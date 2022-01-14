@@ -81,11 +81,11 @@ the `run_tf_detector_batch.py` python script and the `md_v4.1.0.pb` model file s
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- When you have images from different cameratrap stations and sessions, you can arrange them similar to these examples:
+- When you have images from different cameratrap stations and sessions, you can arrange them similar the examples below:
 
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104/*.jpg
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_008/20201104/*.jpg
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_009/20201104/*.jpg
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/*.jpg
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_008/20201104/*.jpg
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_009/20201104/*.jpg
 
 **Once the above steps are completed, you are ready to use BayDetect :)**
 
@@ -138,14 +138,14 @@ execute `run_tf_detector_batch.py` .
 saved in the `/example/metadata/*dataset_name*/JSON/BatchInput/` directory, and ends it with 
   `*_BatchInput.json`. See example below:
 
-      /example/metadata/Veldensteiner_Forst/JSON/BatchInput/*_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/*_BatchInput.json
 
 - Additionally, when working with a large dataset that has many stations and sessions, we suggest that each JSON file 
 should be named corresponding to its station and session. See example in the directory stated below:
 
-      /example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF07_20201104_BatchInput.json
-      /example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF08_20201104_BatchInput.json
-      /example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF09_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_008_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_009_20201104_BatchInput.json
 
 #### Executing `run_tf_detector_batch.py` script
 
@@ -157,18 +157,18 @@ should be named corresponding to its station and session. See example in the dir
 
 - Windows command
 
-      python run_tf_detector_batch.py md_v4.1.0.pb ..\example\metadata\Veldensteiner_Forst\JSON\BatchInput\VF07_20201104_BatchInput.json ..\example\metadata\Veldensteiner_Forst\JSON\MegaDetected\VF07_20201104_MegaDetected.json
+      python run_tf_detector_batch.py md_v4.1.0.pb ..\example\metadata\Example_Forest\JSON\BatchInput\EF_007_20201104_BatchInput.json ..\example\metadata\Example_Forest\JSON\MegaDetected\EF07_20201104_MegaDetected.json
        
 - Linux command
 
-      python run_tf_detector_batch.py md_v4.1.0.pb ../example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF07_20201104_BatchInput.json ../example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF07_20201104_MegaDetected.json
+      python run_tf_detector_batch.py md_v4.1.0.pb ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
 
 - For better organizing file names and folder structure, we suggest that the output JSON files should be 
 saved in the `/example/metadata/*dataset_name*/JSON/MegaDetected/` directory, and ends it with `*_MegaDetected.json`. 
 See the example JSON files in the directory stated below:
 
-      /example/metadata/Veldensteiner_Forst/JSON/BatchInput/VF07_20201104_BatchInput.json
-      /example/metadata/Veldensteiner_Forst/JSON/MegaDetected/VF07_20201104_MegaDetected.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BI.json
+      /example/metadata/Example_Forest/JSON/MegaDetected/EF_007_20201104_MD.json
 
 3/ Navigate back to root directory via the following command:
 
@@ -199,14 +199,14 @@ from `run_tf_detector_batch.py` into an organized CSV metadata file.
 saved in the `/example/metadata/*dataset_name*/CSV/` directory, and ends it with `*_Meta.csv`. 
 See example below:
 
-      /example/metadata/Veldensteiner_Forst/CSV/*_Meta.csv
+      /example/metadata/Example_Forest/CSV/*_Meta.csv
 
 - Additionally, when working with a large dataset that has many stations and sessions, we suggest that each JSON file 
 should be named corresponding to its station and session. For example, checkout the files in the directory stated below:
 
-      /example/metadata/Veldensteiner_Forst/CSV/VF07_20201104_Meta.csv
-      /example/metadata/Veldensteiner_Forst/CSV/VF08_20201104_Meta.csv
-      /example/metadata/Veldensteiner_Forst/CSV/VF09_20201104_Meta.csv
+      /example/metadata/Example_Forest/CSV/EF_007_20201104_Meta.csv
+      /example/metadata/Example_Forest/CSV/EF_008_20201104_Meta.csv
+      /example/metadata/Example_Forest/CSV/EF_009_20201104_Meta.csv
 
 **Important**: The CSV metadata file organizes the `Name`, `Station`, and `Session` of the image files based on their 
 images' filepath in the `*_MegaDetected.json` file. Hence, you will need to change the values for `imageName`, `station`
@@ -237,12 +237,12 @@ images to be saved in a separate directory but on the same level as the original
 the directory containing the sorted images as `*_Sorted`. See example below:
 
       Original image directory:  
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104/*.JPG
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/*.JPG
       
       New sorted image directories:
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104_Sorted/Animal/*.JPG
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104_Sorted/Empty/*.JPG
-      /example/image_data/Veldensteiner_Forst/Bilder_Rohten/VF_007/20201104_Sorted/Person/*.JPG
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104_Sorted/Animal/*.JPG
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104_Sorted/Empty/*.JPG
+      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104_Sorted/Person/*.JPG
 
 
 **Note**: If you would like to save space on your computer and want to perform the sorting directly on the original 
@@ -318,12 +318,12 @@ multiple files at once.
 `/metadata/*dataset_name*/batch_commands/` directory with the following naming convention `pf*_*dataset_name*_txtcmds`
 and have the new `text-command files` saved in there. Checkout the example directories and text-command files below:
 
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf1_VF_txtcmds/pf1_VF07_20201104.txt
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf2_VF_txtcmds/pf2_VF07_20201104.txt
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf3_VF_txtcmds/pf3_VF07_20201104.txt
+      /example/metadata/Example_Forest/batch_commands/pf1_EF_txtcmds/pf1_EF_007_20201104.txt
+      /example/metadata/Example_Forest/batch_commands/pf2_EF_txtcmds/pf2_EF_007_20201104.txt
+      /example/metadata/Example_Forest/batch_commands/pf3_EF_txtcmds/pf3_EF_007_20201104.txt
 
 **IMPORTANT**: This function derives the `Station`, and `Session` names of from the original directory paths of where the 
-images are saved (inside the `/image_data/Vedensteiner_Forst/` directory). Therefore, to make sure that the names of the
+images are saved (inside the `/image_data/Example_Forest/` directory). Therefore, to make sure that the names of the
 new `text-command files` and the text-content inside them are correct, you will need to change the values for 
 `dataset_station`, and `session` variables in lines `54-55` for Windows users and lines in the `159-160` for Linux users 
 in `batch_functions.py` script. For more details, see below:
@@ -353,9 +353,9 @@ commands needed to start the `pf_batchrun()` function from `batchrun.py`.
 directory with following naming format `pf*_*dataset_name*_pycmds.txt`. Checkout the example `python-command .txt files`
 for used for 'batch-running' Processing function below:
 
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf1_VF_pycmds.txt
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf2_VF_pycmds.txt
-      /example/metadata/Veldensteiner_Forst/batch_commands/pf3_VF_pycmds.txt
+      /example/metadata/Example_Forest/batch_commands/pf1_EF_pycmds.txt
+      /example/metadata/Example_Forest/batch_commands/pf2_EF_pycmds.txt
+      /example/metadata/Example_Forest/batch_commands/pf3_EF_pycmds.txt
       
 #### Executing `pf_batchrun()` function from `/batchrun.py` script
 
@@ -387,7 +387,7 @@ commands needed to start the `md_batchrun()` function from `batchrun.py`.
 `/metadata/*dataset_name*/batch_commands/` directory and name the file with the following format 
 `*dataset_name*_MD_pycmds.txt`. Checkout the example directory and `python-commands file` below:
 
-      /example/metadata/Veldensteiner_Forst/batch_commands/VF_MD_pycmds.txt
+      /example/metadata/Example_Forest/batch_commands/EF_MD_pycmds.txt
 
 #### Executing `md_batchrun()` function from `/batchrun.py` script
 

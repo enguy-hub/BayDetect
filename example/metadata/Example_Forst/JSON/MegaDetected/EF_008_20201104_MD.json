@@ -1,0 +1,153 @@
+{
+ "images": [
+  {
+   "file": "/example/image_data/Example_Forst/Bilder_Rohten/EF_008/20201104/GK2_2018-08-02_Cervus_elaphus_153.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.008606,
+      0.1896,
+      0.5828,
+      0.5725
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forst/Bilder_Rohten/EF_008/20201104/GK2_2018-08-15_Cervus_elaphus_154.JPG",
+   "max_detection_conf": 0.997,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.997,
+     "bbox": [
+      0.7258,
+      0.4528,
+      0.1461,
+      0.1992
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.993,
+     "bbox": [
+      0.8745,
+      0.4903,
+      0.03926,
+      0.149
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.167,
+     "bbox": [
+      0.3751,
+      0.4579,
+      0.02028,
+      0.04473
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.162,
+     "bbox": [
+      0.4941,
+      0.5944,
+      0.03825,
+      0.05029
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forst/Bilder_Rohten/EF_008/20201104/GK2_2018-08-16_Cervus_elaphus_160.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.3978,
+      0.3323,
+      0.1828,
+      0.3581
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.911,
+     "bbox": [
+      0.6575,
+      0.4445,
+      0.08509,
+      0.08
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forst/Bilder_Rohten/EF_008/20201104/GK2_2018-08-16_Cervus_elaphus_161.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.4548,
+      0.3518,
+      0.187,
+      0.3842
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.594,
+     "bbox": [
+      0.6691,
+      0.4424,
+      0.08703,
+      0.08178
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.166,
+     "bbox": [
+      0.5883,
+      0.4617,
+      0.03779,
+      0.07945
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forst/Bilder_Rohten/EF_008/20201104/GK2_2018-08-16_Cervus_elaphus_162.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.478,
+      0.3641,
+      0.1559,
+      0.3855
+     ]
+    }
+   ]
+  }
+ ],
+ "detection_categories": {
+  "1": "animal",
+  "2": "person",
+  "3": "vehicle"
+ },
+ "info": {
+  "detection_completion_time": "2022-01-14 09:38:11",
+  "format_version": "1.0"
+ }
+}

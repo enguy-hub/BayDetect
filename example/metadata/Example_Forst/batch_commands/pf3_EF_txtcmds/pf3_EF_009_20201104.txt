@@ -1,0 +1,5 @@
+1
+3
+/example/image_data/Example_Forst/Bilder_Rohten/EF_009/20201104/
+/example/metadata/Example_Forst/CSV/EF_009_20201104_Meta.csv
+N

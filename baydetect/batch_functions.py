@@ -51,8 +51,8 @@ def pf_txtcmds_creator():
         for idirpaths in org_img_dirpath:
             img_paths.append(''.join(idirpaths.split()[-1]))
 
-            dataset_station.append(''.join(idirpaths.split('\\')[7]))
-            session.append(''.join(idirpaths.split('\\')[8]))
+            dataset_station.append(''.join(idirpaths.split('\\')[9]))
+            session.append(''.join(idirpaths.split('\\')[10]))
 
         for name in dataset_station:
             dataset = ''.join(name.split('_')[0])
@@ -156,8 +156,8 @@ def pf_txtcmds_creator():
         for idirpaths in org_img_dirpath:
             img_paths.append(''.join(idirpaths.split()[-1]))
 
-            dataset_station.append(''.join(idirpaths.split('/')[7]))
-            session.append(''.join(idirpaths.split('/')[8]))
+            dataset_station.append(''.join(idirpaths.split('/')[9]))
+            session.append(''.join(idirpaths.split('/')[10]))
 
         for name in dataset_station:
             dataset = ''.join(name.split('_')[0])

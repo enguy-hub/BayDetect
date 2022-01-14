@@ -1,0 +1,92 @@
+{
+ "images": [
+  {
+   "file": "/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00012b.JPG",
+   "max_detection_conf": 0.996,
+   "detections": [
+    {
+     "category": "2",
+     "conf": 0.996,
+     "bbox": [
+      0.5772,
+      0.4502,
+      0.04645,
+      0.1466
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00012c.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "2",
+     "conf": 0.999,
+     "bbox": [
+      0.5171,
+      0.4491,
+      0.05116,
+      0.1643
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021b.JPG",
+   "max_detection_conf": 0.467,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.467,
+     "bbox": [
+      0.8327,
+      0.853,
+      0.1634,
+      0.1171
+     ]
+    }
+   ]
+  },
+  {
+   "file": "/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021c.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "/example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/I_00021d.JPG",
+   "max_detection_conf": 0.685,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.685,
+     "bbox": [
+      0.8328,
+      0.8542,
+      0.1649,
+      0.1164
+     ]
+    },
+    {
+     "category": "1",
+     "conf": 0.504,
+     "bbox": [
+      0.704,
+      0.6553,
+      0.07877,
+      0.104
+     ]
+    }
+   ]
+  }
+ ],
+ "detection_categories": {
+  "1": "animal",
+  "2": "person",
+  "3": "vehicle"
+ },
+ "info": {
+  "detection_completion_time": "2021-11-18 09:17:57",
+  "format_version": "1.0"
+ }
+}
