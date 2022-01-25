@@ -59,7 +59,7 @@ def md_json_creator():
     usr_input_dir = input("Enter the absolute path of the directory containing the images that you would like to "
                           "execute `run_tf_detector_batch.py` on (end with `/`): ")
 
-    usr_input_name = input("Give a name and absolute path of where the batch-input JSON file will be saved at "
+    usr_input_name = input("Give a name and absolute path of where the `batch-input` JSON file will be saved at "
                            "(end with '*_BatchInput.json'): ")
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
@@ -218,8 +218,8 @@ def sort_images_csv():  # input_path, csv_input
 
     """
 
-    usr_input_dir = input("Enter the absolute path of the directory that you want to sort the images by classified "
-                          "classes by (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the directory that you want to sort the images by `classified "
+                          "classes` (end with `/`): ")
 
     usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
 
@@ -413,7 +413,7 @@ def md_json_converter():
         JSON file saved at where user defined in the "usr_output_json" prompt
     '''
 
-    usr_input_json = input("Enter the absolute path of the '*_MegaDetected.json'(end with '.json'): ")
+    usr_input_json = input("Enter the absolute path of the '*_MegaDetected.json' (end with '.json'): ")
 
     usr_output_json = input("Give a name and absolute path of where the new '*_MegaDetected_Organized.json' file will "
                             "be saved (end with '.json'): ")

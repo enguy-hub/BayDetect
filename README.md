@@ -48,7 +48,7 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 
 #### 2. Fetch the latest changes from upstream in each submodule
 
-- cd into the `/ai4utils` & `/CameraTraps` directories respectively and run the following command:
+- cd into the `/ai4utils` & `/cameraTraps` directories respectively and run the following command:
 
       git checkout master; git pull
 
@@ -61,9 +61,10 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 *Note*: If you do not have wget installed simply open the url above in your browser and save the file. You can download 
 the model from CameraTraps's Github page [here](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
 
-**IMPORTANT**: Ensure to save the model file (`md_v4.1.0.pb`) in the `/CameraTraps` directory and move the 
-`/CameraTraps/detection/run_tf_detector_batch.py` python script to the `/CameraTraps` directory as well. In the end,  
-the `run_tf_detector_batch.py` python script and the `md_v4.1.0.pb` model file should be located in the same directory.
+**IMPORTANT**: Ensure to save the model file (`md_v4.1.0.pb`) in the `/cameratraps` directory and move the 
+`/cameratraps/detection/run_tf_detector_batch.py` and `/cameratraps/detection/run_tf_detector.py` python scripts to 
+the `/cameratraps` directory as well. To sum up, make sure that the `run_tf_detector_batch.py` and `run_tf_detector_.py` 
+python scripts and the `md_v4.1.0.pb` model file to be located in the same directory of `/cameratraps`.
 
 #### 4. Download and Install Miniconda
 
@@ -71,7 +72,7 @@ the `run_tf_detector_batch.py` python script and the `md_v4.1.0.pb` model file s
 
 #### 5. Create `cameratraps-detector` conda environment
 
-    cd Cameratraps
+    cd cameratraps
 
     conda env create --file environment-detector.yml
 
