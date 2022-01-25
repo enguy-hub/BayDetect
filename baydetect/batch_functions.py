@@ -55,7 +55,7 @@ def pf_txtcmds_creator():
                     dataset_station.append(''.join(idirpaths.split('\\')[9]))
                     session.append(''.join(idirpaths.split('\\')[10]))
                 if not files:
-                    break
+                    return
 
         for name in dataset_station:
             dataset = ''.join(name.split('_')[0])
