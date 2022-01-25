@@ -16,6 +16,7 @@ out
 gen
 
 # Jupyter-lab files
+Notebooks
 .ipynb_checkpoints
 
 # MegaDetector model and scripts
