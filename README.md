@@ -48,7 +48,7 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 
 #### 2. Fetch the latest changes from upstream in each submodule
 
-- cd into the `/ai4utils` & `/cameraTraps` directories respectively and run the following command:
+- cd into the `/ai4utils` & `/cameratraps` directories respectively and run the following command:
 
       git checkout master; git pull
 
