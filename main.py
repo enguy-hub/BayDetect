@@ -100,32 +100,32 @@ def main():
         print("\n'3' Selected ! Please choose one batch function to start from the list of options below .."
               "\n")
 
-        bf_choice = input("Enter '1' to create multiple 'text-command' files needed to 'batch-run' one of the "
-                          "Processing Functions \n"
-                          "Enter '2' to create a text-file containing the python commands needed to start "
-                          "`pf_batchrun()` function from `batchrun.py`\n"
-                          "Enter '3' to create a text-file containing the python commands needed to start "
-                          "`md_batchrun()` function from `batchrun.py`\n"
+        bf_choice = input("Enter '1' to create multiple 'pf*.txt' files needed to 'batch-run' one of the Processing "
+                          "Functions \n"
+                          "Enter '2' to create a python commands '.txt' file needed to start `pf_batchrun()` function "
+                          "from `batchrun.py`\n"
+                          "Enter '3' to create a python commands '.txt' file needed to start `md_batchrun()` function "
+                          "from `batchrun.py`\n"
                           "\n"
                           "Enter your choice here: ")
 
         bf_choice = int(bf_choice)
 
         if bf_choice == 1:
-            print("\n'1' Selected ! Create multiple 'text-command' files needed to 'batch-run' one of processing "
+            print("\n'1' Selected ! Create multiple 'pf*.txt' files needed to 'batch-run' one of the processing "
                   "functions from `/baydetect/batch_functions.py` script .."
                   "\n")
             bf.pf_txtcmds_creator()
 
         elif bf_choice == 2:
-            print("\n'2' Selected ! Create a text-file containing the python commands needed to start `pf_batchrun()` "
-                  "function from `batchrun.py` .."
+            print("\n'2' Selected ! Create a python commands `.txt` file needed to start `pf_batchrun()` function "
+                  "from `batchrun.py` .."
                   "\n")
             bf.pf_pycmds_creator()
 
         elif bf_choice == 3:
-            print("\n'3' Selected ! Create a text-file containing the python commands needed to start `md_batchrun()` "
-                  "function from `batchrun.py` .."
+            print("\n'3' Selected ! Create a python commands `.txt` file to start `md_batchrun()` function from "
+                  "`batchrun.py` .."
                   "\n")
             bf.md_pycmds_creator()
 

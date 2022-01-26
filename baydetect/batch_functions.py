@@ -23,29 +23,51 @@ from pathlib import Path
 # ID: bf1 || pf_txtcmds_creator()
 def pf_txtcmds_creator():
     # Input commands for all
-    org_img_dir_input = input("Enter the absolute path to the 'parent' directory of the image directories, where all "
-                              "the image are stored (end with `/`): ")
+    org_img_dir_input = input("Enter the absolute path to the 'parent' directory of the image folders where all the "
+                              "image are stored (end with `/`): ")
 
-    common_dirname_input = input("What is the common part in the name of the image folders where all the image are"
-                                 " stored in (eg: `2020*`, ``Session*` or `100CU*`): ")
+    common_dirname_input = input("What is the common pattern in the names of the folders where all the image are stored"
+                                 " in (eg: `2020*`, ``Session*` or `100CU*`): ")
+
+    second_common_dirname = input("Do you have a second common pattern in the names for the sub-folders of "
+                                  "above-mentioned folders? (answer with `Y` or `N`): ")
+
+    common_dirname_extra = input("What is the second common pattern in the names of the sub-folders ? "
+                                 "(eg: `2020*`, ``Session*` or `100CU*`): ")
 
     os_input = input("Are you running this on a Windows machine (answer with `Y` or `N`)? ")
 
-    txtcmds_choice = input("Which processing function would you like to create 'pf*.txt' files for (answer with `1`, "
-                           "`2`, or `3`)? ")
+    txtcmds_choice = input("Which processing function would you like to create the 'pf*.txt' files for ?"
+                           "(answer with `1`, `2`, or `3`) ")
     txtcmds_choice = int(txtcmds_choice)
 
     # Lists for all
     org_img_dirpath = []
+    pattern1_list = []
+    pattern2_list = []
+
     img_paths = []
     dataset_station = []
     dataset = str
     station = []
     session = []
 
-    for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
-        for dirname in fnmatch.filter(dirs, common_dirname_input):
-            org_img_dirpath.append(os.path.join(path, dirname))
+    if second_common_dirname == 'N':
+        for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
+            for dirname in fnmatch.filter(dirs, common_dirname_input):
+                org_img_dirpath.append(os.path.join(path, dirname))
+
+    if second_common_dirname == 'Y':
+        for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
+            for dirname_p1 in fnmatch.filter(dirs, common_dirname_input):
+                pattern1_list.append(os.path.join(path, dirname_p1))
+
+        for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
+            for dirname_p2 in fnmatch.filter(dirs, common_dirname_extra):
+                pattern2_list.append(dirname_p2)
+
+        for ip1, ip2 in zip(pattern1_list, pattern2_list):
+            org_img_dirpath.append(os.path.join(ip1, ip2))
 
     if os_input == 'Y':
         for idirpaths in org_img_dirpath:
@@ -319,8 +341,8 @@ def md_pycmds_creator():
     json_dir_input = input("Enter the absolute path of the 'JSON/BatchInput' directory that you wish to execute "
                            "`run_tf_detector_batch.py` on (end with `/`): ")
 
-    output_txtfile = input("Give a name and the absolute path for `.txt` file containing the python commands needed to "
-                           "execute `batchrun.py` (end with '*dataset_name*_MD_pycmds.txt'): ")
+    output_txtfile = input("Enter the absolute path and name for the python commands `.txt` file needed to "
+                           "execute `md_batchrun()` in `batchrun.py` (end with '*dataset_name*_MD_pycmds.txt'): ")
 
     for (dirpath, dirnames, filenames) in os.walk(json_dir_input):
         root_path = dirpath.split("BayDetect")[1]
