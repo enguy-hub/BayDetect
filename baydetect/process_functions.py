@@ -171,7 +171,7 @@ def md_csv_converter():
         detection_box = list(json_info['images'][i].values())[2]
         bb_numbers = len(detection_box)
 
-        pred_category, confidence, bb_locations = [], [], []
+        pred_category, confidence, bb_locations, y_lower = [], [], [], []
 
         if bb_numbers != 0:
             for b in range(bb_numbers):
@@ -181,11 +181,19 @@ def md_csv_converter():
         else:
             pred_category.append('0')
 
-        data = imageName, trigger, station, session, str(bb_numbers), pred_category, confidence, bb_locations, imagePath
+        for _ in bb_locations:
+            y_lower.append(max([loc[3] for loc in bb_locations]))
+
+        y_lower = list(set(y_lower))
+
+        data = imageName, trigger, station, session, str(
+            bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
         data = [list(data)]
 
         df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session', 'Number of BBs',
-                                                'Predicted Category', 'Confidence', 'Location of BBs', 'Image Path'])
+                                                'Predicted Category', 'Confidence', 'Location of BBs', 'Y Lower',
+                                                'Image Path'])
+
         df_json = pd.concat([df_json, df_single])
 
         df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
