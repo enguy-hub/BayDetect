@@ -255,7 +255,11 @@ def sort_images_csv():  # input_path, csv_input
 
     for num_bbs, category in zip(list_numbbs, list_predcategory):
         if num_bbs > 1:
-            predclass = 'Assitant Required'
+            checking = all(element == category[0] for element in category)
+            if (checking):
+                print("Same category for all bounding boxes")
+            else:
+                predclass = 'Assitant Required'
         else:
             if '0' in category:
                 predclass = 'Empty'
