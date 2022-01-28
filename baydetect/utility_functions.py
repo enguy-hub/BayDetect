@@ -18,8 +18,8 @@ import fnmatch
 
 # ID: uf1 || find_replace_dirname()
 def find_replace_dirname():
-    usr_input_dir = input("Enter the absolute path of the parent directory which contains the sub-folders that you wish"
-                          " to 'find/replace' their names (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the parent directory which contains all the sub-folders that you "
+                          "want  to 'find/replace' their names with (end with `/`): ")
 
     usr_input_find = input("Which part in folder name would you like to change? ")
 
@@ -36,8 +36,8 @@ def find_replace_dirname():
 
 # ID: uf2 || find_replace_filename()
 def find_replace_filename():
-    usr_input_dir = input("Enter the absolute path of the parent directory which contains all the files that you wish "
-                          "to 'find/replace' their names (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the parent directory which contains all the files that you want "
+                          "to 'find/replace' their names with (end with `/`): ")
 
     usr_input_find = input("Which part in the filename would you like to change? ")
 
@@ -54,7 +54,7 @@ def find_replace_filename():
 
 # ID: uf3 || find_replace_text()
 def find_replace_text():
-    usr_input_dir = input("Enter the absolute path of the directory which contains all the files that want to "
+    usr_input_dir = input("Enter the absolute path of the directory containing all the files that want to "
                           "'find/replace' their text content (end with `/`): ")
 
     usr_input_pattern = input("What is the common format of the files (eg: '*.json', '*.txt', '*.csv') ? ")

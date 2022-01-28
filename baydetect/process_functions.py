@@ -158,17 +158,17 @@ def md_csv_converter():
     df_exif = get_exif(usr_input_dir)
     df_json = pd.DataFrame()
 
-    for i in range(len(list(json_info['images']))):
+    for i in range(len(list(json_info['cameratrap_data']))):
 
-        imageName = list(json_info['images'][i].values())[0].split('/')[11]
-        session = list(json_info['images'][i].values())[0].split('/')[9]
-        station = list(json_info['images'][i].values())[0].split('/')[8]
+        imageName = list(json_info['cameratrap_data'][i].values())[0].split('/')[11]
+        session = list(json_info['cameratrap_data'][i].values())[0].split('/')[9]
+        station = list(json_info['cameratrap_data'][i].values())[0].split('/')[8]
 
-        imagePath = list(json_info['images'][i].values())[0]
+        imagePath = list(json_info['cameratrap_data'][i].values())[0]
 
         trigger = imageName[2:7]
 
-        detection_box = list(json_info['images'][i].values())[2]
+        detection_box = list(json_info['cameratrap_data'][i].values())[2]
         bb_numbers = len(detection_box)
 
         pred_category, confidence, bb_locations, y_lower = [], [], [], []

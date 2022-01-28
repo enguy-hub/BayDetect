@@ -23,8 +23,9 @@ from pathlib import Path
 # ID: bf1 || pf_txtcmds_creator()
 def pf_txtcmds_creator():
     # Input commands for all
-    org_img_dir_input = input("Enter the absolute path to the 'parent' directory of the image folders where all the "
-                              "image are stored (end with `/`): ")
+    org_img_dir_input = input("Enter the absolute path to the 'parent' folder where all the `station folders` are "
+                              "located in. In this the images are being stored in sub-folders inside each "
+                              "`station folder` (end with `/`): ")
 
     common_dirname_input = input("What is the common pattern in the names of the folders where all the image are stored"
                                  " in (eg: `2020*`, ``Session*` or `100CU*`): ")
@@ -37,7 +38,7 @@ def pf_txtcmds_creator():
 
     os_input = input("Are you running this on a Windows machine (answer with `Y` or `N`)? ")
 
-    txtcmds_choice = input("Which processing function would you like to create the 'pf*.txt' files for ?"
+    txtcmds_choice = input("Which `processing function` would you like to create the 'pf*.txt' files for ?"
                            "(answer with `1`, `2`, or `3`) ")
     txtcmds_choice = int(txtcmds_choice)
 
@@ -84,15 +85,15 @@ def pf_txtcmds_creator():
             station.append('_'.join(name.split('_')[1:]))
 
         if txtcmds_choice == 1:
-            print("\n'1' Selected ! Answer the following prompted questions to create the 'pf1_*.txt' files for "
-                  "processing function `1` !!"
+            print("\n'1' Selected ! Follow the prompted questions to create the 'pf1_*.txt' files for processing "
+                  "function `1` !!"
                   "\n")
 
-            BI_json_dir_input = input("Enter the absolute path of where you want all the '*_BatchInput.json' files to "
-                                      "be saved at (end with `/`): ")
+            BI_json_dir_input = input("Enter the absolute path of directory where you want all the '*_BatchInput.json' "
+                                      "files to be saved at (end with `/`): ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf1_*.txt' files to be "
-                                      "saved at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf1_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             for ista, isess, ipaths in zip(station, session, img_paths):
                 create = open(f"{txtcmds_dir_input}pf{txtcmds_choice}_{dataset}_{ista}_{isess}.txt", "a")
@@ -103,18 +104,18 @@ def pf_txtcmds_creator():
                 create.close()
 
         elif txtcmds_choice == 2:
-            print("\n'2' Selected ! Answer the following prompted questions to create the 'pf2_*.txt' files for "
-                  "processing function `2` !!"
+            print("\n'2' Selected ! Follow the prompted questions to create the 'pf2_*.txt' files for processing "
+                  "function `2` !!"
                   "\n")
 
-            MD_json_dir_input = input("Enter the absolute path of where all the '*_MegaDetected.json' files are "
-                                      "currently saved at (end with `/`): ")
+            MD_json_dir_input = input("Enter the absolute path of the directory where all the '*_MegaDetected.json' "
+                                      "files are currently saved at (end with `/`): ")
 
-            csv_dir_input = input("Enter the absolute path of where you want all the '*_Meta.csv' files to be saved at "
-                                  "(end with `/`): ")
+            csv_dir_input = input("Enter the absolute path of the directory where you want all the '*_Meta.csv' files "
+                                  "to be saved at (end with `/`): ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf2_*.txt' files to be "
-                                      "saved at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf2_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             md_json_paths = []
             md_json_names = []
@@ -144,19 +145,19 @@ def pf_txtcmds_creator():
                 create.close()
 
         elif txtcmds_choice == 3:
-            print("\n'3' Selected ! Answer the following prompted questions to create the 'pf3_*.txt' files for "
-                  "processing function `3` !!"
+            print("\n'3' Selected ! Follow the prompted questions to create the 'pf3_*.txt' files for processing "
+                  "function `3` !!"
                   "\n")
 
-            CSV_dir_input = input("Enter the absolute path of where all the '*_Meta.csv' files are currently saved at "
-                                  "(end with `/`): ")
+            CSV_dir_input = input("Enter the absolute path of the directory where all the '*_Meta.csv' files are "
+                                  "currently saved at (end with `/`): ")
 
-            sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` directory, "
-                                 "located at the same level as the original images' directory "
-                                 "(answer with 'Y' or 'N')? ")
+            sorted_input = input("Would you like the 'sorted images' to be saved in a separate sub-folder called "
+                                 "`*_Sorted`, located inside where the directory of the `original images`? "
+                                 "(answer with 'Y' or 'N') ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf3_*.txt' files to be "
-                                      "saved at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of directory where you want all the 'pf3_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             CSV_paths = []
 
@@ -192,15 +193,15 @@ def pf_txtcmds_creator():
             station.append('_'.join(name.split('_')[1:]))
 
         if txtcmds_choice == 1:
-            print("\n'1' Selected ! Answer the following prompted questions to create the 'pf1_*.txt' files for "
-                  "processing function `1` !!"
+            print("\n'1' Selected ! Follow the prompted questions to create the 'pf1_*.txt' files for processing "
+                  "function `1` !!"
                   "\n")
 
-            BI_json_dir_input = input("Enter the absolute path of where you want all the '*_BatchInput.json' files to "
-                                      "be saved at (end with `/`): ")
+            BI_json_dir_input = input("Enter the absolute path of the directory where you want all the "
+                                      "'*_BatchInput.json' files to be saved at (end with `/`): ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf1_*.txt' files to be saved "
-                                      "at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf1_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             for ista, isess, ipaths in zip(station, session, img_paths):
                 create = open(f"{txtcmds_dir_input}pf{txtcmds_choice}_{dataset}_{ista}_{isess}.txt", "a")
@@ -211,18 +212,18 @@ def pf_txtcmds_creator():
                 create.close()
 
         elif txtcmds_choice == 2:
-            print("\n'2' Selected ! Answer the following prompted questions to create the 'pf2_*.txt' files for "
-                  "processing function `2` !!"
+            print("\n'2' Selected ! Follow the prompted questions to create the 'pf2_*.txt' files for processing "
+                  "function `2` !!"
                   "\n")
 
-            MD_json_dir_input = input("Enter the absolute path of where all the '*_MegaDetected.json' files are "
-                                      "currently saved at (end with `/`): ")
+            MD_json_dir_input = input("Enter the absolute path of the directory where all the '*_MegaDetected.json' "
+                                      "files are currently saved at (end with `/`): ")
 
-            csv_dir_input = input("Enter the absolute path of where you want all the '*_Meta.csv' files to be saved at "
-                                  "(end with `/`): ")
+            csv_dir_input = input("Enter the absolute path of the directory where you want all the '*_Meta.csv' files "
+                                  "to be saved at (end with `/`): ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf2_*.txt' files to be saved "
-                                      "at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf2_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             md_json_paths = []
             md_json_names = []
@@ -252,19 +253,19 @@ def pf_txtcmds_creator():
                 create.close()
 
         elif txtcmds_choice == 3:
-            print("\n'3' Selected ! Answer the following prompted questions to create the 'pf3_*.txt' files for "
-                  "processing function `3` !!"
+            print("\n'3' Selected ! Follow the prompted questions to create the 'pf3_*.txt' files for processing "
+                  "function `3` !!"
                   "\n")
 
-            CSV_dir_input = input("Enter the absolute path of where all the '*_Meta.csv' files are currently saved at "
-                                  "(end with `/`): ")
+            CSV_dir_input = input("Enter the absolute path to the directory where all the '*_Meta.csv' files are "
+                                  "currently saved at (end with `/`): ")
 
-            sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` directory, "
-                                 "located at the same level as the original images' directory "
-                                 "(answer with 'Y' or 'N')? ")
+            sorted_input = input("Would you like the 'sorted images' to be saved in a separate sub-folder called "
+                                 "`*_Sorted`, located inside where the directory of the `original images`? "
+                                 "(answer with 'Y' or 'N') ")
 
-            txtcmds_dir_input = input("Enter the absolute path of where you want all the 'pf3_*.txt' files to be saved "
-                                      "at (end with `/`): ")
+            txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf3_*.txt' "
+                                      "files to be saved at (end with `/`): ")
 
             CSV_paths = []
 
@@ -299,7 +300,7 @@ def pf_pycmds_creator():
     path_txtcmd_dir = input("Enter the absolute path of the folder where all the 'pf*.txt' files are currently saved "
                             "at (end with `/`): ")
 
-    output_txtfile_dir = input("Enter the absolute path of the 'parent folder' of the folder that you just entered "
+    output_txtfile_dir = input("Enter the absolute path of the 'parent-folder' of the above-entered folder "
                                "(end with '/'): ")
 
     for (dirpath, dirnames, filenames) in os.walk(path_txtcmd_dir):
@@ -338,11 +339,10 @@ def pf_pycmds_creator():
 
 # ID: bf3 || md_pycmds_creator()
 def md_pycmds_creator():
-    json_dir_input = input("Enter the absolute path of the 'JSON/BatchInput' directory that you wish to execute "
-                           "`run_tf_detector_batch.py` on (end with `/`): ")
+    json_dir_input = input("Enter the absolute path of the 'JSON/BatchInput' directory (end with `/`): ")
 
-    output_txtfile = input("Enter the absolute path and name for the python commands `.txt` file needed to "
-                           "execute `md_batchrun()` in `batchrun.py` (end with '*dataset_name*_MD_pycmds.txt'): ")
+    output_txtfile = input("Enter the absolute path and name for the python commands `.txt` file "
+                           "(end with '*dataset_name*_MD_pycmds.txt'): ")
 
     for (dirpath, dirnames, filenames) in os.walk(json_dir_input):
         root_path = dirpath.split("BayDetect")[1]

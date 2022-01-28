@@ -24,11 +24,10 @@ def main():
         print("\n'1' Selected ! Please choose one processing function to start from the list of options below ..."
               "\n")
 
-        pf_choice = input("Enter '1' to create the input JSON file needed to execute `run_tf_detector_batch.py` \n"
-                          "Enter '2' to convert the output JSON file from `run_tf_detector_batch.py` into an "
-                          "organized CSV metadata file\n"
-                          "Enter '3' to sort the classified images after running `run_tf_detector_batch.py` into their "
-                          "classified classes' folders using the CSV metadata file\n"
+        pf_choice = input("Enter '1' to create the `batch-input` JSON file needed to execute MegaDetection \n"
+                          "Enter '2' to convert the output JSON file from MegaDetection into a CSV metadata file\n"
+                          "Enter '3' to sort the images into `classified classes` after running MegaDetection using "
+                          "the CSV metadata file\n"
                           "\n"
                           "Enter your choice here: ")
 
@@ -40,14 +39,13 @@ def main():
             pf.md_json_creator()
 
         elif pf_choice == 2:
-            print("\n'2' Selected ! Converting the output JSON file from `run_tf_detector_batch.py` into an "
-                  "organized CSV metadata file .."
+            print("\n'2' Selected ! Converting the output JSON file from MegaDetection into a CSV metadata file .."
                   "\n")
             pf.md_csv_converter()
 
         elif pf_choice == 3:
-            print("\n'3' Selected ! Sorting the classified images after running `run_tf_detector_batch.py` into their "
-                  "classified classes' folders using the CSV metadata file .."
+            print("\n'3' Selected ! Sorting the images into `classified classes` after running MegaDetection using the "
+                  "CSV metadata file .."
                   "\n")
             pf.sort_images_csv()
 
