@@ -182,7 +182,8 @@ def md_csv_converter():
             pred_category.append('0')
 
         for _ in bb_locations:
-            y_lower.append(max([loc[3] for loc in bb_locations]))
+            # y_lower.append(max(loc[3] for loc in bb_locations))
+            y_lower.append(_[3])
 
         y_lower = list(set(y_lower))
 

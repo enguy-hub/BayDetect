@@ -33,14 +33,7 @@ def pf_txtcmds_creator():
     second_common_dirname = input("Do you have a second common pattern in the names for the sub-folders of "
                                   "above-mentioned folders? (answer with `Y` or `N`): ")
 
-    common_dirname_extra = input("What is the second common pattern in the names of the sub-folders ? "
-                                 "(eg: `2020*`, ``Session*` or `100CU*`): ")
-
     os_input = input("Are you running this on a Windows machine (answer with `Y` or `N`)? ")
-
-    txtcmds_choice = input("Which `processing function` would you like to create the 'pf*.txt' files for ?"
-                           "(answer with `1`, `2`, or `3`) ")
-    txtcmds_choice = int(txtcmds_choice)
 
     # Lists for all
     org_img_dirpath = []
@@ -59,6 +52,9 @@ def pf_txtcmds_creator():
                 org_img_dirpath.append(os.path.join(path, dirname))
 
     if second_common_dirname == 'Y':
+        common_dirname_extra = input("What is the second common pattern in the names of the sub-folders ? "
+                                     "(eg: `2020*`, ``Session*` or `100CU*`): ")
+
         for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
             for dirname_p1 in fnmatch.filter(dirs, common_dirname_input):
                 pattern1_list.append(os.path.join(path, dirname_p1))
@@ -71,6 +67,11 @@ def pf_txtcmds_creator():
             org_img_dirpath.append(os.path.join(ip1, ip2))
 
     if os_input == 'Y':
+
+        txtcmds_choice = input("Which `processing function` would you like to create the 'pf*.txt' files for ?"
+                               "(answer with `1`, `2`, or `3`) ")
+        txtcmds_choice = int(txtcmds_choice)
+
         for idirpaths in org_img_dirpath:
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
@@ -78,7 +79,7 @@ def pf_txtcmds_creator():
                     dataset_station.append(''.join(idirpaths.split('\\')[9]))
                     session.append(''.join(idirpaths.split('\\')[10]))
                 if not files:
-                    return
+                    pass
 
         for name in dataset_station:
             dataset = ''.join(name.split('_')[0])
@@ -131,7 +132,7 @@ def pf_txtcmds_creator():
                     md_json_names.append(json_names)
 
             for iname in md_json_names:
-                icsv_names = '_'.join(iname.split('_')[0:4])
+                icsv_names = '_'.join(iname.split('_')[0:5])
                 csv_woMeta.append(icsv_names)
 
             for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(station, session, org_img_dirpath,
@@ -179,6 +180,11 @@ def pf_txtcmds_creator():
                   "\n")
 
     elif os_input == 'N':
+
+        txtcmds_choice = input("Which `processing function` would you like to create the 'pf*.txt' files for ?"
+                               "(answer with `1`, `2`, or `3`) ")
+        txtcmds_choice = int(txtcmds_choice)
+
         for idirpaths in org_img_dirpath:
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
@@ -186,7 +192,7 @@ def pf_txtcmds_creator():
                     dataset_station.append(''.join(idirpaths.split('/')[9]))
                     session.append(''.join(idirpaths.split('/')[10]))
                 if not files:
-                    break
+                    pass
 
         for name in dataset_station:
             dataset = ''.join(name.split('_')[0])
@@ -239,7 +245,7 @@ def pf_txtcmds_creator():
                     md_json_names.append(json_names)
 
             for iname in md_json_names:
-                icsv_names = '_'.join(iname.split('_')[0:4])
+                icsv_names = '_'.join(iname.split('_')[0:5])
                 csv_woMeta.append(icsv_names)
 
             for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(station, session, org_img_dirpath,
