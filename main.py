@@ -24,17 +24,17 @@ def main():
         print("\n'1' Selected ! Please choose one processing function to start from the list of options below ..."
               "\n")
 
-        pf_choice = input("Enter '1' to create the `batch-input` JSON file needed to execute MegaDetection \n"
-                          "Enter '2' to convert the output JSON file from MegaDetection into a CSV metadata file\n"
-                          "Enter '3' to sort the images into `classified classes` after running MegaDetection using "
-                          "the CSV metadata file\n"
+        pf_choice = input("Enter '1' to create the bath-input JSON file require to execute `run_tf_detector_batch.py`\n"
+                          "Enter '2' to convert the output JSON file from MegaDetector into a CSV metadata file\n"
+                          "Enter '3' to sort the images into separate folder based on their `mega-detected` classes "
+                          "using the CSV metadata file\n"
                           "\n"
                           "Enter your choice here: ")
 
         pf_choice = int(pf_choice)
 
         if pf_choice == 1:
-            print("\n'1' Selected ! Creating the input JSON file needed to execute `run_tf_detector_batch.py` .."
+            print("\n'1' Selected ! Creating the batch-input JSON file needed to execute `run_tf_detector_batch.py` .."
                   "\n")
             pf.md_json_creator()
 
@@ -44,8 +44,8 @@ def main():
             pf.md_csv_converter()
 
         elif pf_choice == 3:
-            print("\n'3' Selected ! Sorting the images into `classified classes` after running MegaDetection using the "
-                  "CSV metadata file .."
+            print("\n'3' Selected ! Sorting the images into separate folder based on their `mega-detected classes` "
+                  "using the CSV metadata file .."
                   "\n")
             pf.sort_images_csv()
 

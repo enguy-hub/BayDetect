@@ -144,7 +144,7 @@ def md_csv_converter():
 
      """
     usr_input_dir = input("Enter the absolute path of the image directory that you just created a `*_MegaDetected.json`"
-                          " file for and would like to perform a CSV metadata conversion on (end with `/`): ")
+                          " file for (end with `/`): ")
 
     usr_input_json = input("Enter the absolute path to the `*_MegaDetected.json` file that you would like to perform "
                            "the CSV metadata conversion on (end with '*_MegaDetected.json'): ")
@@ -158,17 +158,17 @@ def md_csv_converter():
     df_exif = get_exif(usr_input_dir)
     df_json = pd.DataFrame()
 
-    for i in range(len(list(json_info['cameratrap_data']))):
+    for i in range(len(list(json_info['images']))):
 
-        imageName = list(json_info['cameratrap_data'][i].values())[0].split('/')[11]
-        session = list(json_info['cameratrap_data'][i].values())[0].split('/')[9]
-        station = list(json_info['cameratrap_data'][i].values())[0].split('/')[8]
+        imageName = list(json_info['images'][i].values())[0].split('/')[7]
+        session = list(json_info['images'][i].values())[0].split('/')[6]
+        station = list(json_info['images'][i].values())[0].split('/')[5]
 
-        imagePath = list(json_info['cameratrap_data'][i].values())[0]
+        imagePath = list(json_info['images'][i].values())[0]
 
         trigger = imageName[2:7]
 
-        detection_box = list(json_info['cameratrap_data'][i].values())[2]
+        detection_box = list(json_info['images'][i].values())[2]
         bb_numbers = len(detection_box)
 
         pred_category, confidence, bb_locations, y_lower = [], [], [], []
@@ -181,9 +181,9 @@ def md_csv_converter():
         else:
             pred_category.append('0')
 
-        for _ in bb_locations:
+        for loc in bb_locations:
             # y_lower.append(max(loc[3] for loc in bb_locations))
-            y_lower.append(_[3])
+            y_lower.append(loc[3]+loc[1])
 
         y_lower = list(set(y_lower))
 
