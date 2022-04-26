@@ -21,6 +21,8 @@ Notebooks
 
 # MegaDetector model and scripts
 cameratraps/md_v4.1.0.pb
+cameratraps/run_detector.py
+cameratraps/run_detector_batch.py
 
 # Others
 GUI/
