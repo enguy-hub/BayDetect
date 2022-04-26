@@ -76,7 +76,7 @@ python scripts and the `md_v4.1.0.pb` model file to be located in the same direc
 
 #### 5. Create `cameratraps-detector` conda environment by running this command at root folder:
 
-    conda env create --file environment-detector.yml
+    conda env create --file environment-detector-lwf.yml
 
 #### 6. Activate `cameratraps-detector` conda environment
 
