@@ -20,9 +20,10 @@ Notebooks
 .ipynb_checkpoints
 
 # MegaDetector model and scripts
-cameratraps/md_v4.1.0.pb
-cameratraps/run_detector.py
-cameratraps/run_detector_batch.py
+#cameratraps/md_v4.1.0.pb
+#cameratraps/run_detector.py
+#cameratraps/run_detector_batch.py
+#cameratraps/environment-detector-lwf.yml
 
 # Others
 GUI/
