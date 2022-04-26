@@ -48,9 +48,13 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 
 #### 2. Fetch the latest changes from upstream in each submodule
 
-- cd into the `/ai4utils` & `/cameratraps` directories respectively and run the following command:
+- For ai4eutils, cd into `/ai4eutils` directory and run the following command:
 
-      git checkout master; git pull
+      `git checkout master`; then `git pull`
+
+- For cameratraps, cd into `/cameratraps` directory and run the following command:
+
+      `git checkout main`; then `git pull`
 
 #### 3. Download MegaDetector model file
 
@@ -70,9 +74,7 @@ python scripts and the `md_v4.1.0.pb` model file to be located in the same direc
 
 - Go to [Miniconda page](https://docs.conda.io/en/latest/miniconda.html) and follow the instruction on how to download and install Miniconda based on your own OS.
 
-#### 5. Create `cameratraps-detector` conda environment
-
-    cd cameratraps
+#### 5. Create `cameratraps-detector` conda environment by running this command at root folder:
 
     conda env create --file environment-detector.yml
 
