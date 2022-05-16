@@ -24,4 +24,5 @@ Notebooks
 #cameratraps/run_detector_batch.py
 
 # Others
-GUI/
+GUI/__pycache__
+GUI/resources
