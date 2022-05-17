@@ -94,11 +94,10 @@ def get_exif(source_images_path):
     for image_name in os.listdir(source_images_path):
         if image_name.endswith(ext):
             image = PIL.Image.open(os.path.join(source_images_path, image_name))
-            exif = image._getexif()
+            exif = image.getexif()
             if exif is None:
                 return
-            exif_data = {}
-            exif_data['Image Name'] = image_name
+            exif_data = {'Image Name': image_name}
             for tag_id, value in exif.items():
                 tag = TAGS.get(tag_id, tag_id)
                 if tag == "GPSInfo":

@@ -3,7 +3,7 @@
 from tkinter import Tk
 
 from homepage import HomePage
-from procpage import ProcessingPage, JSONCreator
+from procpage import ProcessingPage, JSONCreator, CSVConvertor, RunMegaDetector
 from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
 from batcpage import BatchPage
 
@@ -11,6 +11,8 @@ pages = {
     "HomePage": HomePage,
     "ProcessingPage": ProcessingPage,
     "JSON Creator Page": JSONCreator,
+    "CSV Convertor Page": CSVConvertor,
+    "Run MegaDetector Page": RunMegaDetector,
     "UtilityPage": UtilityPage,
     "Find & Replace Folder Names": FindReplaceFolderNames,
     "Find & Replace File Names": FindReplaceFileNames,
@@ -36,8 +38,8 @@ class BayDetectApp(Tk):
         self.iconbitmap(self, default='./resources/lwf_icon.ico')
 
         # set window and screen width and height
-        window_width = 500
-        window_height = 400
+        window_width = 800
+        window_height = 700
         screen_width = Tk.winfo_screenwidth(self)
         screen_height = Tk.winfo_screenheight(self)
 

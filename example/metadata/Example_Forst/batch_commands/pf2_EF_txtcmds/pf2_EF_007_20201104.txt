@@ -1,5 +1,0 @@
-1
-2
-/example/image_data/Example_Forst/Bilder_Rohten/EF_007/20201104/
-/example/metadata/Example_Forst/JSON/MegaDetected/EF_007_20201104_MD.json
-/example/metadata/Example_Forst/CSV/EF_007_20201104_Meta.csv
