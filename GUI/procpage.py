@@ -285,54 +285,47 @@ class CSVConvertor(Frame):
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, sticky='')
 
-        imageNameLabel = ttk.Label(self, text="Which number of element does the `IMAGE FILENAME` located in when the "
-                                              "above directory path (as string) is split with `/` as separator?")
-        imageNameLabel.grid(row=2, sticky='')
-
-        self.imageNameEntry = ttk.Entry(self)
-        self.imageNameEntry.grid(row=3, ipady=5, ipadx=5, sticky='')
-
-        sessionNameLabel = ttk.Label(self, text="Which number of element does the `SESSION NAME` located in when the "
-                                                "above directory path (as string) is split with `/` as separator?")
-        sessionNameLabel.grid(row=4, sticky='')
+        sessionNameLabel = ttk.Label(self, text="When the above directory path is split with `/` as separator, what is "
+                                                "the index order of the `SESSION NAME`?")
+        sessionNameLabel.grid(row=2, sticky='')
 
         self.sessionNameEntry = ttk.Entry(self)
-        self.sessionNameEntry.grid(row=5, ipady=5, ipadx=5, sticky='')
+        self.sessionNameEntry.grid(row=3, ipady=5, ipadx=5, sticky='')
 
-        stationNameLabel = ttk.Label(self, text="Which number of element does the `STATION NAME` located in when the "
-                                                "above directory path (as string) is split with `/` as separator?")
-        stationNameLabel.grid(row=6, sticky='')
+        stationNameLabel = ttk.Label(self, text="When the above directory path is split with `/` as separator, what is "
+                                                "the index order of the `STATION NAME`?")
+        stationNameLabel.grid(row=4, sticky='')
 
         self.stationNameEntry = ttk.Entry(self)
-        self.stationNameEntry.grid(row=7, ipady=5, ipadx=5, sticky='')
+        self.stationNameEntry.grid(row=5, ipady=5, ipadx=5, sticky='')
 
-        inputJSONButton = ttk.Button(self, text="Please select the `*_MegaDetected.json` file"
+        inputJSONButton = ttk.Button(self, text="Please select the `*_MegaDetected.json` file which "
                                                 "\ncorrespond to the `INPUT` image folder selected above",
                                      command=self.jsonFile)
-        inputJSONButton.grid(row=8, ipadx=10, ipady=10, sticky='')
+        inputJSONButton.grid(row=6, ipadx=10, ipady=10, sticky='')
 
         csvNameLabel = ttk.Label(self, text="Please give a name for the CSV metadata file. Ideally should be the"
                                             "\nsame as the `*_MegaDetected.json` file but ends with `*_Meta.csv`")
-        csvNameLabel.grid(row=9, sticky='')
+        csvNameLabel.grid(row=8, sticky='')
 
         self.csvNameEntry = ttk.Entry(self)
-        self.csvNameEntry.grid(row=10, ipady=5, ipadx=5, sticky='')
+        self.csvNameEntry.grid(row=9, ipady=5, ipadx=5, sticky='')
 
-        outputDirButton = ttk.Button(self, text="Please select the `OUTPUT` directory for which "
+        outputDirButton = ttk.Button(self, text="Please select the `OUTPUT` directory where "
                                                 "\nthe `*_Meta.csv` file will be saved at",
                                      command=self.outputDir)
-        outputDirButton.grid(row=11, ipadx=10, ipady=10, sticky='')
+        outputDirButton.grid(row=10, ipadx=10, ipady=10, sticky='')
 
         self.createCSVButton = ttk.Button(self, text="Create `*_Meta.csv` file", command=self.convertCSV)
-        self.createCSVButton.grid(row=13, ipady=5, ipadx=5, sticky='')
+        self.createCSVButton.grid(row=12, ipady=5, ipadx=5, sticky='')
 
         util_btn = ttk.Button(self, text="Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
-        util_btn.grid(row=14, ipady=5, ipadx=5, pady=10, sticky='')
+        util_btn.grid(row=13, ipady=5, ipadx=5, pady=10, sticky='')
 
         home_btn = ttk.Button(self, text="Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=15, ipady=5, ipadx=5, sticky='')
+        home_btn.grid(row=14, ipady=5, ipadx=5, sticky='')
 
     def inputDir(self):
         inputDirectory = filedialog.askdirectory(title='Please select a directory')
@@ -346,7 +339,7 @@ class CSVConvertor(Frame):
         self.jsonFilePath = str(jsonFile)
 
         jsonFileLabel = ttk.Label(self, text='JSON PATH: \n' + self.jsonFilePath)
-        jsonFileLabel.grid(row=3, pady=10, sticky='')
+        jsonFileLabel.grid(row=7, pady=10, sticky='')
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(title='Please select a directory')
@@ -357,7 +350,7 @@ class CSVConvertor(Frame):
         self.csvOutputDir = os.path.join(outputDirPath, csvFilename).replace("\\", "/")
 
         outputDirLabel = ttk.Label(self, text='OUTPUT DIRECTORY AND CSV FILENAME: \n' + self.csvOutputDir)
-        outputDirLabel.grid(row=7, pady=10, sticky='')
+        outputDirLabel.grid(row=11, pady=10, sticky='')
 
     def convertCSV(self):
         """
@@ -372,11 +365,14 @@ class CSVConvertor(Frame):
         df_exif = get_exif(self.inputDirPath)
         df_json = pd.DataFrame()
 
+        sessionIndex = int(self.sessionNameEntry.get())
+        stationIndex = int(self.stationNameEntry.get())
+
         for i in range(len(list(json_info['images']))):
 
             imageName = list(json_info['images'][i].values())[0].split('/')[-1]
-            session = list(json_info['images'][i].values())[0].split('/')[10]
-            station = list(json_info['images'][i].values())[0].split('/')[9]
+            session = list(json_info['images'][i].values())[0].split('/')[sessionIndex]
+            station = list(json_info['images'][i].values())[0].split('/')[stationIndex]
 
             imagePath = list(json_info['images'][i].values())[0]
 
@@ -416,7 +412,7 @@ class CSVConvertor(Frame):
             df_final.to_csv(self.csvOutputDir, index=False)
 
             self.createCSVButton.config(text="`*_Meta.csv` file created successfully, click "
-                                             "thOW button to create another `*_Meta.csv` file")
+                                             "this button to create another `*_Meta.csv` file")
 
         return print("`*_Meta.csv` file created successfully !!!")
 

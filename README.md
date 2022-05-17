@@ -44,7 +44,7 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 
 #### 1. Clone the repo
 
-    git clone --recursive https://github.com/hiennguyentum/BayDetect
+    git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
 #### 2. Fetch the latest changes from upstream in each submodule
 
@@ -65,10 +65,14 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 *Note*: If you do not have wget installed simply open the url above in your browser and save the file. You can download 
 the model from CameraTraps's Github page [here](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
 
-**IMPORTANT**: Ensure to save the model file (`md_v4.1.0.pb`) in the `/cameratraps` directory and move the 
-`/cameratraps/detection/run_tf_detector_batch.py` and `/cameratraps/detection/run_tf_detector.py` python scripts to 
-the `/cameratraps` directory as well. To sum up, make sure that the `run_tf_detector_batch.py` and `run_tf_detector_.py` 
-python scripts and the `md_v4.1.0.pb` model file to be located in the same directory of `/cameratraps`.
+**VERY IMPORTANT**: 
+- Ensure to save the model file (`md_v4.1.0.pb`) inside the `/cameratraps` directory, and also copy the 
+`/cameratraps/detection/run_detector_batch.py` file to the same `/cameratraps` directory as well. 
+
+- To have MegaDetector to only save detection boxes that are 85% confidence or above in the output JSON file, open the `cameratraps/detection/run_detector.py` file and change line 73 to the following:
+
+      DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
+
 
 #### 4. Download and Install Miniconda
 
@@ -99,9 +103,9 @@ python scripts and the `md_v4.1.0.pb` model file to be located in the same direc
 There are three sets of functions in BayDetect: 
 
 **Processing Functions**
-- Create the input JSON file needed to execute `run_tf_detector_batch.py`.
-- Convert the output JSON file from `run_tf_detector_batch.py` into an organized CSV metadata file.
-- Sort the classified images after running `run_tf_detector_batch.py` into their 'detected' classes using the CSV 
+- Create the input JSON file needed to execute `run_detector_batch.py`.
+- Convert the output JSON file from `run_detector_batch.py` into an organized CSV metadata file.
+- Sort the classified images after running `run_detector_batch.py` into their 'detected' classes using the CSV 
 metadata file.
 
 **Utility Functions**

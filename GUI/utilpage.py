@@ -102,7 +102,7 @@ class FindReplaceFolderNames(Frame):
                 os.rename(os.path.join(dirpath, dirnames[idirnames]), os.path.join(dirpath, newname))
                 dirnames[idirnames] = newname
 
-                successLabel = ttk.Label(self, text='Folder-names changed successfully !!!! ')
+                successLabel = ttk.Label(self, text='Folder-names changed successfully !!')
                 successLabel.grid(row=7, ipadx=10, ipady=10, sticky='')
 
 
