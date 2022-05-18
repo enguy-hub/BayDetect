@@ -69,11 +69,6 @@ the model from CameraTraps's Github page [here](https://github.com/microsoft/Cam
 - Ensure to save the model file (`md_v4.1.0.pb`) inside the `/cameratraps` directory, and also copy the 
 `/cameratraps/detection/run_detector_batch.py` file to the same `/cameratraps` directory as well. 
 
-- To have MegaDetector to only save detection boxes that are 85% confidence or above in the output JSON file, open the `cameratraps/detection/run_detector.py` file and change line 73 to the following:
-
-      DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
-
-
 #### 4. Download and Install Miniconda
 
 - Go to [Miniconda page](https://docs.conda.io/en/latest/miniconda.html) and follow the instruction on how to download and install Miniconda based on your own OS.
@@ -123,23 +118,28 @@ metadata file.
 - **For Windows users only** - Please make sure to change the path delimiter to forward slash `/` instead of double 
 backward slashes `\\` for all **the .json and .txt files** produced from using any of BayDetect's functions
 
-- Before using BayDetect's functions, you should first activate the "cameratraps-detector" conda environment if 
+- Before using BayDetect, you should first makesure to activate the "cameratraps-detector" conda environment if 
 you haven't done it yet. To activate "cameratraps-detector" conda environment, you can run following command:
 
       conda activate cameratraps-detector
+
+- Optional: if you want to have MegaDetector to only save detection boxes that are 85% confidence or above in the output 
+JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follow:
+
+      DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
 
 ---
 
 ## Processing Functions
 
-#### Processing Function 1 - Create the input JSON file needed to execute `run_tf_detector_batch.py`
+#### Processing Function 1 - Create the input JSON file needed to execute `run_detector_batch.py`
 
 1/ Run `main.py` script via the command below:
 
     python main.py
 
 2/ Enter number `1` then number `1` again and follow the prompted instruction to create the input JSON file needed to 
-execute `run_tf_detector_batch.py` .
+execute `run_detector_batch.py` .
 
 - For better organizing file names and folder structure, we suggest that the input JSON files should be 
 saved in the `/example/metadata/*dataset_name*/JSON/BatchInput/` directory, and ends it with 

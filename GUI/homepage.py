@@ -21,19 +21,19 @@ class HomePage(ttk.Frame):
 
         proc_btn = ttk.Button(self, text="Processing Functions",
                               command=lambda: master.switch_frame("ProcessingPage"))
-        proc_btn.pack(ipadx=5, ipady=5, expand=1)
+        proc_btn.pack(ipadx=10, ipady=10, expand=1)
 
         util_btn = ttk.Button(self, text="Utility Functions",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.pack(ipadx=5, ipady=5, expand=1)
+        util_btn.pack(ipadx=10, ipady=10, expand=1)
 
         batc_btn = ttk.Button(self, text="Batch Functions",
                               command=lambda: master.switch_frame("BatchPage"))
-        batc_btn.pack(ipadx=5, ipady=5, expand=1)
+        batc_btn.pack(ipadx=10, ipady=10, expand=1)
 
         quit_btn = ttk.Button(self, text="Quit",
                               command=lambda: self.quit())
-        quit_btn.pack(ipadx=5, ipady=5, expand=1)
+        quit_btn.pack(ipadx=10, ipady=10, expand=1)
 
 
 if __name__ == "__main__":

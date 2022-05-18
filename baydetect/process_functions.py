@@ -267,7 +267,7 @@ def sort_images_csv():  # input_path, csv_input
             if (checking):
                 print("Same category for all bounding boxes")
             else:
-                predclass = 'Assitant Required'
+                predclass = 'Assistant Required'
         else:
             if '0' in category:
                 predclass = 'Empty'

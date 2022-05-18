@@ -5,7 +5,7 @@ from tkinter import ttk, Frame, Label
 import os
 import fnmatch
 
-LARGE_FONT = ("Calibri", 12)
+LARGE_FONT = ("Calibri", 20)
 
 """
 ------------------------------------------------------------------------------------------------------------------------
@@ -19,24 +19,24 @@ class UtilityPage(Frame):
         super().__init__(master)
 
         label = Label(self, text="Utility Functions", font=LARGE_FONT)
-        label.pack(pady=10)
+        label.pack(ipady=10, padx=10, pady=10)
 
-        util1_btn = ttk.Button(self, text="Find & replace the names of multiple folders at once",
+        util1_btn = ttk.Button(self, text="1/ Find & replace the names of multiple folders at once",
                                command=lambda: master.switch_frame("Find & Replace Folder Names"))
-        util1_btn.pack(ipadx=5, ipady=5, expand=1)
+        util1_btn.pack(ipadx=10, ipady=10, expand=1)
 
-        util2_btn = ttk.Button(self, text="Find & replace the names of multiple files at once",
+        util2_btn = ttk.Button(self, text="2/ Find & replace the names of multiple files at once",
                                command=lambda: master.switch_frame("Find & Replace File Names"))
-        util2_btn.pack(ipadx=5, ipady=5, expand=1)
+        util2_btn.pack(ipadx=10, ipady=10, expand=1)
 
-        util3_btn = ttk.Button(self, text="Find & replace the content inside multiple"
-                                          "\nfiles with the same file-extension at once",
+        util3_btn = ttk.Button(self, text="3/ Find & replace the content inside multiple"
+                                          "files with the same file-extension at once",
                                command=lambda: master.switch_frame("Find & Replace Content in File"))
-        util3_btn.pack(ipadx=5, ipady=5, expand=1)
+        util3_btn.pack(ipadx=10, ipady=10, expand=1)
 
-        home_btn = ttk.Button(self, text="Homepage",
+        home_btn = ttk.Button(self, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.pack(ipadx=5, ipady=5, expand=1)
+        home_btn.pack(ipadx=10, ipady=10, expand=1)
 
 
 """
@@ -53,39 +53,39 @@ class FindReplaceFolderNames(Frame):
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="Please select the folder which contains all the sub-folders that"
-                                          "\nyou wish to collectively change the FOLDER-NAMES with",
+        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the sub-folders "
+                                          "\nthat you wish to collectively change their FOLDER-NAMES with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipadx=5, ipady=5, sticky='')
+        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        findLabel = ttk.Label(self, text="Find: ")
+        findLabel = ttk.Label(self, text="2/ Find: ")
         findLabel.grid(row=2, sticky='')
 
         self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=3, ipadx=5, ipady=5, sticky='')
+        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='')
 
-        replaceLabel = ttk.Label(self, text="Replace with: ")
+        replaceLabel = ttk.Label(self, text="3/ Replace with: ")
         replaceLabel.grid(row=4, sticky='')
 
         self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=5, ipadx=5, ipady=5, sticky='')
+        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='')
 
-        replaceAllButton = ttk.Button(self, text="Execute", command=self.replaceAll)
-        replaceAllButton.grid(row=6, ipadx=5, ipady=5, sticky='')
+        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=8, sticky='')
 
-        util_btn = ttk.Button(self, text="Utility Functions Page",
+        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=8, ipadx=5, ipady=5, pady=10, sticky='')
+        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Homepage",
+        home_btn = ttk.Button(self, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=9, ipadx=5, ipady=5, sticky='')
+        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='CHOSEN DIRECTORY: ' + self.chosenDir)
+        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
         dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='')
 
     def replaceAll(self):
@@ -102,8 +102,8 @@ class FindReplaceFolderNames(Frame):
                 os.rename(os.path.join(dirpath, dirnames[idirnames]), os.path.join(dirpath, newname))
                 dirnames[idirnames] = newname
 
-                successLabel = ttk.Label(self, text='Folder-names changed successfully !!')
-                successLabel.grid(row=7, ipadx=10, ipady=10, sticky='')
+                self.exeButton.config(text="FIND/REPLACE FOLDER-NAMES SUCCESSFULLY !!!"
+                                           "\nAdjust the steps for the new run then CLICK this button to run again")
 
 
 """
@@ -120,39 +120,39 @@ class FindReplaceFileNames(Frame):
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="Please select the folder which contains all the files"
-                                          "that\nyou wish to collectively change the FILE-NAMES with",
+        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the files "
+                                          "that\nyou wish to collectively change their FILE-NAMES with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipadx=5, ipady=5, sticky='')
+        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        findLabel = ttk.Label(self, text="Find: ")
+        findLabel = ttk.Label(self, text="2/ Find: ")
         findLabel.grid(row=2, sticky='')
 
         self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=3, ipadx=5, ipady=5, sticky='')
+        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='')
 
-        replaceLabel = ttk.Label(self, text="Replace with: ")
+        replaceLabel = ttk.Label(self, text="3/ Replace with: ")
         replaceLabel.grid(row=4, sticky='')
 
         self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=5, ipadx=5, ipady=5, sticky='')
+        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='')
 
-        replaceAllButton = ttk.Button(self, text="Execute", command=self.replaceAll)
-        replaceAllButton.grid(row=6, ipadx=5, ipady=5, sticky='')
+        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Utility Functions Page",
+        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=8, ipadx=5, ipady=5, pady=10, sticky='')
+        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Homepage",
+        home_btn = ttk.Button(self, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=9, ipadx=5, ipady=5, sticky='')
+        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='CHOSEN DIRECTORY: ' + self.chosenDir)
+        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
         dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='')
 
     def replaceAll(self):
@@ -169,8 +169,8 @@ class FindReplaceFileNames(Frame):
                 os.rename(os.path.join(dirpath, filenames[ifilenames]), os.path.join(dirpath, newname))
                 filenames[ifilenames] = newname
 
-                successLabel = ttk.Label(self, text='File-names changed successfully !!!! ')
-                successLabel.grid(row=7, ipadx=10, ipady=10, sticky='')
+                self.exeButton.config(text="FIND/REPLACE FILE-NAMES SUCCESSFULLY !!!"
+                                           "\nAdjust the steps for the new run then CLICK this button to run again")
 
 
 """
@@ -187,45 +187,45 @@ class FindReplaceContentInFiles(Frame):
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="Please select the folder which contains all the files with the same"
+        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the files with the same"
                                           "\nfile-extension that you wish to change their inside content with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipady=5, ipadx=5, sticky='')
+        dirButton.grid(row=0, ipady=10, ipadx=10, pady=8, sticky='')
 
-        commonLabel = ttk.Label(self, text="Common file-extension (e.g: txt | csv): ")
+        commonLabel = ttk.Label(self, text="2/ Common file-extension (e.g: txt | csv): ")
         commonLabel.grid(row=2, sticky='')
 
         self.extensionEntry = ttk.Entry(self)
-        self.extensionEntry.grid(row=3, ipady=5, ipadx=5, sticky='')
+        self.extensionEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
-        findLabel = ttk.Label(self, text="Find: ")
+        findLabel = ttk.Label(self, text="3/ Find: ")
         findLabel.grid(row=4, sticky='')
 
         self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=5, ipady=5, ipadx=5, sticky='')
+        self.findEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
 
-        replaceLabel = ttk.Label(self, text="Replace with: ")
+        replaceLabel = ttk.Label(self, text="4/ Replace with: ")
         replaceLabel.grid(row=6, sticky='')
 
         self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=7, ipady=5, ipadx=5, sticky='')
+        self.replaceEntry.grid(row=7, ipady=10, ipadx=10, pady=8, sticky='')
 
-        replaceAllButton = ttk.Button(self, text="Execute", command=self.replaceAll)
-        replaceAllButton.grid(row=8, ipady=5, ipadx=5, sticky='')
+        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=8, ipady=10, ipadx=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Utility Functions Page",
+        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=10, ipady=5, ipadx=5, pady=10, sticky='')
+        util_btn.grid(row=10, ipady=10, ipadx=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Homepage",
+        home_btn = ttk.Button(self, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=11, ipady=5, ipadx=5, sticky='')
+        home_btn.grid(row=11, ipady=10, ipadx=10, pady=4, sticky='')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='CHOSEN DIRECTORY: ' + self.chosenDir)
+        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
         dirTitleLabel.grid(row=1, ipady=10, ipadx=10, sticky='')
 
     def replaceAll(self):
@@ -247,9 +247,8 @@ class FindReplaceContentInFiles(Frame):
                 with open(filepath, "w") as f:
                     f.write(text)
 
-                successLabel = ttk.Label(self, text='Content in all files with the same '
-                                                    'file-extension changed successfully !!!! ')
-                successLabel.grid(row=9, ipady=10, ipadx=10, sticky='')
+                self.exeButton.config(text="FIND/REPLACE FILE CONTENT SUCCESSFULLY !!!"
+                                           "\nAdjust the steps for the new run then CLICK this button to run again")
 
 
 if __name__ == "__main__":

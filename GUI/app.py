@@ -3,16 +3,17 @@
 from tkinter import Tk
 
 from homepage import HomePage
-from procpage import ProcessingPage, JSONCreator, CSVConvertor, RunMegaDetector
+from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from batcpage import BatchPage
+from batchpage import BatchPage
 
 pages = {
     "HomePage": HomePage,
     "ProcessingPage": ProcessingPage,
     "JSON Creator Page": JSONCreator,
-    "CSV Convertor Page": CSVConvertor,
     "Run MegaDetector Page": RunMegaDetector,
+    "CSV Convertor Page": CSVConvertor,
+    "Image Sorter Page": ImageSorter,
     "UtilityPage": UtilityPage,
     "Find & Replace Folder Names": FindReplaceFolderNames,
     "Find & Replace File Names": FindReplaceFileNames,
