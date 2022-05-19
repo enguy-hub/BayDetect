@@ -1,5 +1,9 @@
-import tkinter as tk
-from tkinter import Tk, Frame, ttk
+from tkinter import Frame, ttk, StringVar
+from tkinter import filedialog
+
+import os
+import fnmatch
+from pathlib import Path
 
 LARGE_FONT = ("Calibri", 20)
 
@@ -18,7 +22,7 @@ class BatchPage(ttk.Frame):
         label.pack(ipady=10, pady=10, padx=10)
 
         batc1_btn = ttk.Button(self, text="1/ Create `.txt` files to `batch-run` one of the processing function",
-                               command=lambda: master.switch_frame("BatchPage"))
+                               command=lambda: master.switch_frame("PF Batchrun TXTCreator"))
         batc1_btn.pack(ipadx=10, ipady=10, expand=1)
 
         batc2_btn = ttk.Button(self, text="2/ Create `.txt` files needed to execute `pf_batchrun()` "
@@ -42,7 +46,7 @@ class BatchPage(ttk.Frame):
 
 """
 ------------------------------------------------------------------------------------------------------------------------
-PF_BatchRun TXT Creator Page
+PF BatchRun TXT Creator Page
 ------------------------------------------------------------------------------------------------------------------------
 """
 
@@ -51,29 +55,38 @@ class PF_Batchrun_TXTCreator(Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
-        self.inputJSONPath = None
-        self.outJSONPath = None
+        self.inputDirPath = None
+        self.checkVar = StringVar()
+        self.pattern2Entry = None
 
-        inputJSONButton = ttk.Button(self, text="1/ Please select a `batch-input` JSON file which "
-                                                "will be used to run MegaDetector batch-processing on",
-                                     command=self.inputJSON)
-        inputJSONButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
+        self.org_img_dirpath = None
+        self.pattern1_list = None
+        self.pattern2_list = None
 
-        outJSONNameLabel = ttk.Label(self, text="2/ Please give a name to the resulted `mega-detected` JSON file."
-                                                "Ideally it should be the\nsame as the `batch-input` JSON file but "
-                                                "ends with `*_MegaDetected.json` instead")
-        outJSONNameLabel.grid(row=2, sticky='')
+        inputDirButton = ttk.Button(self, text="1/ Please select the `parent-folder` where "
+                                               "all the `station-folders` are located in.",
+                                    command=self.inputDir)
+        inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        self.outJSONNameEntry = ttk.Entry(self)
-        self.outJSONNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
+        pattern1Label = ttk.Label(self, text="2/ Please enter the common pattern in the names of the "
+                                             "folders where all the image\nare stored in (please ends with "
+                                             "an asterisk like so: `2020*`, ``Session*` or `100CU*`): ")
+        pattern1Label.grid(row=2, sticky='')
 
-        outputDirButton = ttk.Button(self, text="3/ Please select the `OUTPUT` folder where the "
-                                                "`mega-detected` JSON file will be saved at",
-                                     command=self.outputJSON)
-        outputDirButton.grid(row=4, ipadx=10, ipady=10, pady=8, sticky='')
+        self.pattern1Entry = ttk.Entry(self)
+        self.pattern1Entry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
-        self.executeButton = ttk.Button(self, text="RUN MEGADETECTOR !!", command=self.runMD)
-        self.executeButton.grid(row=6, ipady=10, ipadx=10, pady=4, sticky='')
+        patternCheckLabel = ttk.Label(self, text="3/ Is there a second common pattern in the names for the "
+                                                 "sub-folders of above-mentioned folders? (`Y` or `N`): ")
+        patternCheckLabel.grid(row=4, sticky='')
+
+        self.patternCheckEntry = ttk.Entry(self, textvariable=self.checkVar)
+        self.patternCheckEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
+
+        self.checkVar.trace('w', )
+
+        # self.executeButton = ttk.Button(self, text="EXECUTE !!", command=self.runMD)
+        # self.executeButton.grid(row=6, ipady=10, ipadx=10, pady=4, sticky='')
 
         util_btn = ttk.Button(self, text="Back To Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
@@ -83,45 +96,45 @@ class PF_Batchrun_TXTCreator(Frame):
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
-    def inputJSON(self):
-        inputJSON = filedialog.askopenfilename(title='Please select a directory')
-        self.inputJSONPath = str(inputJSON)
+    def inputDir(self):
+        inputDir = filedialog.askdirectory(title='Please select a directory')
+        self.inputDirPath = str(inputDir)
 
-        inputJSONLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputJSONPath)
-        inputJSONLabel.grid(row=1, pady=8, sticky='')
+        inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
+        inputDirLabel.grid(row=1, pady=8, sticky='')
 
-    def outputJSON(self):
-        outputDir = filedialog.askdirectory(title='Please select a directory')
-        outputDirPath = str(outputDir)
+    def capture(self):
 
-        outputJSONName = self.outJSONNameEntry.get()
+        self.org_img_dirpath = []
+        self.pattern1_list = []
+        self.pattern2_list = []
 
-        self.outJSONPath = os.path.join(outputDirPath, outputJSONName).replace("\\", "/")
+        if self.patternCheckEntry.get() == 'N':
+            for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
+                for dirname in fnmatch.filter(dirs, self.pattern1Entry.get()):
+                    self.org_img_dirpath.append(os.path.join(path, dirname).replace("\\", "/"))
 
-        outputDirLabel = ttk.Label(self, text='OUTPUT `MEGA-DETECTED` JSON: \n' + self.outJSONPath)
-        outputDirLabel.grid(row=5, pady=8, sticky='')
+        elif self.patternCheckEntry.get() == 'Y':
 
-    def runMD(self):
-        """
+            pattern2Label = ttk.Label(self, text="4/ What is the second common pattern in the names of the "
+                                                 "sub-folders?\n(please ends with an asterisk like so: `2020*`, "
+                                                 "`Session*` or `100CU*`): ")
+            pattern2Label.grid(row=6, sticky='')
 
-        """
-        self.executeButton.config(text="MEGADETECTOR IS RUNNING, PLEASE WAIT ......")
-        self.executeButton.update_idletasks()
+            self.pattern2Entry = ttk.Entry(self)
+            self.pattern2Entry.grid(row=7, ipady=10, ipadx=10, pady=4, sticky='')
 
-        inputDir = str(self.inputJSONPath)
-        outputDir = str(self.outJSONPath)
+            for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
+                for dirname_p1 in fnmatch.filter(dirs, self.pattern1Entry.get()):
+                    self.pattern1_list.append(os.path.join(path, dirname_p1).replace("\\", "/"))
 
-        exeMD = 'cd .. && cd cameratraps && ' \
-                'python run_detector_batch.py md_v4.1.0.pb ' + inputDir + ' ' + outputDir + ' '
+            for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
+                for dirname_p2 in fnmatch.filter(dirs, self.pattern2Entry.get()):
+                    self.pattern2_list.append(dirname_p2)
 
-        if os.system(exeMD) == 0:
-            self.executeButton.config(text="MEGADETECTOR WAS EXECUTED SUCCESSFULLY !!!"
-                                           "\nAdjust the steps for the new run "
-                                           "then CLICK this button to run again")
-        else:
-            self.executeButton.config(text="Error, please double check the commands !!")
+            for ip1, ip2 in zip(self.pattern1_list, self.pattern2_list):
+                self.org_img_dirpath.append(os.path.join(ip1, ip2).replace("\\", "/"))
 
-        return print("MegaDetector was executed successfully !!!")
 
 
 if __name__ == "__main__":

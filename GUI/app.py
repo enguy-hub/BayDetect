@@ -5,7 +5,7 @@ from tkinter import Tk
 from homepage import HomePage
 from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from batchpage import BatchPage
+from batchpage import BatchPage, PF_Batchrun_TXTCreator
 
 pages = {
     "HomePage": HomePage,
@@ -18,7 +18,8 @@ pages = {
     "Find & Replace Folder Names": FindReplaceFolderNames,
     "Find & Replace File Names": FindReplaceFileNames,
     "Find & Replace Content in File": FindReplaceContentInFiles,
-    "BatchPage": BatchPage
+    "BatchPage": BatchPage,
+    "PF Batchrun TXTCreator": PF_Batchrun_TXTCreator
 }
 
 LARGE_FONT = ("Calibri", 12)

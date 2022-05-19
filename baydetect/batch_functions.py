@@ -49,7 +49,7 @@ def pf_txtcmds_creator():
             for dirname in fnmatch.filter(dirs, common_dirname_input):
                 org_img_dirpath.append(os.path.join(path, dirname).replace("\\", "/"))
 
-    if second_common_dirname == 'Y':
+    elif second_common_dirname == 'Y':
         common_dirname_extra = input("What is the second common pattern in the names of the sub-folders ? "
                                      "(eg: `2020*`, ``Session*` or `100CU*`): ")
 

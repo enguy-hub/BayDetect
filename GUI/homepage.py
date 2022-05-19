@@ -1,5 +1,4 @@
-import tkinter as tk
-from tkinter import Tk, Frame, ttk
+from tkinter import ttk
 
 
 LARGE_FONT = ("Calibri", 12)

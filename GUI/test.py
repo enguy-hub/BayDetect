@@ -1,9 +1,19 @@
-import json
-import os
+from tkinter import *
 
+def set_text(text):
+    e.delete(0,END)
+    e.insert(0,text)
+    return
 
-BI_json_dir_input = "C:\Hien\Garden\MyGithub\BayDetect\example\metadata\Example_Forest\EF_JSON"
+win = Tk()
 
-new = BI_json_dir_input.replace("\\", "/")
+e = Entry(win,width=10)
+e.pack()
 
-print(new)
+b1 = Button(win,text="animal",command=lambda:set_text("animal"))
+b1.pack()
+
+b2 = Button(win,text="plant",command=lambda:set_text("plant"))
+b2.pack()
+
+win.mainloop()
