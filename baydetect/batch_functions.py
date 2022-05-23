@@ -64,10 +64,6 @@ def pf_txtcmds_creator():
         for ip1, ip2 in zip(pattern1_list, pattern2_list):
             org_img_dirpath.append(os.path.join(ip1, ip2).replace("\\", "/"))
 
-    txtcmds_choice = input("Which `processing function` would you like to create the 'pf*.txt' files for ?"
-                           "(answer with `1`, `2`, or `3`) ")
-    txtcmds_choice = int(txtcmds_choice)
-
     for idirpaths in org_img_dirpath:
         for dirpath, dirnames, files in os.walk(idirpaths):
             if files:
@@ -81,16 +77,20 @@ def pf_txtcmds_creator():
         dataset = ''.join(name.split('_')[0])
         station.append('_'.join(name.split('_')[1:]))
 
+    txtcmds_choice = input("Which `processing function` would you like to create "
+                           "the 'pf*.txt' files for? (answer with `1`, `2`, or `3`) ")
+    txtcmds_choice = int(txtcmds_choice)
+
     if txtcmds_choice == 1:
-        print("\n'1' Selected ! Follow the prompted questions to create the 'pf1_*.txt' files for processing "
-              "function `1` !!"
+        print("\n'1' Selected ! Follow the prompted questions to create "
+              "the 'pf1_*.txt' files for processing function `1` !!"
               "\n")
 
-        BI_json_dir_input = input("Enter the absolute path of the directory where you want all the "
-                                  "'*_BatchInput.json' files to be saved at (end with `/`): ")
+        BI_json_dir_input = input("Enter the absolute path of the directory where you want all "
+                                  "the '*_BatchInput.json' files to be saved at (end with `/`): ")
 
-        txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf1_*.txt' "
-                                  "files to be saved at (end with `/`): ")
+        txtcmds_dir_input = input("Enter the absolute path of the directory where you want "
+                                  "all the 'pf1_*.txt' files to be saved at (end with `/`): ")
 
         jsonInputDir = BI_json_dir_input.replace("\\", "/")
 
@@ -103,18 +103,18 @@ def pf_txtcmds_creator():
             create.close()
 
     elif txtcmds_choice == 2:
-        print("\n'2' Selected ! Follow the prompted questions to create the 'pf2_*.txt' files for processing "
-              "function `2` !!"
+        print("\n'2' Selected ! Follow the prompted questions to create "
+              "the 'pf2_*.txt' files for processing function `2` !!"
               "\n")
 
-        MD_json_dir_input = input("Enter the absolute path of the directory where all the '*_MegaDetected.json' "
-                                  "files are currently saved at (end with `/`): ")
+        MD_json_dir_input = input("Enter the absolute path of the directory where all the "
+                                  "'*_MegaDetected.json' files are currently saved at (end with `/`): ")
 
-        csv_dir_input = input("Enter the absolute path of the directory where you want all the '*_Meta.csv' files "
-                              "to be saved at (end with `/`): ")
+        csv_dir_input = input("Enter the absolute path of the directory where you want "
+                              "all the '*_Meta.csv' files to be saved at (end with `/`): ")
 
-        txtcmds_dir_input = input("Enter the absolute path of the directory where you want all the 'pf2_*.txt' "
-                                  "files to be saved at (end with `/`): ")
+        txtcmds_dir_input = input("Enter the absolute path of the directory where you want "
+                                  "all the 'pf2_*.txt' files to be saved at (end with `/`): ")
 
         md_json_paths = []
         md_json_names = []
@@ -226,7 +226,7 @@ def md_pycmds_creator():
             name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
             with open(output_txtfile, "a") as f:
-                f.write(f"'python run_tf_detector_batch.py md_v4.1.0.pb ' \n"
+                f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
                         f"'..{root_path}{names_withBI}.json ' \n"
                         f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"
                         f"'&& '\n")

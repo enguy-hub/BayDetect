@@ -5,7 +5,7 @@ from tkinter import Tk
 from homepage import HomePage
 from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from batchpage import BatchPage, PF_Batchrun_TXTCreator
+from batchpage import BatchPage, Batchrun_JSONCreator
 
 pages = {
     "HomePage": HomePage,
@@ -19,7 +19,7 @@ pages = {
     "Find & Replace File Names": FindReplaceFileNames,
     "Find & Replace Content in File": FindReplaceContentInFiles,
     "BatchPage": BatchPage,
-    "PF Batchrun TXTCreator": PF_Batchrun_TXTCreator
+    "Batchrun JSON Creator": Batchrun_JSONCreator
 }
 
 LARGE_FONT = ("Calibri", 12)
@@ -40,8 +40,8 @@ class BayDetectApp(Tk):
         self.iconbitmap(self, default='./resources/lwf_icon.ico')
 
         # set window and screen width and height
-        window_width = 800
-        window_height = 700
+        window_width = 750
+        window_height = 900
         screen_width = Tk.winfo_screenwidth(self)
         screen_height = Tk.winfo_screenheight(self)
 
@@ -57,10 +57,11 @@ class BayDetectApp(Tk):
         """Destroys current frame and replaces it with a new one."""
         cls = pages[page_name]
         new_frame = cls(master=self)
+
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.pack(ipadx=5, ipady=5, expand=1)
+        self._frame.pack(ipadx=10, ipady=10, expand=1)
 
 
 if __name__ == "__main__":

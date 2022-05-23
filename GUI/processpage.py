@@ -48,10 +48,6 @@ class ProcessingPage(ttk.Frame):
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.pack(ipadx=10, ipady=10, expand=1)
 
-        quit_btn = ttk.Button(self, text="Quit",
-                              command=lambda: self.quit())
-        quit_btn.pack(ipadx=10, ipady=10, expand=1)
-
 
 """
 ------------------------------------------------------------------------------------------------------------------------
@@ -97,14 +93,14 @@ class JSONCreator(Frame):
         home_btn.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
     def inputDir(self):
-        inputDirectory = filedialog.askdirectory(title='Please select a directory')
+        inputDirectory = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDirectory)
 
         inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def outputDir(self):
-        outputDir = filedialog.askdirectory(title='Please select a directory')
+        outputDir = filedialog.askdirectory(title='Please select the folder where the `batch-input` JSON will be saved')
         outputDirPath = str(outputDir)
 
         jsonFilename = self.jsonNameEntry.get()
@@ -118,7 +114,7 @@ class JSONCreator(Frame):
         """
 
         """
-        self.createJSONButton.config(text="CREATING A `BATCH-INPUT` JSON FILE, PLEASE WAIT ......")
+        self.createJSONButton.config(text="CREATING `BATCH-INPUT` JSON FILE, PLEASE WAIT ......")
         self.createJSONButton.update_idletasks()
 
         inputDir = self.inputDirPath
@@ -136,11 +132,11 @@ class JSONCreator(Frame):
         with open(outputDir, 'w') as f:
             print(json.dump(files, f, indent=4))
 
-            self.createJSONButton.config(text="A `BATCH-INPUT` JSON FILE WAS CREATED SUCCESSFULLY !!!"
-                                              "\nAdjust the steps for the new run "
-                                              "then CLICK this button to run again")
+            self.createJSONButton.config(text="THE `BATCH-INPUT` JSON WAS CREATED SUCCESSFULLY !!!"
+                                              "\nPlease adjust the previous steps for the "
+                                              "new run then CLICK this button to run again")
 
-        return print("A `batch-input` JSON file was created successfully !!!")
+        return print("The `batch-input` JSON file was created successfully !!!")
 
 
 """
@@ -187,14 +183,14 @@ class RunMegaDetector(Frame):
         home_btn.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
     def inputJSON(self):
-        inputJSON = filedialog.askopenfilename(title='Please select a directory')
+        inputJSON = filedialog.askopenfilename(title='Please select the image folder')
         self.inputJSONPath = str(inputJSON)
 
         inputJSONLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputJSONPath)
         inputJSONLabel.grid(row=1, pady=8, sticky='')
 
     def outputJSON(self):
-        outputDir = filedialog.askdirectory(title='Please select a directory')
+        outputDir = filedialog.askdirectory(title='Please select where the `mega-detected` JSON will be saved')
         outputDirPath = str(outputDir)
 
         outputJSONName = self.outJSONNameEntry.get()
@@ -219,8 +215,8 @@ class RunMegaDetector(Frame):
 
         if os.system(exeMD) == 0:
             self.executeButton.config(text="MEGADETECTOR WAS EXECUTED SUCCESSFULLY !!!"
-                                           "\nAdjust the steps for the new run "
-                                           "then CLICK this button to run again")
+                                           "\nPlease adjust the previous steps for the "
+                                           "new run then CLICK this button to run again")
         else:
             self.executeButton.config(text="Error, please double check the commands !!")
 
@@ -317,7 +313,7 @@ class CSVConvertor(Frame):
                                      command=self.outputDir)
         outputDirButton.grid(row=10, ipadx=10, ipady=10, pady=8, sticky='')
 
-        self.createCSVButton = ttk.Button(self, text="CREATE `METADATA` CSV FILE", command=self.convertCSV)
+        self.createCSVButton = ttk.Button(self, text="CREATE CSV `METADATA` FILE", command=self.convertCSV)
         self.createCSVButton.grid(row=12, ipady=10, ipadx=10, pady=4, sticky='')
 
         util_btn = ttk.Button(self, text="Back To Processing Functions Page",
@@ -329,21 +325,21 @@ class CSVConvertor(Frame):
         home_btn.grid(row=14, ipady=10, ipadx=10, pady=4, sticky='')
 
     def inputDir(self):
-        inputDirectory = filedialog.askdirectory(title='Please select a directory')
+        inputDirectory = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDirectory)
 
         inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def inputJSON(self):
-        jsonFile = filedialog.askopenfilename(title='Please select the JSON file')
+        jsonFile = filedialog.askopenfilename(title='Please select the `mega-detected` JSON file')
         self.jsonFilePath = str(jsonFile)
 
-        jsonFileLabel = ttk.Label(self, text='ASSOCIATED `MEGA-DETECTED` JSON: \n' + self.jsonFilePath)
+        jsonFileLabel = ttk.Label(self, text='SELECTED `MEGA-DETECTED` JSON: \n' + self.jsonFilePath)
         jsonFileLabel.grid(row=7, pady=8, sticky='')
 
     def outputDir(self):
-        outputDir = filedialog.askdirectory(title='Please select a directory')
+        outputDir = filedialog.askdirectory(title='Please select the folder where the CSV file will be saved at')
         outputDirPath = str(outputDir)
 
         csvFilename = self.csvNameEntry.get()
@@ -357,7 +353,7 @@ class CSVConvertor(Frame):
         """
 
         """
-        self.createCSVButton.config(text="CREATING A `METADATA` CSV FILE, PLEASE WAIT ......")
+        self.createCSVButton.config(text="CREATING CSV `METADATA` FILE, PLEASE WAIT ......")
         self.createCSVButton.update_idletasks()
 
         input_json = open(self.jsonFilePath, 'r')
@@ -412,11 +408,11 @@ class CSVConvertor(Frame):
 
             df_final.to_csv(self.csvOutputDir, index=False)
 
-            self.createCSVButton.config(text="A `METADATA` CSV FILE WAS CREATED SUCCESSFULLY !!!"
-                                             "\nAdjust the steps for the new run "
-                                             "then CLICK this button to run again")
+            self.createCSVButton.config(text="THE CSV `METADATA` FILE WAS CREATED SUCCESSFULLY !!!"
+                                             "\nPlease adjust the previous steps for the "
+                                             "new run then CLICK this button to run again")
 
-        return print("A `metadata` CSV file was created successfully !!!")
+        return print("THE `metadata` CSV file was created successfully !!!")
 
 
 """
@@ -463,17 +459,17 @@ class ImageSorter(Frame):
         home_btn.grid(row=8, ipady=10, ipadx=10, pady=4, sticky='')
 
     def inputDir(self):
-        inputDir = filedialog.askdirectory(title='Please select a directory')
+        inputDir = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDir)
 
         inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def inputCSV(self):
-        inputCSV = filedialog.askopenfilename(title='Please select a directory')
+        inputCSV = filedialog.askopenfilename(title='Please select CSV `metadata` file')
         self.inputCSVPath = str(inputCSV)
 
-        inputCSVLabel = ttk.Label(self, text='ASSOCIATED CSV FILE: \n' + self.inputCSVPath)
+        inputCSVLabel = ttk.Label(self, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
         inputCSVLabel.grid(row=3, pady=8, sticky='')
 
     def sortImages(self):
@@ -553,8 +549,8 @@ class ImageSorter(Frame):
                 shutil.copy(o, ns)
 
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
-                                        "\nAdjust the steps for the new run "
-                                        "then CLICK this button to run again")
+                                        "\nPlease adjust the previous steps for the "
+                                        "new run then CLICK this button to run again")
 
         elif sortedInput == 'N':
             for p, s in zip(parent_path, classified_folder):
@@ -568,8 +564,8 @@ class ImageSorter(Frame):
                 shutil.copy(o, n)
 
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
-                                        "\nAdjust the steps for the new run "
-                                        "then CLICK this button to run again")
+                                        "\nPlease adjust the previous steps for the "
+                                        "new run then CLICK this button to run again")
 
         else:
             self.sortButton.config(text="Error !! Please re-check the input for the previous steps")

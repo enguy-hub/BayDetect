@@ -1,19 +1,27 @@
-from tkinter import *
+import tkinter as tk
 
-def set_text(text):
-    e.delete(0,END)
-    e.insert(0,text)
-    return
+r = tk.Tk()
 
-win = Tk()
 
-e = Entry(win,width=10)
-e.pack()
+var = tk.StringVar()
 
-b1 = Button(win,text="animal",command=lambda:set_text("animal"))
-b1.pack()
+e = tk.Entry(r, width=60, font=20, borderwidth=5, textvariable=var)
+e.insert(0, '...')
+e.configure(state='normal')
+e.grid(row=0, column=0)
 
-b2 = Button(win,text="plant",command=lambda:set_text("plant"))
-b2.pack()
+b = tk.Button(text="text here")
+b.grid(row=1)
 
-win.mainloop()
+
+def capture(*args):
+    if e.get() == "open":
+        b['state'] = 'normal'
+    else:
+        b['state'] = 'disabled'
+
+
+var.trace('w', capture)
+
+
+r.mainloop()
