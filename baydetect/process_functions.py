@@ -55,11 +55,14 @@ def md_json_creator():
 
     """
 
-    usr_input_dir = input("Enter the absolute path of the directory containing the images that you would like to "
-                          "execute `run_tf_detector_batch.py` on (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the directory containing the images "
+                          "that you would like to execute `run_tf_detector_batch.py` on: ")
 
-    usr_input_name = input("Give a name and absolute path of where the `batch-input` JSON file will be saved at "
-                           "(end with '*_BatchInput.json'): ")
+    usr_input_name = input("Give a name and absolute path of where the `batch-input` "
+                           "JSON file will be saved at (end with '*_BatchInput.json'): ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
@@ -142,14 +145,17 @@ def md_csv_converter():
          CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
 
      """
-    usr_input_dir = input("Enter the absolute path of the image directory that you just created a `*_MegaDetected.json`"
-                          " file for (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the image directory that "
+                          "you just created a `*_MegaDetected.json` file for: ")
 
-    usr_input_json = input("Enter the absolute path to the `*_MegaDetected.json` file that you would like to perform "
-                           "the CSV metadata conversion on (end with '*_MegaDetected.json'): ")
+    usr_input_json = input("Enter the absolute path to the `*_MegaDetected.json` file that you would like "
+                           "to perform the CSV metadata conversion on (end with '*_MegaDetected.json'): ")
 
-    usr_output_csv = input("Give a name and absolute path to where the CSV metadata file will be saved at "
-                           "(end with '*_Meta.csv'): ")
+    usr_output_csv = input("Give a name and absolute path to where the CSV "
+                           "metadata file will be saved at (end with '*_Meta.csv'): ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     input_json = open(usr_input_json, 'r')
     json_info = json.load(input_json)
@@ -159,9 +165,9 @@ def md_csv_converter():
 
     for i in range(len(list(json_info['images']))):
 
-        imageName = list(json_info['images'][i].values())[0].split('/')[7]
-        session = list(json_info['images'][i].values())[0].split('/')[6]
-        station = list(json_info['images'][i].values())[0].split('/')[5]
+        imageName = list(json_info['images'][i].values())[0].split('/')[12]
+        session = list(json_info['images'][i].values())[0].split('/')[10]
+        station = list(json_info['images'][i].values())[0].split('/')[9]
 
         imagePath = list(json_info['images'][i].values())[0]
 
@@ -228,13 +234,16 @@ def sort_images_csv():  # input_path, csv_input
 
     """
 
-    usr_input_dir = input("Enter the absolute path of the directory that you want to sort the images by `classified "
-                          "classes` (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the directory that you "
+                          "want to sort the images by `classified classes`: ")
 
     usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
 
-    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` directory, located at "
-                         "the same level as the original images' directory (answer with 'Y' or 'N')? ")
+    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` directory, "
+                         "located at the same level as the original images' directory (answer with 'Y' or 'N')? ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     old_path = []  # Old - full original paths of where the image files are currently stored
     parent_path = []  # First half of the o_path (parent path) without the image name

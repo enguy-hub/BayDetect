@@ -34,8 +34,8 @@ def md_json_converter():
 
     usr_input_json = input("Enter the absolute path of the '*_MegaDetected.json' (end with '.json'): ")
 
-    usr_output_json = input("Give a name and absolute path of where the new '*_MegaDetected_Organized.json' file will "
-                            "be saved (end with '.json'): ")
+    usr_output_json = input("Give a name and absolute path of where the new '*_MegaDetected_Organized.json' "
+                            "file will be saved (end with '.json'): ")
 
     with open(usr_input_json, 'r') as file:
         json_info = json.load(file)
@@ -127,14 +127,17 @@ def cropper_metadata_creator():
 
     '''
 
-    usr_input_orgdir = input("Enter the absolute path of the directory which contains the images that you would like to"
-                             " perform the cropping on (end with '/'): ")
+    usr_input_orgdir = input("Enter the absolute path of the directory which contains "
+                             "the images that you would like to perform the cropping on: ")
 
-    usr_input_json = input("Enter the absolute path of where the '*_MegaDetected.json' of the above directory is stored"
-                           " (end with '.json'): ")
+    usr_input_json = input("Enter the absolute path of where the '*_MegaDetected.json' "
+                           "of the above directory is stored (end with '.json'): ")
 
-    usr_output_csv = input("Give a name and absolute path of where the '*_MetaCropping.csv' file will be saved at "
-                           "(end with '.csv'): ")
+    usr_output_csv = input("Give a name and absolute path of where the '*_MetaCropping.csv' "
+                           "file will be saved at (end with '.csv'): ")
+
+    usr_input_orgdir = usr_input_orgdir + "/"
+    usr_input_orgdir.replace("\\", "/")
 
     save_output = False
 
@@ -171,14 +174,22 @@ def cropper():
         The cropped image can be saved on disk in the output_path.
     """
 
-    usr_input_path = input("Enter the absolute path of the image that you would like to perform the cropping on "
-                           "(end with '/'): ")
+    usr_input_path = input("Enter the absolute path of the image that you would like to perform the cropping on: ")
 
     usr_output_path = input("Enter the absolute path of where you would like the cropped image to be saved "
                             "(end with '/'): ")
 
     usr_input_csv = input("Enter the absolute path of where the '*_MetaCropped.csv' file is located in "
                           "(end with '.csv'): ")
+
+    usr_input_path = usr_input_path + "/"
+    usr_input_path.replace("\\", "/")
+
+    usr_output_path = usr_output_path + "/"
+    usr_output_path.replace("\\", "/")
+
+    usr_input_csv = usr_input_csv + "/"
+    usr_input_csv.replace("\\", "/")
 
     save_image = True
 

@@ -1,11 +1,10 @@
 # License: http://creativecommons.org/licenses/by-sa/3.0/
-
-from tkinter import Tk
+from tkinter import Tk, ttk, Canvas
 
 from homepage import HomePage
 from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from batchpage import BatchPage, Batchrun_JSONCreator
+from batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, Batchrun_RunMegaDetector
 
 pages = {
     "HomePage": HomePage,
@@ -19,7 +18,9 @@ pages = {
     "Find & Replace File Names": FindReplaceFileNames,
     "Find & Replace Content in File": FindReplaceContentInFiles,
     "BatchPage": BatchPage,
-    "Batchrun JSON Creator": Batchrun_JSONCreator
+    "Batchrun Processing Functions": Batchrun_ProcessingFunctions,
+    "Batchrun Create Combined TXT": Batchrun_CombinedTXT,
+    "Batchrun Run MegaDetector": Batchrun_RunMegaDetector
 }
 
 LARGE_FONT = ("Calibri", 12)
@@ -36,19 +37,19 @@ class BayDetectApp(Tk):
     def __init__(self):
         Tk.__init__(self)
 
-        Tk.title(self, "Bay Detect App")
         self.iconbitmap(self, default='./resources/lwf_icon.ico')
+        Tk.title(self, "Bay Detect App")
 
-        # set window and screen width and height
-        window_width = 750
-        window_height = 900
-        screen_width = Tk.winfo_screenwidth(self)
-        screen_height = Tk.winfo_screenheight(self)
-
-        # find the center point, and centered the app window
-        center_x = int(screen_width / 2 - window_width / 2)
-        center_y = int(screen_height / 2 - window_height / 2)
-        self.geometry('{}x{}+{}+{}'.format(window_width, window_height, center_x, center_y))
+        # # set window and screen width and height
+        # window_width = 500
+        # window_height = 500
+        # screen_width = Tk.winfo_screenwidth(self)
+        # screen_height = Tk.winfo_screenheight(self)
+        #
+        # # find the center point, and centered the app window
+        # center_x = int(screen_width / 2 - window_width / 2)
+        # center_y = int(screen_height / 2 - window_height / 2)
+        # self.geometry('{}x{}+{}+{}'.format(window_width, window_height, center_x, center_y))
 
         self._frame = None
         self.switch_frame("HomePage")
@@ -61,7 +62,7 @@ class BayDetectApp(Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.pack(ipadx=10, ipady=10, expand=1)
+        self._frame.pack(padx=10, pady=10, expand=1) #
 
 
 if __name__ == "__main__":

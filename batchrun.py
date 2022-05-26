@@ -8,7 +8,13 @@ def pf_batchrun():
         # Insert new python commands below this line
 
         'python main.py < '
-        'C:/LWF/BayDetect/batch_commands/Wolf_Intense/pf1_VF_txtcmds/pf1_VF_91_D_Session_1_20201102.txt '
+        'C:/Hien/Garden/MyGithub/BayDetect/example/metadata/Example_Forest/EF_batch_commands/EF_mdJSONToCSV_txtcmds_CU/EF_mdJSONToCSV_001_20201104.txt '
+        '&& '
+        'python main.py < '
+        'C:/Hien/Garden/MyGithub/BayDetect/example/metadata/Example_Forest/EF_batch_commands/EF_mdJSONToCSV_txtcmds_CU/EF_mdJSONToCSV_002_20201104.txt '
+        '&& '
+        'python main.py < '
+        'C:/Hien/Garden/MyGithub/BayDetect/example/metadata/Example_Forest/EF_batch_commands/EF_mdJSONToCSV_txtcmds_CU/EF_mdJSONToCSV_003_20201104.txt '
 
     )
     return print('Finished !!')
@@ -19,10 +25,18 @@ def md_batchrun():
         'cd cameratraps '
         '&& '
         # Insert new python commands below this line
-
-        'python run_tf_detector_batch.py md_v4.1.0.pb '
-        '../metadata/Wolf_Intense/JSON/BatchInput/VF_102_A_Session_1_20201102_BI.json '
-        '../metadata/Wolf_Intense/JSON/MegaDetected/VF_102_A_Session_1_20201102_MD.json '
+                
+        'python run_detector_batch.py md_v4.1.0.pb ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_BatchInput/EF_001_20201104_BI.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_MegaDetected/EF_001_20201104_MD.json ' 
+        '&& '
+        'python run_detector_batch.py md_v4.1.0.pb ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_BatchInput/EF_002_20201104_BI.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_MegaDetected/EF_002_20201104_MD.json ' 
+        '&& '
+        'python run_detector_batch.py md_v4.1.0.pb ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_BatchInput/EF_003_20201104_BI.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_CU_MegaDetected/EF_003_20201104_MD.json '
 
     )
     return print('Finished !!')

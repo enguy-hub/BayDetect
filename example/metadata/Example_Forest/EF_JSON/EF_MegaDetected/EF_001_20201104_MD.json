@@ -86,7 +86,7 @@
   "3": "vehicle"
  },
  "info": {
-  "detection_completion_time": "2022-05-17 10:02:58",
+  "detection_completion_time": "2022-05-25 05:47:17",
   "format_version": "1.1",
   "detector": "md_v4.1.0.pb"
  }

@@ -1,5 +1,5 @@
-from tkinter import Frame, ttk
-from tkinter import filedialog
+from tkinter import ttk, filedialog
+from scrollpage import ScrolledPage
 
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
@@ -9,8 +9,9 @@ import json
 import shutil
 import PIL.Image
 import pandas as pd
+import tkinter as tk
 
-LARGE_FONT = ("Calibri", 20)
+LARGE_FONT = ("Calibri", 12)
 
 """
 ------------------------------------------------------------------------------------------------------------------------
@@ -22,31 +23,34 @@ Processing Page(s) Section
 class ProcessingPage(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
+        self.sw = ScrolledPage(self)
 
-        label = ttk.Label(self, text="Processing Functions", font=LARGE_FONT)
-        label.pack(ipady=10, padx=10, pady=10)
+        label = ttk.Label(self.sw.scrollwindow, text="Processing Functions", font=LARGE_FONT)
+        label.pack(ipady=5, padx=5, pady=5, expand=1)
 
-        proc1_btn = ttk.Button(self, text="1/ Create the `batch-input` JSON file needed to execute MegaDetector",
+        proc1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Create the `batch-input` JSON file needed to execute "
+                                                          "MegaDetector",
                                command=lambda: master.switch_frame("JSON Creator Page"))
-        proc1_btn.pack(ipadx=10, ipady=10, expand=1)
+        proc1_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        proc2_btn = ttk.Button(self, text="2/ Run MegaDetector using a `batch-input` JSON file as input, "
-                                          "subsequently, a `mega-detected` JSON file will be produced",
+        proc2_btn = ttk.Button(self.sw.scrollwindow, text="2/ Run MegaDetector using a `batch-input` JSON file as input"
+                                                          ",\nsubsequently, a `mega-detected` JSON will be produced",
                                command=lambda: master.switch_frame("Run MegaDetector Page"))
-        proc2_btn.pack(ipadx=10, ipady=10, expand=1)
+        proc2_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        proc3_btn = ttk.Button(self, text="3/ Convert the `mega-detected` JSON file into a `metadata` CSV file",
+        proc3_btn = ttk.Button(self.sw.scrollwindow,
+                               text="3/ Convert the `mega-detected` JSON file into a `metadata` CSV file",
                                command=lambda: master.switch_frame("CSV Convertor Page"))
-        proc3_btn.pack(ipadx=10, ipady=10, expand=1)
+        proc3_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        proc4_btn = ttk.Button(self, text="4/ Sort the images into separate folders based on their "
-                                          "`mega-detected` classes using a `metadata` CSV file",
+        proc4_btn = ttk.Button(self.sw.scrollwindow, text="4/ Sort the images into separate folders based on their "
+                                                          "\n`mega-detected` classes using a `metadata` CSV file",
                                command=lambda: master.switch_frame("Image Sorter Page"))
-        proc4_btn.pack(ipadx=10, ipady=10, expand=1)
+        proc4_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.pack(ipadx=10, ipady=10, expand=1)
+        home_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
 
 """
@@ -56,39 +60,43 @@ JSON Creator Page
 """
 
 
-class JSONCreator(Frame):
+class JSONCreator(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.inputDirPath = None
         self.finalOutputDir = None
 
-        inputDirButton = ttk.Button(self, text="1/ Please select an image folder which contains all the images "
-                                               "that will be classified using MegaDetector are located in",
+        inputDirButton = ttk.Button(self.sw.scrollwindow,
+                                    text="1/ Please select an image folder which contains all the images "
+                                         "that will be classified using MegaDetector are located in",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        jsonNameLabel = ttk.Label(self, text="2/ Please give a name to the `batch-input` JSON file that will be "
-                                             "created from this process. Ideally, it should ends with "
-                                             "`*_BatchInput.json`")
+        jsonNameLabel = ttk.Label(self.sw.scrollwindow,
+                                  text="2/ Please give a name to the `batch-input` JSON file that will be "
+                                       "created from this process. Ideally, it should ends with "
+                                       "`*_BatchInput.json`")
         jsonNameLabel.grid(row=2, sticky='')
 
-        self.jsonNameEntry = ttk.Entry(self)
+        self.jsonNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.jsonNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
-        outputDirButton = ttk.Button(self, text="3/ Please select the `OUTPUT` folder where "
-                                                "the `batch-input` JSON file will be saved at",
+        outputDirButton = ttk.Button(self.sw.scrollwindow, text="3/ Please select the `OUTPUT` folder where "
+                                                                "the `batch-input` JSON file will be saved at",
                                      command=self.outputDir)
         outputDirButton.grid(row=4, ipadx=10, ipady=10, pady=8, sticky='')
 
-        self.createJSONButton = ttk.Button(self, text="CREATE `BATCH-INPUT` JSON !!", command=self.createJSON)
+        self.createJSONButton = ttk.Button(self.sw.scrollwindow, text="CREATE `BATCH-INPUT` JSON !!",
+                                           command=self.createJSON)
         self.createJSONButton.grid(row=6, ipady=10, ipadx=10, pady=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Back To Processing Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
         util_btn.grid(row=8, ipady=10, ipadx=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
@@ -96,7 +104,7 @@ class JSONCreator(Frame):
         inputDirectory = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDirectory)
 
-        inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
+        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def outputDir(self):
@@ -107,7 +115,7 @@ class JSONCreator(Frame):
 
         self.finalOutputDir = os.path.join(outputDirPath, jsonFilename).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self, text='OUTPUT `BATCH-INPUT` JSON: \n' + self.finalOutputDir)
+        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT `BATCH-INPUT` JSON: \n' + self.finalOutputDir)
         outputDirLabel.grid(row=5, pady=8, sticky='')
 
     def createJSON(self):
@@ -146,39 +154,41 @@ Run MegaDetector Page
 """
 
 
-class RunMegaDetector(Frame):
+class RunMegaDetector(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.inputJSONPath = None
         self.outJSONPath = None
 
-        inputJSONButton = ttk.Button(self, text="1/ Please select a `batch-input` JSON file which "
-                                                "will be used to run MegaDetector batch-processing on",
+        inputJSONButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select a `batch-input` JSON file which "
+                                                                "will be used to run MegaDetector batch-processing on",
                                      command=self.inputJSON)
         inputJSONButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        outJSONNameLabel = ttk.Label(self, text="2/ Please give a name to the resulted `mega-detected` JSON file."
-                                                "Ideally it should be the\nsame as the `batch-input` JSON file but "
-                                                "ends with `*_MegaDetected.json` instead")
+        outJSONNameLabel = ttk.Label(self.sw.scrollwindow,
+                                     text="2/ Please give a name to the resulted `mega-detected` JSON file."
+                                          "Ideally it should be the\nsame as the `batch-input` JSON file but "
+                                          "ends with `*_MegaDetected.json` instead")
         outJSONNameLabel.grid(row=2, sticky='')
 
-        self.outJSONNameEntry = ttk.Entry(self)
+        self.outJSONNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.outJSONNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
-        outputDirButton = ttk.Button(self, text="3/ Please select the `OUTPUT` folder where the "
-                                                "`mega-detected` JSON file will be saved at",
+        outputDirButton = ttk.Button(self.sw.scrollwindow, text="3/ Please select the `OUTPUT` folder where the "
+                                                                "`mega-detected` JSON file will be saved at",
                                      command=self.outputJSON)
         outputDirButton.grid(row=4, ipadx=10, ipady=10, pady=8, sticky='')
 
-        self.executeButton = ttk.Button(self, text="RUN MEGADETECTOR !!", command=self.runMD)
+        self.executeButton = ttk.Button(self.sw.scrollwindow, text="RUN MEGADETECTOR !!", command=self.runMD)
         self.executeButton.grid(row=6, ipady=10, ipadx=10, pady=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Back To Processing Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
         util_btn.grid(row=8, ipady=10, ipadx=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
@@ -186,7 +196,7 @@ class RunMegaDetector(Frame):
         inputJSON = filedialog.askopenfilename(title='Please select the image folder')
         self.inputJSONPath = str(inputJSON)
 
-        inputJSONLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputJSONPath)
+        inputJSONLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputJSONPath)
         inputJSONLabel.grid(row=1, pady=8, sticky='')
 
     def outputJSON(self):
@@ -197,7 +207,7 @@ class RunMegaDetector(Frame):
 
         self.outJSONPath = os.path.join(outputDirPath, outputJSONName).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self, text='OUTPUT `MEGA-DETECTED` JSON: \n' + self.outJSONPath)
+        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT `MEGA-DETECTED` JSON: \n' + self.outJSONPath)
         outputDirLabel.grid(row=5, pady=8, sticky='')
 
     def runMD(self):
@@ -269,58 +279,63 @@ def get_exif(source_images_path):
     return df_exif
 
 
-class CSVConvertor(Frame):
+class CSVConvertor(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.inputDirPath = None
         self.jsonFilePath = None
         self.csvOutputDir = None
 
-        inputDirButton = ttk.Button(self, text="1/ Please select an image folder which has a "
-                                               "`mega-detected` JSON file associated with it",
+        inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select an image folder which has a "
+                                                               "`mega-detected` JSON file associated with it",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        sessionNameLabel = ttk.Label(self, text="2/ What is the index order of the `SESSION NAME`, when the"
-                                                "\nfolder-path displayed above is split with `/` as separator?")
+        sessionNameLabel = ttk.Label(self.sw.scrollwindow,
+                                     text="2/ What is the index order of the `SESSION NAME`, when the"
+                                          "\nfolder-path displayed above is split with `/` as separator?")
         sessionNameLabel.grid(row=2, sticky='')
 
-        self.sessionNameEntry = ttk.Entry(self)
+        self.sessionNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.sessionNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
-        stationNameLabel = ttk.Label(self, text="3/ What is the index order of the `STATION NAME`, when the"
-                                                "\nfolder-path displayed above is split with `/` as separator?")
+        stationNameLabel = ttk.Label(self.sw.scrollwindow,
+                                     text="3/ What is the index order of the `STATION NAME`, when the"
+                                          "\nfolder-path displayed above is split with `/` as separator?")
         stationNameLabel.grid(row=4, sticky='')
 
-        self.stationNameEntry = ttk.Entry(self)
+        self.stationNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.stationNameEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
 
-        inputJSONButton = ttk.Button(self, text="4/ Please select the `mega-detected` JSON file "
-                                                "associated with the above-chosen image folder",
+        inputJSONButton = ttk.Button(self.sw.scrollwindow, text="4/ Please select the `mega-detected` JSON file "
+                                                                "associated with the above-chosen image folder",
                                      command=self.inputJSON)
         inputJSONButton.grid(row=6, ipadx=10, ipady=10, pady=8, sticky='')
 
-        csvNameLabel = ttk.Label(self, text="5/ Please give a name to the `metadata` CSV file. Ideally it should be"
-                                            "\nthe same as the `mega-detected` JSON file but ends with `*_Meta.csv`")
+        csvNameLabel = ttk.Label(self.sw.scrollwindow,
+                                 text="5/ Please give a name to the `metadata` CSV file. Ideally it should be"
+                                      "\nthe same as the `mega-detected` JSON file but ends with `*_Meta.csv`")
         csvNameLabel.grid(row=8, sticky='')
 
-        self.csvNameEntry = ttk.Entry(self)
+        self.csvNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.csvNameEntry.grid(row=9, ipady=10, ipadx=10, pady=4, sticky='')
 
-        outputDirButton = ttk.Button(self, text="6/ Please select the `OUTPUT` folder where "
-                                                "the `metadata` CSV file will be saved at",
+        outputDirButton = ttk.Button(self.sw.scrollwindow, text="6/ Please select the `OUTPUT` folder where "
+                                                                "the `metadata` CSV file will be saved at",
                                      command=self.outputDir)
         outputDirButton.grid(row=10, ipadx=10, ipady=10, pady=8, sticky='')
 
-        self.createCSVButton = ttk.Button(self, text="CREATE CSV `METADATA` FILE", command=self.convertCSV)
+        self.createCSVButton = ttk.Button(self.sw.scrollwindow, text="CREATE CSV `METADATA` FILE",
+                                          command=self.convertCSV)
         self.createCSVButton.grid(row=12, ipady=10, ipadx=10, pady=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Back To Processing Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
         util_btn.grid(row=13, ipady=10, ipadx=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.grid(row=14, ipady=10, ipadx=10, pady=4, sticky='')
 
@@ -328,14 +343,14 @@ class CSVConvertor(Frame):
         inputDirectory = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDirectory)
 
-        inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
+        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def inputJSON(self):
         jsonFile = filedialog.askopenfilename(title='Please select the `mega-detected` JSON file')
         self.jsonFilePath = str(jsonFile)
 
-        jsonFileLabel = ttk.Label(self, text='SELECTED `MEGA-DETECTED` JSON: \n' + self.jsonFilePath)
+        jsonFileLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED `MEGA-DETECTED` JSON: \n' + self.jsonFilePath)
         jsonFileLabel.grid(row=7, pady=8, sticky='')
 
     def outputDir(self):
@@ -346,7 +361,7 @@ class CSVConvertor(Frame):
 
         self.csvOutputDir = os.path.join(outputDirPath, csvFilename).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self, text='OUTPUT CSV FILE: \n' + self.csvOutputDir)
+        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT CSV FILE: \n' + self.csvOutputDir)
         outputDirLabel.grid(row=11, pady=8, sticky='')
 
     def convertCSV(self):
@@ -422,39 +437,42 @@ Image Sorter Page
 """
 
 
-class ImageSorter(Frame):
+class ImageSorter(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.inputDirPath = None
         self.inputCSVPath = None
 
-        inputDirButton = ttk.Button(self, text="1/ Please select the image folder which has an associated "
-                                               "`metadata` CSV file, and this image\nfolder is also where you want "
-                                               "the images inside it to be sorted by their `Mega-Detected` classes",
+        inputDirButton = ttk.Button(self.sw.scrollwindow,
+                                    text="1/ Please select the image folder which has an associated "
+                                         "`metadata` CSV file, and this image\nfolder is also where you want "
+                                         "the images inside it to be sorted by their `Mega-Detected` classes",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
-        inputCSVButton = ttk.Button(self, text="2/ Please select the `metadata` CSV file associated with "
-                                               "the chosen image folder",
+        inputCSVButton = ttk.Button(self.sw.scrollwindow,
+                                    text="2/ Please select the `metadata` CSV file associated with "
+                                         "the chosen image folder",
                                     command=self.inputCSV)
         inputCSVButton.grid(row=2, ipadx=10, ipady=10, pady=8, sticky='')
 
-        sortedLabel = ttk.Label(self, text="3/ Sorted images to be saved in a separate "
-                                           "`*_Sorted` directory (`Y` or `N`)? ")
+        sortedLabel = ttk.Label(self.sw.scrollwindow, text="3/ Sorted images to be saved in a separate "
+                                                           "`*_Sorted` directory (`Y` or `N`)? ")
         sortedLabel.grid(row=4, sticky='')
 
-        self.sortedEntry = ttk.Entry(self)
+        self.sortedEntry = ttk.Entry(self.sw.scrollwindow)
         self.sortedEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
 
-        self.sortButton = ttk.Button(self, text="START SORTING IMAGES !!", command=self.sortImages)
+        self.sortButton = ttk.Button(self.sw.scrollwindow, text="START SORTING IMAGES !!", command=self.sortImages)
         self.sortButton.grid(row=6, ipady=10, ipadx=10, pady=4, sticky='')
 
-        util_btn = ttk.Button(self, text="Back To Processing Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Processing Functions Page",
                               command=lambda: master.switch_frame("ProcessingPage"))
         util_btn.grid(row=7, ipady=10, ipadx=10, pady=4, sticky='')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
         home_btn.grid(row=8, ipady=10, ipadx=10, pady=4, sticky='')
 
@@ -462,14 +480,14 @@ class ImageSorter(Frame):
         inputDir = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDir)
 
-        inputDirLabel = ttk.Label(self, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
+        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
         inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def inputCSV(self):
         inputCSV = filedialog.askopenfilename(title='Please select CSV `metadata` file')
         self.inputCSVPath = str(inputCSV)
 
-        inputCSVLabel = ttk.Label(self, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
+        inputCSVLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
         inputCSVLabel.grid(row=3, pady=8, sticky='')
 
     def sortImages(self):
@@ -577,5 +595,5 @@ class ImageSorter(Frame):
 
 
 if __name__ == "__main__":
-    app = ProcessingPage()
-    app.mainloop()
+    page = ProcessingPage()
+    page.mainloop()

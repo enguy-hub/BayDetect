@@ -18,12 +18,15 @@ import fnmatch
 
 # ID: uf1 || find_replace_dirname()
 def find_replace_dirname():
-    usr_input_dir = input("Enter the absolute path of the parent directory which contains all the sub-folders that you "
-                          "want  to 'find/replace' their names with (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the parent directory which contains all "
+                          "the sub-folders that you want  to 'find/replace' their names with: ")
 
     usr_input_find = input("Which part in folder name would you like to change? ")
 
     usr_input_replaceWith = input("What would you like to replace it to? ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     for (dirpath, dirnames, filenames) in os.walk(usr_input_dir):
         for idirnames in range(len(dirnames)):
@@ -36,12 +39,15 @@ def find_replace_dirname():
 
 # ID: uf2 || find_replace_filename()
 def find_replace_filename():
-    usr_input_dir = input("Enter the absolute path of the parent directory which contains all the files that you want "
-                          "to 'find/replace' their names with (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the parent directory which contains "
+                          "all the files that you want to 'find/replace' their names with: ")
 
     usr_input_find = input("Which part in the filename would you like to change? ")
 
     usr_input_replaceWith = input("What would you like to replace it to? ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     for (dirpath, dirnames, filenames) in os.walk(usr_input_dir):
         for ifilenames in range(len(filenames)):
@@ -54,14 +60,17 @@ def find_replace_filename():
 
 # ID: uf3 || find_replace_text()
 def find_replace_text():
-    usr_input_dir = input("Enter the absolute path of the directory containing all the files that want to "
-                          "'find/replace' their text content (end with `/`): ")
+    usr_input_dir = input("Enter the absolute path of the directory containing all "
+                          "the files that want to 'find/replace' their text content: ")
 
-    usr_input_pattern = input("What is the common format of the files (eg: '*.json', '*.txt', '*.csv') ? ")
+    usr_input_pattern = input("What is the common format of the files (eg: '*.json', '*.txt', '*.csv')? ")
 
     usr_input_find = input("What part of the text would you like to change? ")
 
     usr_input_replaceWith = input("What would you like to replace it to? ")
+
+    usr_input_dir = usr_input_dir + "/"
+    usr_input_dir.replace("\\", "/")
 
     for path, dirs, files in os.walk(os.path.abspath(usr_input_dir)):
         for filename in fnmatch.filter(files, usr_input_pattern):

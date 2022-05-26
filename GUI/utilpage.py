@@ -1,11 +1,11 @@
-from tkinter.ttk import *
-from tkinter import filedialog
-from tkinter import ttk, Frame, Label
+from tkinter import ttk, filedialog, Label
+from scrollpage import ScrolledPage
 
 import os
 import fnmatch
+import tkinter as tk
 
-LARGE_FONT = ("Calibri", 20)
+LARGE_FONT = ("Calibri", 12)
 
 """
 ------------------------------------------------------------------------------------------------------------------------
@@ -14,29 +14,30 @@ Utility Page
 """
 
 
-class UtilityPage(Frame):
-    def __init__(self, master):
-        super().__init__(master)
+class UtilityPage(ttk.Frame):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
-        label = Label(self, text="Utility Functions", font=LARGE_FONT)
-        label.pack(ipady=10, padx=10, pady=10)
+        label = Label(self.sw.scrollwindow, text="Utility Functions", font=LARGE_FONT)
+        label.pack(ipady=5, padx=5, pady=5, expand=1)
 
-        util1_btn = ttk.Button(self, text="1/ Find & replace the names of multiple folders at once",
+        util1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Find & replace the names of multiple folders at once",
                                command=lambda: master.switch_frame("Find & Replace Folder Names"))
-        util1_btn.pack(ipadx=10, ipady=10, expand=1)
+        util1_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        util2_btn = ttk.Button(self, text="2/ Find & replace the names of multiple files at once",
+        util2_btn = ttk.Button(self.sw.scrollwindow, text="2/ Find & replace the names of multiple files at once",
                                command=lambda: master.switch_frame("Find & Replace File Names"))
-        util2_btn.pack(ipadx=10, ipady=10, expand=1)
+        util2_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        util3_btn = ttk.Button(self, text="3/ Find & replace the content inside multiple"
-                                          "files with the same file-extension at once",
+        util3_btn = ttk.Button(self.sw.scrollwindow, text="3/ Find & replace the content inside multiple"
+                                                          "\nfiles with the same file-extension at once",
                                command=lambda: master.switch_frame("Find & Replace Content in File"))
-        util3_btn.pack(ipadx=10, ipady=10, expand=1)
+        util3_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.pack(ipadx=10, ipady=10, expand=1)
+        home_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
 
 """
@@ -46,47 +47,49 @@ Find & Replace | Folder Names
 """
 
 
-class FindReplaceFolderNames(Frame):
+class FindReplaceFolderNames(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the sub-folders "
-                                          "\nthat you wish to collectively change their FOLDER-NAMES with",
+        dirButton = ttk.Button(self.sw.scrollwindow,
+                               text="1/ Please select the folder which contains all the sub-folders "
+                                    "\nthat you wish to collectively change their FOLDER-NAMES with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
+        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='n')
 
-        findLabel = ttk.Label(self, text="2/ Find: ")
-        findLabel.grid(row=2, sticky='')
+        findLabel = ttk.Label(self.sw.scrollwindow, text="2/ Find: ")
+        findLabel.grid(row=2, sticky='n')
 
-        self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='')
+        self.findEntry = ttk.Entry(self.sw.scrollwindow)
+        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        replaceLabel = ttk.Label(self, text="3/ Replace with: ")
-        replaceLabel.grid(row=4, sticky='')
+        replaceLabel = ttk.Label(self.sw.scrollwindow, text="3/ Replace with: ")
+        replaceLabel.grid(row=4, sticky='n')
 
-        self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='')
+        self.replaceEntry = ttk.Entry(self.sw.scrollwindow)
+        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
-        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=8, sticky='')
+        self.exeButton = ttk.Button(self.sw.scrollwindow, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=8, sticky='n')
 
-        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
+        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='')
+        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='')
+        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -113,47 +116,48 @@ Find & Replace | Files Names
 """
 
 
-class FindReplaceFileNames(Frame):
+class FindReplaceFileNames(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the files "
-                                          "that\nyou wish to collectively change their FILE-NAMES with",
+        dirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder which contains all the files "
+                                                          "that\nyou wish to collectively change their FILE-NAMES with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
+        dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='n')
 
-        findLabel = ttk.Label(self, text="2/ Find: ")
-        findLabel.grid(row=2, sticky='')
+        findLabel = ttk.Label(self.sw.scrollwindow, text="2/ Find: ")
+        findLabel.grid(row=2, sticky='n')
 
-        self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='')
+        self.findEntry = ttk.Entry(self.sw.scrollwindow)
+        self.findEntry.grid(row=3, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        replaceLabel = ttk.Label(self, text="3/ Replace with: ")
-        replaceLabel.grid(row=4, sticky='')
+        replaceLabel = ttk.Label(self.sw.scrollwindow, text="3/ Replace with: ")
+        replaceLabel.grid(row=4, sticky='n')
 
-        self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='')
+        self.replaceEntry = ttk.Entry(self.sw.scrollwindow)
+        self.replaceEntry.grid(row=5, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
-        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=4, sticky='')
+        self.exeButton = ttk.Button(self.sw.scrollwindow, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=6, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
+        util_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='')
+        home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='')
+        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -180,53 +184,55 @@ Find & Replace | Content in Files
 """
 
 
-class FindReplaceContentInFiles(Frame):
+class FindReplaceContentInFiles(ttk.Frame):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.sw = ScrolledPage(self)
 
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self, text="1/ Please select the folder which contains all the files with the same"
-                                          "\nfile-extension that you wish to change their inside content with",
+        dirButton = ttk.Button(self.sw.scrollwindow,
+                               text="1/ Please select the folder which contains all the files with the same"
+                                    "\nfile-extension that you wish to change their inside content with",
                                command=self.selectDir)
-        dirButton.grid(row=0, ipady=10, ipadx=10, pady=8, sticky='')
+        dirButton.grid(row=0, ipady=10, ipadx=10, pady=8, sticky='n')
 
-        commonLabel = ttk.Label(self, text="2/ Common file-extension (e.g: txt | csv): ")
-        commonLabel.grid(row=2, sticky='')
+        commonLabel = ttk.Label(self.sw.scrollwindow, text="2/ Common file-extension (e.g: txt | csv): ")
+        commonLabel.grid(row=2, sticky='n')
 
-        self.extensionEntry = ttk.Entry(self)
-        self.extensionEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
+        self.extensionEntry = ttk.Entry(self.sw.scrollwindow)
+        self.extensionEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='n')
 
-        findLabel = ttk.Label(self, text="3/ Find: ")
-        findLabel.grid(row=4, sticky='')
+        findLabel = ttk.Label(self.sw.scrollwindow, text="3/ Find: ")
+        findLabel.grid(row=4, sticky='n')
 
-        self.findEntry = ttk.Entry(self)
-        self.findEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
+        self.findEntry = ttk.Entry(self.sw.scrollwindow)
+        self.findEntry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='n')
 
-        replaceLabel = ttk.Label(self, text="4/ Replace with: ")
-        replaceLabel.grid(row=6, sticky='')
+        replaceLabel = ttk.Label(self.sw.scrollwindow, text="4/ Replace with: ")
+        replaceLabel.grid(row=6, sticky='n')
 
-        self.replaceEntry = ttk.Entry(self)
-        self.replaceEntry.grid(row=7, ipady=10, ipadx=10, pady=8, sticky='')
+        self.replaceEntry = ttk.Entry(self.sw.scrollwindow)
+        self.replaceEntry.grid(row=7, ipady=10, ipadx=10, pady=8, sticky='n')
 
-        self.exeButton = ttk.Button(self, text="EXECUTE !!!", command=self.replaceAll)
-        self.exeButton.grid(row=8, ipady=10, ipadx=4, sticky='')
+        self.exeButton = ttk.Button(self.sw.scrollwindow, text="EXECUTE !!!", command=self.replaceAll)
+        self.exeButton.grid(row=8, ipady=10, ipadx=4, sticky='n')
 
-        util_btn = ttk.Button(self, text="Back To Utility Functions Page",
+        util_btn = ttk.Button(self.sw.scrollwindow, text="Back To Utility Functions Page",
                               command=lambda: master.switch_frame("UtilityPage"))
-        util_btn.grid(row=10, ipady=10, ipadx=10, pady=4, sticky='')
+        util_btn.grid(row=10, ipady=10, ipadx=10, pady=4, sticky='n')
 
-        home_btn = ttk.Button(self, text="Back To Homepage",
+        home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=11, ipady=10, ipadx=10, pady=4, sticky='')
+        home_btn.grid(row=11, ipady=10, ipadx=10, pady=4, sticky='n')
 
     def selectDir(self):
         directory = filedialog.askdirectory(title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipady=10, ipadx=10, sticky='')
+        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        dirTitleLabel.grid(row=1, ipady=10, ipadx=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -252,5 +258,5 @@ class FindReplaceContentInFiles(Frame):
 
 
 if __name__ == "__main__":
-    app = UtilityPage()
-    app.mainloop()
+    page = UtilityPage()
+    page.mainloop()
