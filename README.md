@@ -1,9 +1,9 @@
 # BayDetect
 
-BayDetect is a stack of functions aims to help streamline the pre/post processing of camera trap images via Microsoft's
+BayDetect is a stack of functions aim to help streamline the pre- and post-processing of camera trap images via Microsoft's
 [MegaDetector](https://github.com/Microsoft/CameraTraps#megadetector).
-This project was created to support the work of the biologists and ecologists at the
-[Biodiversity, Conservation and Wildlife Management Department at the Bavarian State Institute of Forestry](https://www.lwf.bayern.de/en/221946/index.php). 
+This project was developed within the 
+[Biodiversity, Conservation and Wildlife Management Department @ the Bavarian State Institute of Forestry](https://www.lwf.bayern.de/en/221946/index.php). 
 
 #### What does this project hope to achieve?
  
@@ -14,39 +14,35 @@ for large datasets.
 
 #### Why is it called BayDetect?
 
-The project was started to help scientists at LWF detect different animal species in forests in and around Bavaria, 
-Germany. Thus `BayDetect` was chosen as the name for this project.
+The project was created help scientists from the Wildlife Monitoring and Management Team at LWF to detect different 
+animal species in forests in and around Bavaria, Germany. Hence, the name `BayDetect` was chosen.
 
 ---
 
 ## **Important Notes**
 
-- BayDetect is user interactive, which means that all the functions‘ arguments are being called via the built-in 
-[`input()` function from Python](https://docs.python.org/3/library/functions.html#input).
-
-- Both Microsoft's [CameraTraps](https://github.com/microsoft/CameraTraps) and 
-[ai4eutils](https://github.com/microsoft/ai4eutils) are added to BayDetect as git submodules as this allows users to 
-track these two repos as and when they are updated.
+- There are two ways to use BayDetect:
+  - Via a Graphical User Interface (GUI) with was built using `tkinter` library from Python
+  - Via the command line, for which users can give BayDetect instructions using the built-in 
+  [`input()` functions from Python](https://docs.python.org/3/library/functions.html#input).
 
 
-- To use BayDetect, we assume that you have already downloaded and installed MegaDetector and all of its dependencies 
-in a conda environment called "cameratraps-detector". Details on how to set up MegaDetector can be found here:
-  - [Installing MegaDetector](https://github.com/microsoft/CameraTraps#installation)
-  - [Using MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#using-the-model)
-
+- Both Microsoft's MegaDetector [CameraTraps](https://github.com/microsoft/CameraTraps) and [ai4eutils](https://github.com/microsoft/ai4eutils) 
+  are added to BayDetect as `git submodules`, which allows users to track the most update-to-date version of these two repositories.
+- 
 
 - The [MegaDetector's model](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
-exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into your local repo before running.
+exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your computer before running.
 
 ---
 
-## Prerequisites
+## Prerequisites / Installation Guide
 
 #### 1. Clone the repo
 
     git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
-#### 2. Fetch the latest changes from upstream in each submodule
+#### 2. Fetch the latest changes for `cameratraps` and `ai4eutils` submodules
 
 - For ai4eutils, cd into `/ai4eutils` directory and run the following command:
 
@@ -58,22 +54,21 @@ exceeds GitHub's file size limit of 100.00 MB. Hence, please download it into yo
 
 #### 3. Download MegaDetector model file
 
-- The easiest way to do this is via `wget`
+- The easiest way is to download it directly from the link shown in the [CameraTraps's Github page](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
+- Or via `wget`
 
       wget https://lilablobssc.blob.core.windows.net/models/Camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb
 
-*Note*: If you do not have wget installed simply open the url above in your browser and save the file. You can download 
-the model from CameraTraps's Github page [here](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
 
 **VERY IMPORTANT**: 
-- Ensure to save the model file (`md_v4.1.0.pb`) inside the `/cameratraps` directory, and also copy the 
-`/cameratraps/detection/run_detector_batch.py` file to the same `/cameratraps` directory as well. 
+- Please save the model file (`md_v4.1.0.pb`) inside the `/cameratraps` folder, and also copy the 
+`run_detector_batch.py` file from the `/cameratraps/detection/` folder to the `/cameratraps` folder as well. 
 
 #### 4. Download and Install Miniconda
 
 - Go to [Miniconda page](https://docs.conda.io/en/latest/miniconda.html) and follow the instruction on how to download and install Miniconda based on your own OS.
 
-#### 5. Create `cameratraps-detector` conda environment by running this command at root folder:
+#### 5. Create `cameratraps-detector` conda environment by running this command at root folder (`/BayDetect`):
 
     conda env create --file environment-detector-lwf.yml
 
@@ -83,13 +78,13 @@ the model from CameraTraps's Github page [here](https://github.com/microsoft/Cam
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- When you have images from different cameratrap stations and sessions, you can arrange them similar the examples below:
+- When there are multiple cameratrap stations and sessions, we suggest to arrange them as shown below:
 
-      /example/image_data/Example_Forest/Bilder_Rohten/EF_007/20201104/*.jpg
-      /example/image_data/Example_Forest/Bilder_Rohten/EF_008/20201104/*.jpg
-      /example/image_data/Example_Forest/Bilder_Rohten/EF_009/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_007/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_008/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_009/20201104/*.jpg
 
-**Once the above steps are completed, you are ready to use BayDetect :)**
+**Once all the above steps are complete, you are ready to use BayDetect !!!**
 
 ---
 
@@ -98,33 +93,33 @@ the model from CameraTraps's Github page [here](https://github.com/microsoft/Cam
 There are three sets of functions in BayDetect: 
 
 **Processing Functions**
-- Create the input JSON file needed to execute `run_detector_batch.py`.
-- Convert the output JSON file from `run_detector_batch.py` into an organized CSV metadata file.
-- Sort the classified images after running `run_detector_batch.py` into their 'detected' classes using the CSV 
-metadata file.
+- 1/ Create the `BatchInput` JSON file needed to execute `run_detector_batch.py`.
+- 2/ Run MegaDetector with `run_detector_batch.py` script using the `BatchInput` JSON file create from 
+`Processing Function 1` as input file, and produce a `MegaDetected` JSON file as the result.
+- 3/ Convert the output `MegaDetected` JSON file from executing `run_detector_batch.py` into a `CSV metadata` file.
+- 4/ Sort the images that were `megadetected` into separated folders based on their 'detected' classes using 
+the `CSV metadata` file.
 
 **Utility Functions**
-- Find and replace the names of multiple folders at once.
-- Find and replace the names of multiple files at once.
-- Find and replace the text-content inside multiple files at once.
+- 1/ Find and replace the names of multiple folders at once.
+- 2/ Find and replace the names of multiple files at once.
+- 3/ Find and replace the text-content inside multiple files at once.
 
 **Batch Functions**
-- Create multiple '.txt' files containing the input commands needed to 'batch-run' one of the Processing function.
-- Create a ".txt" file containing the python commands needed to start the `pf_batchrun()` function from `batchrun.py`.
-- Create a ".txt" file containing the python commands needed to start the `md_batchrun()` function from `batchrun.py`
+- 1/ Create multiple '.txt' files containing the commands needed to `batch-run` one of the above `Processing Function`.
+- 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` function from `batchrun.py`.
+- 3/ Create ".txt" file containing the commands needed to `batch-run` the process of executing MegaDetector via the 
+  `md_batchrun()` function from `batchrun.py`
 
 **IMPORTANT**
 
-- **For Windows users only** - Please make sure to change the path delimiter to forward slash `/` instead of double 
-backward slashes `\\` for all **the .json and .txt files** produced from using any of BayDetect's functions
-
-- Before using BayDetect, you should first makesure to activate the "cameratraps-detector" conda environment if 
-you haven't done it yet. To activate "cameratraps-detector" conda environment, you can run following command:
+- Before using BayDetect, please always makesure that the `cameratraps-detector` conda environment is activated. 
+To activate `cameratraps-detector` conda environment, you can run following command to activate it:
 
       conda activate cameratraps-detector
 
-- Optional: if you want to have MegaDetector to only save detection boxes that are 85% confidence or above in the output 
-JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follow:
+- Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
+JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follows:
 
       DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
 
@@ -132,7 +127,7 @@ JSON file, open the `cameratraps/detection/run_detector.py` file and change the 
 
 ## Processing Functions
 
-#### Processing Function 1 - Create the input JSON file needed to execute `run_detector_batch.py`
+#### Processing Function 1 - Create the `batch-input` JSON file needed to execute `run_detector_batch.py`
 
 1/ Run `main.py` script via the command below:
 
