@@ -1,10 +1,10 @@
 # License: http://creativecommons.org/licenses/by-sa/3.0/
 from tkinter import Tk
 
-from homepage import HomePage
-from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
-from utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, Batchrun_RunMegaDetector
+from baydetect.gui.homepage import HomePage
+from baydetect.gui.processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
+from baydetect.gui.utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
+from baydetect.gui.batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, Batchrun_RunMegaDetector
 
 pages = {
     "HomePage": HomePage,
@@ -37,8 +37,16 @@ class BayDetectApp(Tk):
     def __init__(self):
         Tk.__init__(self)
 
-        self.iconbitmap(self, default='./resources/lwf_icon.ico')
+        self.iconbitmap(self, default='./baydetect/gui/resources/lwf_icon.ico')
         Tk.title(self, "Bay Detect App")
+
+        w = Tk.winfo_reqwidth(self)
+        h = Tk.winfo_reqheight(self)
+        ws = Tk.winfo_screenwidth(self)
+        hs = Tk.winfo_screenheight(self)
+        x = (ws / 2) - (w / 2)
+        y = (hs / 2) - (h / 2)
+        Tk.geometry(self, '+%d+%d' % (x, y))
 
         self._frame = None
         self.switch_frame("HomePage")
@@ -51,7 +59,7 @@ class BayDetectApp(Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.pack(padx=10, pady=10, expand=1) #
+        self._frame.pack(padx=10, pady=10, expand=1)
 
 
 if __name__ == "__main__":

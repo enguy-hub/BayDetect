@@ -1,6 +1,6 @@
 from pathlib import Path
 from tkinter import ttk, filedialog
-from scrollpage import ScrolledPage
+from baydetect.gui.scrollpage import ScrolledPage
 
 import os
 import fnmatch

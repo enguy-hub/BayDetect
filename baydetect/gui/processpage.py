@@ -1,5 +1,5 @@
 from tkinter import ttk, filedialog
-from scrollpage import ScrolledPage
+from baydetect.gui.scrollpage import ScrolledPage
 
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS

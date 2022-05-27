@@ -78,11 +78,11 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- When there are multiple cameratrap stations and sessions, we suggest to arrange them as shown below:
+- When there are multiple camera-trap stations and sessions, we suggest to arrange them as shown below:
 
-      /example/image_data/Example_Forest/Raw_Photos/EF_007/20201104/*.jpg
-      /example/image_data/Example_Forest/Raw_Photos/EF_008/20201104/*.jpg
-      /example/image_data/Example_Forest/Raw_Photos/EF_009/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_001/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/*.jpg
+      /example/image_data/Example_Forest/Raw_Photos/EF_003/20201104/*.jpg
 
 **Once all the above steps are complete, you are ready to use BayDetect !!!**
 
@@ -96,9 +96,9 @@ There are three sets of functions in BayDetect:
 - 1/ Create the `BatchInput` JSON file needed to execute `run_detector_batch.py`.
 - 2/ Run MegaDetector with `run_detector_batch.py` script using the `BatchInput` JSON file create from 
 `Processing Function 1` as input file, and produce a `MegaDetected` JSON file as the result.
-- 3/ Convert the output `MegaDetected` JSON file from executing `run_detector_batch.py` into a `CSV metadata` file.
-- 4/ Sort the images that were `megadetected` into separated folders based on their 'detected' classes using 
-the `CSV metadata` file.
+- 3/ Convert the output `MegaDetected` JSON file created from `Processing Function 2` into a `CSV metadata` file.
+- 4/ Sort the images into separated folders based on their `megadetected classes` using the `CSV metadata` file created
+from `Processing Function 3`.
 
 **Utility Functions**
 - 1/ Find and replace the names of multiple folders at once.
@@ -106,7 +106,7 @@ the `CSV metadata` file.
 - 3/ Find and replace the text-content inside multiple files at once.
 
 **Batch Functions**
-- 1/ Create multiple '.txt' files containing the commands needed to `batch-run` one of the above `Processing Function`.
+- 1/ Create multiple '.txt' files containing the commands needed to `batch-run` one of the `Processing Function`.
 - 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` function from `batchrun.py`.
 - 3/ Create ".txt" file containing the commands needed to `batch-run` the process of executing MegaDetector via the 
   `md_batchrun()` function from `batchrun.py`

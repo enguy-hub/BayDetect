@@ -1,5 +1,5 @@
 from tkinter import ttk, filedialog, Label
-from scrollpage import ScrolledPage
+from baydetect.gui.scrollpage import ScrolledPage
 
 import os
 import fnmatch

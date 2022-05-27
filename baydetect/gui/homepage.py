@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from tkinter import ttk
-from scrollpage import ScrolledPage
+from baydetect.gui.scrollpage import ScrolledPage
 
 LARGE_FONT = ("Calibri", 12)
 
