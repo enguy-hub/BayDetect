@@ -12,7 +12,7 @@ This project was developed within the
 2. Reducing the repetitive steps encountered when using [MegaDetector batch processing](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#2-run_tf_detector_batchpy)
 for large datasets.
 
-#### Why is it called BayDetect?
+#### Why BayDetect?
 
 The project was created help scientists from the Wildlife Monitoring and Management Team at LWF to detect different 
 animal species in forests in and around Bavaria, Germany. Hence, the name `BayDetect` was chosen.
@@ -88,11 +88,11 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
 ---
 
-## Functions in BayDetect
+## Features in BayDetect
 
 There are three sets of functions in BayDetect: 
 
-**Processing Functions**
+#### Processing Functions
 - 1/ Create the `BatchInput` JSON file needed to execute `run_detector_batch.py`.
 - 2/ Run MegaDetector with `run_detector_batch.py` script using the `BatchInput` JSON file create from 
 `Processing Function 1` as input file, and produce a `MegaDetected` JSON file as the result.
@@ -100,12 +100,12 @@ There are three sets of functions in BayDetect:
 - 4/ Sort the images into separated folders based on their `megadetected classes` using the `CSV metadata` file created
 from `Processing Function 3`.
 
-**Utility Functions**
+#### Utility Functions
 - 1/ Find and replace the names of multiple folders at once.
 - 2/ Find and replace the names of multiple files at once.
 - 3/ Find and replace the text-content inside multiple files at once.
 
-**Batch Functions**
+#### Batch Functions
 - 1/ Create multiple '.txt' files containing the commands needed to `batch-run` one of the `Processing Function`.
 - 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` function from `batchrun.py`.
 - 3/ Create ".txt" file containing the commands needed to `batch-run` the process of executing MegaDetector via the 
@@ -114,7 +114,7 @@ from `Processing Function 3`.
 **IMPORTANT**
 
 - Before using BayDetect, please always makesure that the `cameratraps-detector` conda environment is activated. 
-To activate `cameratraps-detector` conda environment, you can run following command to activate it:
+Activate it with the following command:
 
       conda activate cameratraps-detector
 
@@ -125,29 +125,27 @@ JSON file, open the `cameratraps/detection/run_detector.py` file and change the 
 
 ---
 
-## Processing Functions
+## How To Run BayDetect
 
-#### Processing Function 1 - Create the `batch-input` JSON file needed to execute `run_detector_batch.py`
+#### Processing Function 1 | Create the `batch-input` JSON file needed to execute `run_detector_batch.py`
 
-1/ Run `main.py` script via the command below:
+1/ Run `app.py` script via the command below:
 
-    python main.py
+    python app.py
 
-2/ Enter number `1` then number `1` again and follow the prompted instruction to create the input JSON file needed to 
-execute `run_detector_batch.py` .
+2/ Enter the prompted steps and the instruction to create the `batch-input` JSON file needed to run MegaDetector
 
-- For better organizing file names and folder structure, we suggest that the input JSON files should be 
-saved in the `/example/metadata/*dataset_name*/JSON/BatchInput/` directory, and ends it with 
-  `*_BatchInput.json`. See example below:
+- Optional: For better organizing file names and folder structure, we suggest the `batch-input` JSON filename to end it 
+with `*_BatchInput.json` and the file to be saved in a similar folder structure as the example below:
 
       /example/metadata/Example_Forest/JSON/BatchInput/*_BatchInput.json
 
 - Additionally, when working with a large dataset that has many stations and sessions, we suggest that each JSON file 
 should be named corresponding to its station and session. See example in the directory stated below:
 
-      /example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json
-      /example/metadata/Example_Forest/JSON/BatchInput/EF_008_20201104_BatchInput.json
-      /example/metadata/Example_Forest/JSON/BatchInput/EF_009_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_001_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_002_20201104_BatchInput.json
+      /example/metadata/Example_Forest/JSON/BatchInput/EF_003_20201104_BatchInput.json
 
 #### Executing `run_detector_batch.py` script
 
@@ -159,15 +157,19 @@ should be named corresponding to its station and session. See example in the dir
 
 - Windows command
 
-      python run_detector_batch.py md_v4.1.0.pb ..\example\metadata\Example_Forest\JSON\BatchInput\EF_007_20201104_BatchInput.json ..\example\metadata\Example_Forest\JSON\MegaDetected\EF07_20201104_MegaDetected.json
+      python run_detector_batch.py md_v4.1.0.pb
+      ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json 
+      ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
        
 - Linux command
 
-      python run_detector_batch.py md_v4.1.0.pb ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
+      python run_detector_batch.py md_v4.1.0.pb 
+      ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json 
+      ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
 
-- For better organizing file names and folder structure, we suggest that the output JSON files should be 
-saved in the `/example/metadata/*dataset_name*/JSON/MegaDetected/` directory, and ends it with `*_MegaDetected.json`. 
-See the example JSON files in the directory stated below:
+- For better organizing file names and folder structure, we suggest that the output JSON files should be saved in the 
+`/example/metadata/*dataset_name*/JSON/MegaDetected/` directory, and ends it with `*_MegaDetected.json`. See the example
+JSON files in the directory stated below:
 
       /example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BI.json
       /example/metadata/Example_Forest/JSON/MegaDetected/EF_007_20201104_MD.json
@@ -332,8 +334,8 @@ in `batch_functions.py` script. For more details, see below:
 
   - *Windows users* - The following values in lines `54-55` in `/baydetect/batch_functions.py` script should be changed:
 
-        54|   dataset_station.append(''.join(idirpaths.split('\\')[9])) <-- Change this value
-        55|   session.append(''.join(idirpaths.split('\\')[10])) <-- Change this value
+        54|   dataset_station.append(''.join(idirpaths.split('//')[9])) <-- Change this value
+        55|   session.append(''.join(idirpaths.split('//')[10])) <-- Change this value
 
   - *Linux users* - The following values in lines `159-160` in `/baydetect/batch_functions.py` script should be changed:
 
