@@ -149,21 +149,21 @@ should be named corresponding to its station and session. See example in the dir
       /example/metadata/Example_Forest/JSON/BatchInput/EF_008_20201104_BatchInput.json
       /example/metadata/Example_Forest/JSON/BatchInput/EF_009_20201104_BatchInput.json
 
-#### Executing `run_tf_detector_batch.py` script
+#### Executing `run_detector_batch.py` script
 
 1/ Navigate to the "cameratraps" folder via the following command:
 
     cd cameratraps
 
-2/ Run `run_tf_detector_batch.py` using the BatchInput JSON file created from above. An example is demonstrated below:
+2/ Run `run_detector_batch.py` using the BatchInput JSON file created from above. An example is demonstrated below:
 
 - Windows command
 
-      python run_tf_detector_batch.py md_v4.1.0.pb ..\example\metadata\Example_Forest\JSON\BatchInput\EF_007_20201104_BatchInput.json ..\example\metadata\Example_Forest\JSON\MegaDetected\EF07_20201104_MegaDetected.json
+      python run_detector_batch.py md_v4.1.0.pb ..\example\metadata\Example_Forest\JSON\BatchInput\EF_007_20201104_BatchInput.json ..\example\metadata\Example_Forest\JSON\MegaDetected\EF07_20201104_MegaDetected.json
        
 - Linux command
 
-      python run_tf_detector_batch.py md_v4.1.0.pb ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
+      python run_detector_batch.py md_v4.1.0.pb ../example/metadata/Example_Forest/JSON/BatchInput/EF_007_20201104_BatchInput.json ../example/metadata/Example_Forest/JSON/MegaDetected/EF07_20201104_MegaDetected.json
 
 - For better organizing file names and folder structure, we suggest that the output JSON files should be 
 saved in the `/example/metadata/*dataset_name*/JSON/MegaDetected/` directory, and ends it with `*_MegaDetected.json`. 
@@ -188,14 +188,14 @@ slashes for the JSON files.
 
 ---
 
-#### Processing Function 2 - Convert the output JSON file produced from `run_tf_detector_batch.py` into an organized CSV metadata file.
+#### Processing Function 2 - Convert the output JSON file produced from `run_detector_batch.py` into an organized CSV metadata file.
 
 1/ Run `main.py` script via the command below:
 
     python main.py
 
 2/ Enter number `1` then number `2`, and follow the prompted instruction to convert the output JSON file produced 
-from `run_tf_detector_batch.py` into an organized CSV metadata file.
+from `run_detector_batch.py` into an organized CSV metadata file.
 
 - For better organizing file names and folder structure, we suggest that the output JSON files should be 
 saved in the `/example/metadata/*dataset_name*/CSV/` directory, and ends it with `*_Meta.csv`. 
@@ -225,14 +225,14 @@ images' filepath in the `*_MegaDetected.json` file. Hence, you will need to chan
 
 ---
 
-#### Processing Function 3 - Sort the classified images produced from `run_tf_detector_batch.py` into folders of their 'detected' classes using the CSV metadata file
+#### Processing Function 3 - Sort the classified images produced from `run_detector_batch.py` into folders of their 'detected' classes using the CSV metadata file
 
 1/ Run `main.py` script via the command below:
 
     python main.py
 
 2/ Enter number `1` then number `3`, and follow the prompted instruction to sort the classified images after running 
-`run_tf_detector_batch.py` into their 'detected' classes using the `*_Meta.csv` created from function 2.
+`run_detector_batch.py` into their 'detected' classes using the `*_Meta.csv` created from function 2.
 
 - For better organizing the images and keep the directory of the original images undisturbed, we suggest that new sorted
 images to be saved in a separate directory but on the same level as the original images' directory. We suggest to name 
@@ -275,7 +275,7 @@ once.
 #### Utility Function 2 - Find and replace multiple files' name at once
 
 1/ Run `main.py` script via the command below:
-    
+
     python main.py
 
 2/ Enter number `2` then number `2`, and follow the prompted instruction to find and replace multiple files' name at

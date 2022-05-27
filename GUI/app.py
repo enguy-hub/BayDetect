@@ -1,5 +1,5 @@
 # License: http://creativecommons.org/licenses/by-sa/3.0/
-from tkinter import Tk, ttk, Canvas
+from tkinter import Tk
 
 from homepage import HomePage
 from processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
@@ -39,17 +39,6 @@ class BayDetectApp(Tk):
 
         self.iconbitmap(self, default='./resources/lwf_icon.ico')
         Tk.title(self, "Bay Detect App")
-
-        # # set window and screen width and height
-        # window_width = 500
-        # window_height = 500
-        # screen_width = Tk.winfo_screenwidth(self)
-        # screen_height = Tk.winfo_screenheight(self)
-        #
-        # # find the center point, and centered the app window
-        # center_x = int(screen_width / 2 - window_width / 2)
-        # center_y = int(screen_height / 2 - window_height / 2)
-        # self.geometry('{}x{}+{}+{}'.format(window_width, window_height, center_x, center_y))
 
         self._frame = None
         self.switch_frame("HomePage")
