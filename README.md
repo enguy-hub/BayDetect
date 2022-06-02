@@ -84,21 +84,21 @@ the `run_detector_batch.py` file from the `/cameratraps/detection/` folder to th
 ------------------------------------------------------------------------------------------------------------------------
 ## Features in BayDetect
 
-### Processing Functions (PF)
+#### Processing Functions (PF)
 - 1/ Create the `BatchInput` JSON file needed to execute `MegaDetector` via `run_detector_batch.py` script.
 - 2/ Run MegaDetector via `run_detector_batch.py` script using the `BatchInput` JSON file as input, 
 and produce a `MegaDetected` JSON file as the output.
 - 3/ Convert the output `MegaDetected` JSON file into an organized CSV `Metadata` file.
 - 4/ Sort the images into separated folders based on their `MegaDetected` classes indicated in the CSV `Metadata` file.
 
-### Utility Functions (UF)
+#### Utility Functions (UF)
 - 1/ Find and replace the names of multiple folders at once.
 - 2/ Find and replace the names of multiple files at once.
 - 3/ Find and replace the text-content inside multiple files at once.
 
-### Batch Functions (BF)
-- 1/ Create '.txt' files containing the commands needed to 'batch-run' one of the Processing Function
-(except for Processing Function #2 | Run MegaDetector)
+#### Batch Functions (BF)
+- 1/ Create '.txt' files containing the commands needed to 'batch-run' one of the Processing Function (except for 
+Processing Function #2 | Run MegaDetector)
 - 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` from `batchrun.py`.
 - 3/ Create ".txt" file containing the commands needed to 'batch-run' the process of executing MegaDetector via the 
 `md_batchrun()` from `batchrun.py`. ('batch-run` function for Processing Function #2 | Run MegaDetector)
@@ -106,26 +106,26 @@ and produce a `MegaDetected` JSON file as the output.
 ------------------------------------------------------------------------------------------------------------------------
 ## **Extra Note**
 
-- Before using BayDetect, always makesure that the `cameratraps-detector` conda environment is activated. 
+Before using BayDetect, always makesure that the `cameratraps-detector` conda environment is activated. 
 Activate it with the following command:
 
-      conda activate cameratraps-detector
+    conda activate cameratraps-detector
 
-- Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
+Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
 JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follows:
 
-      DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
+    DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
 
 ------------------------------------------------------------------------------------------------------------------------
 ## How to run BayDetect
 
-1/ Run `app.py` script at root folder (`/BayDetect`) via the command below:
+- 1/ Run `app.py` script at root folder (`/BayDetect`) via the command below:
 
-    python app.py
+      python app.py
 
-2/ Choose the function that you would like to like use
+- 2/ Choose the function that you would like to like use
 
-3/ Follow the prompted steps and instruction to execute the desired function
+- 3/ Follow the prompted steps and instruction to execute the desired function
 
 ------------------------------------------------------------------------------------------------------------------------
 ## Suggestions & notes for when executing the functions
@@ -133,71 +133,71 @@ JSON file, open the `cameratraps/detection/run_detector.py` file and change the 
 ------------------------------------------------------------------------------------------------------------------------
 ### Processing Function (PF)
 
-====================================================================
+###### =================================================================================================================
 #### PF 1 | Create the `BatchInput` JSON file
 
-We suggest the `BatchInput (BI)` JSON file should be saved in a `*_BatchInput/` folder, 
+- We suggest the `BatchInput (BI)` JSON file should be saved in a `*_BatchInput/` folder, 
 and the filename should end it with `*_BI.json`, similar to the example below:
 
-    /BayDetect/example/metadata/Example_Forest/EF_JSON/EF_BatchInput/*_BI.json
+      /BayDetect/example/metadata/Example_Forest/EF_JSON/EF_BatchInput/*_BI.json
 
-Additionally, when working with a large dataset which has many stations and sessions, we suggest that each JSON file 
+- Additionally, when working with a large dataset which has many stations and sessions, we suggest that each JSON file 
 should be named corresponding to its station and session. See the example JSON files in the directory stated below:
 
-    /BayDetect/example/metadata/Example_Forest/JSON/EF_BatchInput/EF_007_20201104_BI.json
+      /BayDetect/example/metadata/Example_Forest/JSON/EF_BatchInput/EF_007_20201104_BI.json
 
-====================================================================
+###### =================================================================================================================
 #### PF 2 | Run MegaDetector 
 
-We suggest that the output `MegaDetected (MD)` JSON files should be saved in a `*_MegaDetected/` folder, and the 
+- We suggest that the output `MegaDetected (MD)` JSON files should be saved in a `*_MegaDetected/` folder, and the 
 filenames to end with `*_MD.json` similar to our example below:
 
-    /BayDetect/example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_007_20201104_MD.json
+      /BayDetect/example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_007_20201104_MD.json
 
-====================================================================
+###### =================================================================================================================
 #### PF 3 | Convert output `MegaDetected (MD)` JSON file into an organized CSV `Metadata (Meta)` file.
 
-We suggest that the output CSV `Metadata (Meta)` files should be saved in a `*_CSV/` folder, and the filename to 
+- We suggest that the output CSV `Metadata (Meta)` files should be saved in a `*_CSV/` folder, and the filename to 
 end with `*_Meta.csv`, similar to the example below:
 
-    /BayDetect/example/metadata/Example_Forest/EF_CSV/*_Meta.csv
+      /BayDetect/example/metadata/Example_Forest/EF_CSV/*_Meta.csv
 
-Additionally, when working with a large dataset that has many stations and sessions, we suggest that each CSV file 
+- Additionally, when working with a large dataset that has many stations and sessions, we suggest that each CSV file 
 should be named corresponding to its station and session. See the example files in the directory stated below:
 
-    /BayDetect/example/metadata/Example_Forest/EF_CSV/EF_007_20201104_Meta.csv
+      /BayDetect/example/metadata/Example_Forest/EF_CSV/EF_007_20201104_Meta.csv
 
-====================================================================
+###### =================================================================================================================
 #### PF 4 | Sort images into folders based on their `MegaDetected` classes indicated in the CSV `Meta` file
 
-By default, only copies of the original images will be sorted inside `Animal`, `Human`, `Vehicle`, or `Empty` folders. 
+- By default, only copies of the original images will be sorted inside `Animal`, `Human`, `Vehicle`, or `Empty` folders. 
 Thus, if you want to save space and to directly move the original images into 'sorted folders', you can change the 
 `shutil.copy()` function to `shutil.move()` in line `323` in the `/baydetect/process_functions.py` script
 
-Line `323` in `/baydetect/process_functions.py` script should be as follows:
+- Line `323` in `/baydetect/process_functions.py` script should be as follows:
 
-    322|  for o, n in zip(old_path, new_path):
-    323|     shutil.move(o, n)
+      322|  for o, n in zip(old_path, new_path):
+      323|     shutil.move(o, n)
 
 ------------------------------------------------------------------------------------------------------------------------
 ### Batch Function (BF)
 
-====================================================================
+###### =================================================================================================================
 #### BF 1 | Create `.txt` files needed to 'batch-run' one of the Processing Functions (except for `Run MegaDetector`)
 
-For better organizing the output `.txt` files, we suggest to store the files similar to our folder structure 
+- For better organizing the output `.txt` files, we suggest to store the files similar to our folder structure 
 as shown in the `EF_batch_commands/` example folder. For reference, please check out the folder structure and how the 
 `.txt` files are saved in the `EF_batch_commands/` example folder. Path to `EF_batch_commands/` folder is listed below:
 
-    /example/metadata/Example_Forest/EF_batch_commands/
+      /example/metadata/Example_Forest/EF_batch_commands/
 
-**For PF 3 Only**: The CSV metadata file organizes the `Name`, `Station`, and `Session` of the image files based on 
+- **For PF 3 Only**: The CSV metadata file organizes the `Name`, `Station`, and `Session` of the image files based on 
 the file paths in `*_MD.json` file. Hence, you will need to change the values for `imageName`, `station`, and `session` 
 variables in lines `169-171` in the `process_functions.py` script (*path shown below*) according to whichever index 
 order would the `imageName`, `station`, and `session` be in an array when the file path in the `*_MD.json` is split 
 with `/` as separator:
 
-    /baydetect/process_functions.py
+      /baydetect/process_functions.py
 
   - The values inside the squared brackets at the end of lines `169-171` should be changed accordingly depending on 
   users' specific situation:
@@ -206,53 +206,53 @@ with `/` as separator:
         170|   session = list(json_info['image'][i].values())[0].split('/')[10] <-- Change this value
         171|   station = list(json_info['image'][i].values())[0].split('/')[9] <-- Change this value
 
-====================================================================
+###### =================================================================================================================
 #### BF 2 | Create a combined `.txt` file containing the commands needed to start `pf_batchrun()` from `batchrun.py`
 
-With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
+- With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
 `*dataset_id*_*pf_name*_combinedCmds`. For reference, please check out the `*dataset_id*_*pf_name*_combinedCmds` files
 in our example `EF_batch_commands` folder. Paths to the folder/files are listed below:
 
-    /example/metadata/Example_Forest/EF_batch_commands/EF_createBIJSON_combinedCmds.txt
-    /example/metadata/Example_Forest/EF_batch_commands/EF_mdJSONtoCSV_combinedCmds.txt
-    /example/metadata/Example_Forest/EF_batch_commands/EF_sortImages_combinedCmds.txt
+      /example/metadata/Example_Forest/EF_batch_commands/EF_createBIJSON_combinedCmds.txt
+      /example/metadata/Example_Forest/EF_batch_commands/EF_mdJSONtoCSV_combinedCmds.txt
+      /example/metadata/Example_Forest/EF_batch_commands/EF_sortImages_combinedCmds.txt
       
-#### How to execute `pf_batchrun()` function from `/batchrun.py` script
+#### Extra - BF 2 | How to execute `pf_batchrun()` function from `/batchrun.py` script
 
-1/ Copy the commands (the text-content) from the newly created `*dataset_id*_*pf_name*_combinedCmds.txt` file 
-into the `pf_batchrun()` function in the `batchrun.py` script, and make sure that they are below line `6` 
+- 1/ Copy the commands (the text-content) from the newly created `*dataset_id*_*pf_name*_combinedCmds.txt` file 
+into the `pf_batchrun()` function in the `batchrun.py` script, and make sure that they are below line `6`
 
-2/ Run `batchrun.py` script via the command below:
+- 2/ Run `batchrun.py` script via the command below:
     
-    python batchrun.py
+      python batchrun.py
     
-3/ Enter number `1` to execute the function
+- 3/ Enter number `1` to execute the function
 
-**Note**: If you have a large dataset with many stations and sessions, you will receive an 
+- **Note**: If you have a large dataset with many stations and sessions, you will receive an 
 "error" saying that your commands are too long. When this happens, just commented out a portion 
 of the commands and execute them in multiple smaller executions.
 
-====================================================================
+###### =================================================================================================================
 #### BF 3 - Create a `.txt` file containing the commands needed to start `md_batchrun()` from `batchrun.py` ('batch-run' function for `PF 2 | Run MegaDetector`)
 
-With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
+- With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
 `*dataset_name*_runMD_cmds`. For reference, please check out the `*dataset_name*_runMD_cmds` file in our 
 example `EF_batch_commands` folder. Path to the folder/file is listed below:
 
-    /example/metadata/Example_Forest/EF_batch_commands/EF_runMD_cmds.txt
+      /example/metadata/Example_Forest/EF_batch_commands/EF_runMD_cmds.txt
 
-#### How to execute `md_batchrun()` function from `/batchrun.py` script
+#### Extra - BF 3 | How to execute `md_batchrun()` function from `/batchrun.py` script
 
-1/ Copy the commands (the text-content) from the newly created `*dataset_name*_runMD_cmds` into the 
+- 1/ Copy the commands (the text-content) from the newly created `*dataset_name*_runMD_cmds` into the 
 `md_batchrun()` function in the `batchrun.py` script, and make sure that they are below line `18` 
 
-2/ Run `batchrun.py` script via the command below:
+- 2/ Run `batchrun.py` script via the command below:
     
-    python batchrun.py
+      python batchrun.py
     
-3/ Enter number `2` to execute the `md_batchrun()` function
+- 3/ Enter number `2` to execute the `md_batchrun()` function
 
-**Note**: If you have a large dataset with many stations and sessions, you will receive an "error" saying that your 
+- **Note**: If you have a large dataset with many stations and sessions, you will receive an "error" saying that your 
 commands are too long. When this happens, just commented out a portion of the commands and execute them in multiple
 smaller executions.
 
