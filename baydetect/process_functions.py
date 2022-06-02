@@ -53,14 +53,13 @@ def md_json_creator():
             JSON file will be saved at where user defined in the "usr_output_json" prompt
     """
 
-    usr_input_dir = input("Enter the absolute path of the directory containing the "
+    input_usr_dir = input("Enter the absolute path of the directory containing the "
                           "images which you would like to execute MegaDetector on: ")
 
     usr_input_name = input("Give a name and absolute path of where the `BatchInput` "
                            "JSON file will be saved at (end with '*_BI.json'): ")
 
-    usr_input_dir = usr_input_dir + "/"
-    usr_input_dir.replace("\\", "/")
+    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
@@ -74,7 +73,7 @@ def md_json_creator():
     with open(usr_input_name, 'w') as f:
         print(json.dump(files, f, indent=4))
 
-    return print('Done!')
+    return print('\nDone !!! \n')
 
 
 # ID: pf2_supp || Supporting function for md_csv_converter()
@@ -146,7 +145,7 @@ def md_csv_converter():
              CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
     """
 
-    usr_input_dir = input("Enter the absolute path of the image directory "
+    input_usr_dir = input("Enter the absolute path of the image directory "
                           "that you just created a `*_MD.json` file for: ")
 
     usr_input_json = input("Enter the absolute path to the `*_MD.json` file that you would "
@@ -155,8 +154,7 @@ def md_csv_converter():
     usr_output_csv = input("Give a name and absolute path to where the CSV `Metadata` "
                            "file will be saved at (end with '*_Meta.csv'): ")
 
-    usr_input_dir = usr_input_dir + "/"
-    usr_input_dir.replace("\\", "/")
+    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
 
     input_json = open(usr_input_json, 'r')
     json_info = json.load(input_json)
@@ -207,7 +205,7 @@ def md_csv_converter():
 
         df_final.to_csv(usr_output_csv, index=False)
 
-    return print('Done!!')
+    return print('\nDone !!! \n')
 
 
 # ID: pf3 || sort_images_csv()
@@ -235,7 +233,7 @@ def sort_images_csv():  # input_path, csv_input
             be sorted (by copying) into their according categorical folders.
     """
 
-    usr_input_dir = input("Enter the absolute path of the directory that you "
+    input_usr_dir = input("Enter the absolute path of the directory that you "
                           "want to sort the images by `classified classes`: ")
 
     usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
@@ -243,8 +241,7 @@ def sort_images_csv():  # input_path, csv_input
     sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` folder, located "
                          "at the same level as the original images' directory (answer with 'Y' or 'N')? ")
 
-    usr_input_dir = usr_input_dir + "/"
-    usr_input_dir.replace("\\", "/")
+    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
 
     old_path = []  # Old - full original paths of where the image files are currently stored
     parent_path = []  # First half of the o_path (parent path) without the image name
@@ -326,7 +323,7 @@ def sort_images_csv():  # input_path, csv_input
         print("\nWrong choice, please re-run the script and follow the instructions !!!"
               "\n")
 
-    return print('Done!')
+    return print('\nDone !!! \n')
 
 
 # if __name__ == '__main__':
