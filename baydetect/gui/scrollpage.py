@@ -7,10 +7,11 @@ import tkinter as tk
 
 
 class ScrolledPage(ttk.Frame):
-    """A pure Tkinter scrollable frame that actually works!
-    * Use the 'interior' attribute to place widgets inside the scrollable frame.
-    * Construct and pack/place/grid normally.
-    * This frame only allows vertical scrolling.
+    """
+        A pure Tkinter scrollable frame that actually works!
+        * Use the 'interior' attribute to place widgets inside the scrollable frame.
+        * Construct and pack/place/grid normally.
+        * This frame only allows vertical scrolling.
     """
     def __init__(self, parent, *args, **kw):
         ttk.Frame.__init__(self, parent, *args, **kw)
@@ -32,8 +33,7 @@ class ScrolledPage(ttk.Frame):
         self.scrollwindow = ttk.Frame(self.parent)
         self.interior_id = self.canvas.create_window(0, 0, window=self.scrollwindow, anchor=NW)
 
-        # Track changes to the canvas and frame width and sync them,
-        # also updating the scrollbar.
+        # Track changes to the canvas and frame width and sync them, also updating the scrollbar.
         def _configure_interior(event):
             # Update the scrollbars to match the size of the inner frame.
             size = (self.scrollwindow.winfo_reqwidth(), self.scrollwindow.winfo_reqheight())

@@ -23,9 +23,9 @@ class BatchPage(ttk.Frame):
         label = ttk.Label(self.sw.scrollwindow, text="Batch Functions", font=LARGE_FONT)
         label.pack(ipady=5, padx=5, pady=5, expand=1)
 
-        batc1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Create `.txt` files needed to batch-run one of the "
-                                                          "`Processing\nFunction` except for the `Run MegaDetector` "
-                                                          "function",
+        batc1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Create `.txt` files needed to `batch-run` "
+                                                          "one of the `Processing\nFunction`, except for "
+                                                          "`Run MegaDetector` function",
                                command=lambda: master.switch_frame("Batchrun Processing Functions"))
         batc1_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
@@ -36,7 +36,7 @@ class BatchPage(ttk.Frame):
         batc2_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
         batc3_btn = ttk.Button(self.sw.scrollwindow,
-                               text="3/ Create the `.txt` file needed for executing MegaDetector repeatedly",
+                               text="3/ Create a `.txt` file needed for executing MegaDetector repeatedly",
                                command=lambda: master.switch_frame("Batchrun Run MegaDetector"))
         batc3_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
@@ -165,8 +165,9 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirLabel3 = None
         self.noSortImagesTxtButton = None
 
-        inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the `parent-folder` where "
-                                                               "all the `station-folders` are located in.",
+        inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the `top-level folder`, in "
+                                                               "which all the images\nare being stored inside "
+                                                               "sub-folders under this `top-level folder`",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=4, sticky='n')
 
@@ -244,12 +245,12 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                     "to create the `batch-run` `.txt` files for?")
         self.noPFChoiceLabel.grid(row=7, sticky='n')
 
-        self.noJSONCreator_btn = ttk.Button(self.sw.scrollwindow, text="`Batch-input` JSON Creator",
+        self.noJSONCreator_btn = ttk.Button(self.sw.scrollwindow, text="`BatchInput` JSON Creator",
                                             command=self.noJSONCreator)
         self.noJSONCreator_btn.grid(row=8, ipady=5, ipadx=5, sticky='n')
 
         self.noCSVConverter_btn = ttk.Button(self.sw.scrollwindow,
-                                             text="Convert `Mega-detected` JSON to CSV `Metadata` Files",
+                                             text="Convert `MegaDetected` JSON to CSV `Metadata` Files",
                                              command=self.noCSVConvertor)
         self.noCSVConverter_btn.grid(row=9, ipady=5, ipadx=5, sticky='n')
 
@@ -268,8 +269,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSortImages_btn['state'] = 'disabled'
 
         self.noInputJSONDirButton = ttk.Button(self.sw.scrollwindow,
-                                               text="5/ Please select the folder where you want all "
-                                                    "the '*_BatchInput.json' files to be saved at",
+                                               text="5/ Please select the folder where you want "
+                                                    "all the '*_BI.json' files to be saved at",
                                                command=self.noInputJSONDir)
         self.noInputJSONDirButton.grid(row=11, ipadx=10, ipady=10, pady=4, sticky='n')
 
@@ -284,7 +285,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noCreateJSONTxtButton.grid(row=15, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def noInputJSONDir(self):
-        noInputJSONDir = filedialog.askdirectory(title='Please select the output folder for `batch-input` JSON files')
+        noInputJSONDir = filedialog.askdirectory(title='Please select the output folder for `BatchInput` JSON files')
         self.noInputJSONDirPath = str(noInputJSONDir) + "/"
         self.noInputJSONDirPath.replace("\\", "/")
 
@@ -324,7 +325,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
             destroy_these = [self.inputDirLabel,
                              self.noPFChoiceLabel, self.noJSONCreator_btn,
-                             self.noCSVConverter_btn,  # self.noSortImages_btn,
+                             self.noCSVConverter_btn,  self.noSortImages_btn,
                              self.noInputJSONDirButton, self.noInputJSONDirLabel,
                              self.noOutputTxtDirButton1, self.noOutputTxtDirLabel1,
                              self.noCreateJSONTxtButton]
@@ -344,8 +345,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSortImages_btn['state'] = 'disabled'
 
         self.noMDJSONDirButton = ttk.Button(self.sw.scrollwindow, text="5/ Please select the folder where all the "
-                                                                       "'*_MegaDetected.json' files are currently "
-                                                                       "saved at",
+                                                                       "'*_MD.json' files are currently saved at",
                                             command=self.noMDJSONDir)
         self.noMDJSONDirButton.grid(row=11, ipadx=10, ipady=10, pady=4, sticky='n')
 
@@ -438,7 +438,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
             destroy_these = [self.inputDirLabel,
                              self.noPFChoiceLabel, self.noJSONCreator_btn,
-                             self.noCSVConverter_btn,  # self.noSortImages_btn,
+                             self.noCSVConverter_btn,  self.noSortImages_btn,
                              self.noMDJSONDirButton, self.noMDJSONDirLabel,
                              self.noOutputCSVDirButton, self.noOutputCSVDirLabel,
                              self.noOutputTxtDirButton2, self.noOutputTxtDirLabel2,
@@ -465,7 +465,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noInputCSVDirButton.grid(row=11, ipadx=10, ipady=10, pady=4, sticky='n')
 
         self.noSortedLabel = ttk.Label(self.sw.scrollwindow,
-                                       text="6/ Would you like the 'sorted-images' to be saved in a separate "
+                                       text="6/ Would you like the `sorted images` to be saved in a separate "
                                             "folder called `*_Sorted`? (please answer with 'Y' or 'N') ")
         self.noSortedLabel.grid(row=13, sticky='n')
 
@@ -483,7 +483,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSortImagesTxtButton.grid(row=17, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def noInputCSVDir(self):
-        noInputCSVDir = filedialog.askdirectory(title='Please select the output folder for `batch-input` JSON files')
+        noInputCSVDir = filedialog.askdirectory(title='Please select the output folder for `BatchInput` JSON files')
         self.noInputCSVDirPath = str(noInputCSVDir) + "/"
         self.noInputCSVDirPath.replace("\\", "/")
 
@@ -599,16 +599,16 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "to create the batch-run's `*.txt` files for?")
         self.yesPFChoiceLabel.grid(row=10, sticky='')
 
-        self.yesJSONCreator_btn = ttk.Button(self.sw.scrollwindow, text="`Batch-input` JSON Creator",
+        self.yesJSONCreator_btn = ttk.Button(self.sw.scrollwindow, text="`BatchInput` JSON Creator",
                                              command=self.yesJSONCreator)
         self.yesJSONCreator_btn.grid(row=11, ipady=5, ipadx=5, sticky='n')
 
         self.yesCSVConverter_btn = ttk.Button(self.sw.scrollwindow,
-                                              text="Convert `Mega-detected` JSON to CSV `Metadata` Files",
+                                              text="Convert `MegaDetected` JSON to CSV `Metadata` Files",
                                               command=self.yesCSVConvertor)
         self.yesCSVConverter_btn.grid(row=12, ipady=5, ipadx=5, sticky='n')
 
-        self.yesSortImages_btn = ttk.Button(self.sw.scrollwindow, text="Sort the images using CSV `metadata` files",
+        self.yesSortImages_btn = ttk.Button(self.sw.scrollwindow, text="Sort the images using CSV `Metadata` files",
                                             command=self.yesImageSorter)
         self.yesSortImages_btn.grid(row=13, ipady=5, ipadx=5, sticky='n')
 
@@ -621,8 +621,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesCSVConverter_btn['state'] = 'disabled'
         self.yesSortImages_btn['state'] = 'disabled'
 
-        self.yesInputJSONDirButton = ttk.Button(self.sw.scrollwindow, text="5/ Please select the folder where all the "
-                                                                           "'*_BatchInput.json' files will be saved at",
+        self.yesInputJSONDirButton = ttk.Button(self.sw.scrollwindow, text="5/ Please select the folder where all "
+                                                                           "the '*_BI.json' files will be saved at",
                                                 command=self.yesInputJSONDir)
         self.yesInputJSONDirButton.grid(row=14, ipadx=10, ipady=10, pady=4, sticky='n')
 
@@ -637,7 +637,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesCreateJSONTxtButton.grid(row=18, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def yesInputJSONDir(self):
-        yesInputJSONDir = filedialog.askdirectory(title='Please select the folder contains `batch-input` JSON files')
+        yesInputJSONDir = filedialog.askdirectory(title='Please select the folder contains `BatchInput` JSON files')
         self.yesInputJSONDirPath = str(yesInputJSONDir) + "/"
         self.yesInputJSONDirPath.replace("\\", "/")
 
@@ -697,8 +697,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesSortImages_btn['state'] = 'disabled'
 
         self.yesMDJSONDirButton = ttk.Button(self.sw.scrollwindow, text="5/ Please select the folder where all the "
-                                                                        "'*_MegaDetected.json' files are currently "
-                                                                        "saved at",
+                                                                        "'*_MD.json' files are currently saved at",
                                              command=self.yesMDJSONDir)
         self.yesMDJSONDirButton.grid(row=14, ipadx=10, ipady=10, pady=4, sticky='n')
 
@@ -816,7 +815,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesInputCSVDirButton.grid(row=14, ipadx=10, ipady=10, pady=4, sticky='n')
 
         self.yesSortedLabel = ttk.Label(self.sw.scrollwindow,
-                                        text="6/ Would you like the 'sorted-images' to be saved in a separate "
+                                        text="6/ Would you like the `sorted images` to be saved in a separate "
                                              "folder called `*_Sorted`? (please answer with 'Y' or 'N') ")
         self.yesSortedLabel.grid(row=16, sticky='n')
 
@@ -834,7 +833,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesSortImagesTxtButton.grid(row=20, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def yesInputCSVDir(self):
-        yesInputCSVDir = filedialog.askdirectory(title='Please select the output folder for `batch-input` JSON files')
+        yesInputCSVDir = filedialog.askdirectory(title='Please select the output folder for `BatchInput` JSON files')
         self.yesInputCSVDirPath = str(yesInputCSVDir) + "/"
         self.yesInputCSVDirPath.replace("\\", "/")
 
@@ -909,8 +908,8 @@ class Batchrun_CombinedTXT(ttk.Frame):
         self.txtDirPath = None
         self.txtDirPathLabel = None
 
-        txtDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder where all "
-                                                             "`*.txt` files are located in",
+        txtDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder where "
+                                                             "all `*.txt` files are located in",
                                   command=self.txtInputDir)
         txtDirButton.grid(row=0, ipadx=10, ipady=10, pady=4, sticky='')
 
@@ -980,8 +979,8 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         self.outputTxtDirPath = None
         self.outputTxtDirPathLabel = None
 
-        jsonDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder where all "
-                                                              "`*_BatchInput.json` files are located in",
+        jsonDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder where "
+                                                              "all `*_BI.json` files are located in",
                                    command=self.jsonInputDir)
         jsonDirButton.grid(row=0, ipadx=10, ipady=10, pady=4, sticky='ew')
 
@@ -1010,7 +1009,7 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         home_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
 
     def jsonInputDir(self):
-        jsonDir = filedialog.askdirectory(title='Please select the folder contains `batch-input` JSON files')
+        jsonDir = filedialog.askdirectory(title='Please select the folder contains `BatchInput` JSON files')
         self.jsonDirPath = str(jsonDir) + "/"
 
         self.jsonDirPathLabel = ttk.Label(self.sw.scrollwindow, text=self.jsonDirPath)

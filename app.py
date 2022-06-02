@@ -4,7 +4,8 @@ from tkinter import Tk
 from baydetect.gui.homepage import HomePage
 from baydetect.gui.processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from baydetect.gui.utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from baydetect.gui.batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, Batchrun_RunMegaDetector
+from baydetect.gui.batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, \
+    Batchrun_RunMegaDetector
 
 pages = {
     "HomePage": HomePage,

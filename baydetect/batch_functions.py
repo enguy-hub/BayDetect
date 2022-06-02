@@ -23,9 +23,9 @@ from pathlib import Path
 # ID: bf1 || pf_txtcmds_creator()
 def pf_txtcmds_creator():
     # Input commands for all
-    org_img_dir_input = input("Enter the absolute path to the `parent-folder` where all the `station folders` "
-                              "are located in. In this `parent-folder` the images are being stored in sub-folders"
-                              " inside each `station-folder`: ")
+    org_img_dir_input = input("Enter the absolute path to the `parent-folder` where all the `station "
+                              "folders` are located in. In this `parent-folder` the images are being "
+                              "stored in sub-folders inside each `station-folder`: ")
 
     common_dirname_input = input("What is the common pattern in the names of the folders where all "
                                  "the image are stored in (eg: `2020*`, ``Session*` or `100CU*`): ")
@@ -42,9 +42,10 @@ def pf_txtcmds_creator():
 
     img_paths = []
     dataset_station = []
-    dataset = str
     station = []
     session = []
+
+    dataset = str
 
     if second_common_dirname == 'N':
         for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
@@ -52,8 +53,8 @@ def pf_txtcmds_creator():
                 org_img_dirpath.append(os.path.join(path, dirname).replace("\\", "/"))
 
     elif second_common_dirname == 'Y':
-        common_dirname_extra = input("What is the second common pattern in the names of the sub-folders ? "
-                                     "(eg: `2020*`, ``Session*` or `100CU*`): ")
+        common_dirname_extra = input("What is the second common pattern in the names of the "
+                                     "sub-folders? (eg: `2020*`, ``Session*` or `100CU*`): ")
 
         for path, dirs, files in os.walk(os.path.abspath(org_img_dir_input)):
             for dirname_p1 in fnmatch.filter(dirs, common_dirname_input):
@@ -66,12 +67,24 @@ def pf_txtcmds_creator():
         for ip1, ip2 in zip(pattern1_list, pattern2_list):
             org_img_dirpath.append(os.path.join(ip1, ip2).replace("\\", "/"))
 
+    print("\nSAMPLE PATH WHERE IMAGES ARE STORED IN: \n" + org_img_dirpath[0].split()[-1] + "/" + "\n")
+
+    input_dataset_station = input("What is the index order in an array would the `DATASET_STATION` name be "
+                                  "when the sample folder path shown above is split with `/` as separator?: ")
+
+    input_dataset_station = int(input_dataset_station)
+
+    input_session = input("What is the index order in an array would the `SESSION` name be when "
+                          "the sample folder path shown above is split with `/` as separator?: ")
+
+    input_session = int(input_session)
+
     for idirpaths in org_img_dirpath:
         for dirpath, dirnames, files in os.walk(idirpaths):
             if files:
                 img_paths.append(''.join(idirpaths.split()[-1]))
-                dataset_station.append(''.join(idirpaths.split('/')[9]))
-                session.append(''.join(idirpaths.split('/')[10]))
+                dataset_station.append(''.join(idirpaths.split('/')[input_dataset_station]))
+                session.append(''.join(idirpaths.split('/')[input_session]))
             if not files:
                 pass
 
@@ -168,8 +181,8 @@ def pf_txtcmds_creator():
                              "`*_Sorted`, located inside where the directory of the `original images`? "
                              "(answer with 'Y' or 'N') ")
 
-        txtcmds_dir_input = input("Enter the absolute path of the directory where you "
-                                  "want all the 'pf3_*.txt' files to be saved at: ")
+        txtcmds_dir_input = input("Enter the absolute path of the directory where "
+                                  "you want all the 'pf3_*.txt' files to be saved at: ")
 
         CSV_dir_input = CSV_dir_input + "/"
         CSV_dir_input.replace("\\", "/")

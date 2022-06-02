@@ -1,4 +1,6 @@
-"""This script contains the user interactive commands needed to start BayDetect."""
+"""
+This script contains the `user_input` interactive commands for BayDetect.
+"""
 
 import baydetect.process_functions as pf
 import baydetect.batch_functions as bf

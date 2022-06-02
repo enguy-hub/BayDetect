@@ -1,4 +1,4 @@
-"""This module contains processing functions used for PRE and POST MegaDetector batch processing."""
+""" This module contains processing functions used for PRE and POST MegaDetector batch processing """
 
 import os
 import json
@@ -10,56 +10,54 @@ from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
 """ Brief description of what each processing function does """
+
 """
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/----- PRE Processing Functions -----/
-##pf1 | md_json_creator(): creates a JSON file contains all image paths inside a given a directory, use for 
-MegaDetection batch processing.
-
-/----- POST Processing Functions -----/
-#pf2 | md_csv_converter(): converts the output JSON file from MegaDetection batch processing into a CSV file with 
-six columns "Image Name", "Flash", "Location", "Station", "Session", "Predicted Category", and "Image Path".
-
-#pf2_supp | get_exif(): supporting function for md_csv_converter().
-
-#pf3_0 | sort_images_csv(): sorts the MegaDetected image into four categories of folders "Empty", "Animal" 
-(for value 0), "Person" (for value 1), "Vehicle" (for value 2).
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /----- PRE Processing Functions -----/
+    #pf1 | md_json_creator(): creates a JSON file contains all image 
+    paths inside a given a directory, use MegaDetector batch processing.
+    
+    /----- POST Processing Functions -----/
+    #pf2 | md_csv_converter(): converts the output JSON file from MegaDetection batch processing into a CSV file with 
+    six columns "Image Name", "Flash", "Location", "Station", "Session", "Predicted Category", and "Image Path".
+    
+    #pf2_supp | get_exif(): supporting function for md_csv_converter().
+    
+    #pf3 | sort_images_csv(): sorts the MegaDetected image into four categories of 
+    folders "Empty", "Animal" (value=0), "Person" (value=1), "Vehicle" (value=2).
 """
 
 
 # ID: pf1 || md_json_creator()
 def md_json_creator():
-    """
-    This function create JSON file contains the paths to all the ".JPG" image of a directory given by the user.
-
-    For LWF, this JSON that will primarily be use as input JSON file for MegaDetector batch processing
-    ("run_tf_detector_batch")
-
-    When execute the function, it will first prompt the user to enter the absolute path of the directory which
-    contains all subdirectories and image that the user would like to run MegaDetector on. Then it will ask the
-    user to give a name and a path for the new output json file.
-
-    Parameters:
-        usr_input_dir (str): the absolute path of the directory which contains all subdirectories and image, that
-        the user would like to run MegaDetector on
-
-        usr_input_name (str): the path and name of where the output json file will be saved (end with '.json'), if no
-        path is given, the json file will be saved at the same directory as where this script is stored.
-
-    Returns: None
-
-    Output:
-        JSON file will be saved at where user defined in the "usr_output_json" prompt
 
     """
+        This function create JSON file contains the paths to all the ".JPG" image of a directory given by the user.
 
-    usr_input_dir = input("Enter the absolute path of the directory containing the images "
-                          "that you would like to execute `run_tf_detector_batch.py` on: ")
+        For LWF, this JSON that will primarily be use as input JSON file for MegaDetector batch processing
+        ("run_tf_detector_batch")
 
-    usr_input_name = input("Give a name and absolute path of where the `batch-input` "
-                           "JSON file will be saved at (end with '*_BatchInput.json'): ")
+        When execute the function, it will first prompt the user to enter the absolute path of the directory which
+        contains all subdirectories and image that the user would like to run MegaDetector on. Then it will ask the
+        user to give a name and a path for the new output json file.
+
+        Parameters:
+            inputDir: the absolute path of the directory which contains all subdirectories and image, that
+            the user would like to run MegaDetector on
+
+            inputName: the path and name of where the output json file will be saved (end with '.json'), if no
+            path is given, the json file will be saved at the same directory as where this script is stored.
+
+        :return: None
+
+        Output:
+            JSON file will be saved at where user defined in the "usr_output_json" prompt
+    """
+
+    usr_input_dir = input("Enter the absolute path of the directory containing the "
+                          "images which you would like to execute MegaDetector on: ")
+
+    usr_input_name = input("Give a name and absolute path of where the `BatchInput` "
+                           "JSON file will be saved at (end with '*_BI.json'): ")
 
     usr_input_dir = usr_input_dir + "/"
     usr_input_dir.replace("\\", "/")
@@ -81,16 +79,17 @@ def md_json_creator():
 
 # ID: pf2_supp || Supporting function for md_csv_converter()
 def get_exif(source_images_path):
-    """
-    This function takes the original images as input and returns the exif cameratrap_data of the corresponding images.
-
-    Parameters:
-        source_images_path (str): the path of the images folder
-
-    Returns:
-        df_exif: A dataframe containing the exif cameratrap_data of the images in the given folder
 
     """
+        This function takes the original images as input and returns the exif data of the corresponding images.
+
+        Parameters:
+            source_images_path (str): the path of the images folder
+
+        Returns:
+            df_exif: A dataframe containing the exif cameratrap_data of the images in the given folder
+    """
+
     lst_dict = []
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
@@ -113,46 +112,48 @@ def get_exif(source_images_path):
                     exif_data[tag] = value
             lst_dict.append(exif_data)
 
-    df_exif = pd.DataFrame.from_dict(lst_dict)
+    # df_exif = pd.DataFrame.from_dict(lst_dict)
+    df_exif = pd.DataFrame(lst_dict)
 
     return df_exif
 
 
 # ID: pf2 || md_csv_converter()
 def md_csv_converter():
+
     """
-     This function converts the output JSON file from MegaDetector batch processing" into a CSV classified_metadata file
-     . The CSV classified_metadata file will contains the image in the following seven columns "Image Name",
-     "Flash", "Location", "Station", "Session", "Predicted Category", "Image Path", and "DateTime". It combines the
-     dataframe created from get_exif() and the dataframe created from the output JSON file from MegaDetector batch
-     processing.
+        This function converts the output JSON file from MegaDetector batch processing" into a CSV classified_metadata
+        file. The CSV classified_metadata file will contain the image in the following seven columns "Image Name",
+        "Flash", "Location", "Station", "Session", "Predicted Category", "Image Path", and "DateTime". It combines the
+        dataframe created from get_exif() and the dataframe created from the output JSON file from MegaDetector batch
+        processing.
 
-     ** The conversion is done primarily based on the name and the location path of each image in the output JSON file
-     from MegaDetector batch processing".
+         ** The conversion is done primarily based on the name and the location path of each image in the output JSON
+         file from MegaDetector batch processing".
 
-     Parameters:
-         usr_input_dir(str): the absolute path to the image folder that you ran MegaDetector batch processing on
+         Parameters:
+             inputDir: the absolute path to the image folder that you ran MegaDetector batch processing on
 
-         usr_input_json(str): the absolute path to the '*_MegaDetected.json' file resulted from MegaDetector
-         batch processing (end with .json)
+             inputJSON: the absolute path to the '*_MegaDetected.json' file resulted from MegaDetector
+             batch processing (end with .json)
 
-         usr_output_csv(str): the absolute path and name (end with '.csv') of where the output csv file will be saved,
-         if no path is given, the json file will be saved at the same directory as where this script is stored.
+             outputCSV: the absolute path and name (end with '.csv') of where the output csv file will be saved,
+             if no path is given, the json file will be saved at the same directory as where this script is stored.
 
-     Returns: None
+        :return: None
 
-     Output:
-         CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
+         Output:
+             CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
+    """
 
-     """
-    usr_input_dir = input("Enter the absolute path of the image directory that "
-                          "you just created a `*_MegaDetected.json` file for: ")
+    usr_input_dir = input("Enter the absolute path of the image directory "
+                          "that you just created a `*_MD.json` file for: ")
 
-    usr_input_json = input("Enter the absolute path to the `*_MegaDetected.json` file that you would like "
-                           "to perform the CSV metadata conversion on (end with '*_MegaDetected.json'): ")
+    usr_input_json = input("Enter the absolute path to the `*_MD.json` file that you would "
+                           "like to perform the CSV conversion on (end with '*_MD.json'): ")
 
-    usr_output_csv = input("Give a name and absolute path to where the CSV "
-                           "metadata file will be saved at (end with '*_Meta.csv'): ")
+    usr_output_csv = input("Give a name and absolute path to where the CSV `Metadata` "
+                           "file will be saved at (end with '*_Meta.csv'): ")
 
     usr_input_dir = usr_input_dir + "/"
     usr_input_dir.replace("\\", "/")
@@ -196,9 +197,9 @@ def md_csv_converter():
             bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
         data = [list(data)]
 
-        df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session', 'Number of BBs',
-                                                'Predicted Category', 'Confidence', 'Location of BBs', 'Y Lower',
-                                                'Image Path'])
+        df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
+                                                'Number of BBs', 'Predicted Category', 'Confidence',
+                                                'Location of BBs', 'Y Lower', 'Image Path'])
 
         df_json = pd.concat([df_json, df_single])
 
@@ -206,32 +207,32 @@ def md_csv_converter():
 
         df_final.to_csv(usr_output_csv, index=False)
 
-    return print('Done!')
+    return print('Done!!')
 
 
 # ID: pf3 || sort_images_csv()
 def sort_images_csv():  # input_path, csv_input
+
     """
-    This function takes the user inputs of two things: the absolute path of the image folder that user wish to sort by
-    categories and the absolute path to the CSV classified_metadata file of that image folder. It will then sort the
-    image in that folder into their according folders based on their "Predicted Category" values in the CSV file.
-    The four categories folders are "Empty", "Animal" (for value 0), "Person" (for value 1), "Vehicle" (for value 2)
+        This function takes the user inputs of two things: the absolute path of the image folder that user wish to sort
+        by categories and the absolute path to the CSV classified_metadata file of that image folder. It will then sort
+        the image in that folder into their according folders based on their "Predicted Category" values in the CSV file
+        The four categories folders are "Empty", "Animal" (for value 0), "Person" (value = 1), "Vehicle" (value = 2)
 
-    When execute the function, it will first prompt the user to enter the absolute path of the image folder that user
-    wish to sort by categories. Then it will ask the user to enter the absolute path of the CSV classified_metadata file
-    of that image folder.
+        When execute the function, it will first prompt the user to enter the absolute path of the image folder that
+        user wish to sort by categories. Then it will ask the user to enter the absolute path of the CSV
+        classified_metadata file of that image folder.
 
-    Parameters:
-        usr_input_dir (str): the absolute path of the image folder that user wish to sort by categories
+        Parameters:
+            inputDir: the absolute path of the image folder that user wish to sort by categories
 
-        usr_input_csv (str): the absolute path of the CSV classified_metadata file of that image folder.
+            inputCSV: the absolute path of the CSV classified_metadata file of that image folder.
 
-    Returns: None
+        :return: None
 
-    Result:
-        Images in the directory defined in "usr_input_dir" variable will be sorted (by copying) into their according
-        categorical folders.
-
+        Result:
+            Images in the directory defined in "usr_input_dir" variable will
+            be sorted (by copying) into their according categorical folders.
     """
 
     usr_input_dir = input("Enter the absolute path of the directory that you "
@@ -239,8 +240,8 @@ def sort_images_csv():  # input_path, csv_input
 
     usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
 
-    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` directory, "
-                         "located at the same level as the original images' directory (answer with 'Y' or 'N')? ")
+    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` folder, located "
+                         "at the same level as the original images' directory (answer with 'Y' or 'N')? ")
 
     usr_input_dir = usr_input_dir + "/"
     usr_input_dir.replace("\\", "/")
@@ -270,10 +271,12 @@ def sort_images_csv():  # input_path, csv_input
     list_numbbs = df_csv['Number of BBs'].tolist()
     list_predcategory = df_csv['Predicted Category'].tolist()
 
+    predclass = None
+
     for num_bbs, category in zip(list_numbbs, list_predcategory):
         if num_bbs > 1:
             checking = all(element == category[0] for element in category)
-            if (checking):
+            if checking:
                 print("Same category for all bounding boxes")
             else:
                 predclass = 'Assistant Required'
@@ -290,7 +293,7 @@ def sort_images_csv():  # input_path, csv_input
                 predclass = None
         classified_folder.append(predclass)
 
-    new_path = []  # New - new path where the image files will be move to
+    new_path = []  # New - new path where the image files will be moved to
     new_path_sorted = []
 
     for i in parent_path:

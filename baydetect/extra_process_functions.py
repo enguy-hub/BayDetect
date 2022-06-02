@@ -10,27 +10,27 @@ from ast import literal_eval
 
 # ID: pf_extra_1 || md_json_converter()
 def md_json_converter():
-    '''
-    This function converts the output JSON file from MegaDetector batch processing to a new JSON file. This new JSON
-    file sorts each image JSON objects into their according "Location", "Station", "Session", and "Predicted Category".
-    The sorting is done primarily based on the storing location path of each image in the output JSON file from
-    MegaDetector batch processing".
+    """
+        This function converts the output JSON file from MegaDetector batch processing to a new JSON file. This new JSON
+        file sorts each image JSON objects into their according "Location", "Station", "Session", and "Predicted Category".
+        The sorting is done primarily based on the storing location path of each image in the output JSON file from
+        MegaDetector batch processing.
 
-    When execute the function, it will first prompt the user to enter the absolute path of the output JSON file from
-    MegaDetector batch processing. Then it will ask the user to give a name and an absolute path for the new JSON file.
+        When execute the function, it will first prompt the user to enter the absolute path of the output JSON file from
+        MegaDetector batch processing. Then it will ask the user to give a name and an absolute path for the new JSON file.
 
-    Parameters:
-        usr_input_json (str): the absolute path of the output JSON file from MegaDetector batch processing
-        (end with '.json')
+        Parameters:
+            inputJSON: the absolute path of the output JSON file from MegaDetector batch processing
+            (end with '.json')
 
-        usr_output_json (str): the absolute path (end with .json) of where the new JSON file will be saved, if
-        no path is given, the new JSON file will be saved at the same directory as where this script is stored.
+            outputJSON: the absolute path (end with .json) of where the new JSON file will be saved, if
+            no path is given, the new JSON file will be saved at the same directory as where this script is stored.
 
-    Returns:
+        Returns:
 
-    Output:
-        JSON file saved at where user defined in the "usr_output_json" prompt
-    '''
+        Output:
+            JSON file saved at where user defined in the "usr_output_json" prompt
+    """
 
     usr_input_json = input("Enter the absolute path of the '*_MegaDetected.json' (end with '.json'): ")
 

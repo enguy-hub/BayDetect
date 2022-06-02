@@ -1,7 +1,7 @@
 {
  "images": [
   {
-   "file": "C:/Hien/Garden/MyGithub/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042a.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042a.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -27,7 +27,7 @@
    ]
   },
   {
-   "file": "C:/Hien/Garden/MyGithub/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042b.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042b.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -63,7 +63,7 @@
    ]
   },
   {
-   "file": "C:/Hien/Garden/MyGithub/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042c.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00042c.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -79,7 +79,7 @@
    ]
   },
   {
-   "file": "C:/Hien/Garden/MyGithub/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00051b.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00051b.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -95,7 +95,7 @@
    ]
   },
   {
-   "file": "C:/Hien/Garden/MyGithub/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00071c.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/I_00071c.JPG",
    "max_detection_conf": 0.997,
    "detections": [
     {
