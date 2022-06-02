@@ -26,28 +26,28 @@ def main():
         print("\n'1' Selected ! Please choose one processing function to start from the list of options below ..."
               "\n")
 
-        pf_choice = input("Enter '1' to create the bath-input JSON file require to execute `run_tf_detector_batch.py`\n"
-                          "Enter '2' to convert the output JSON file from MegaDetector into a CSV metadata file\n"
-                          "Enter '3' to sort the images into separate folder based on their `mega-detected` classes "
-                          "using the CSV metadata file\n"
+        pf_choice = input("Enter '1' to create the `BatchInput` JSON file require to execute `run_detector_batch.py`\n"
+                          "Enter '2' to convert the `MegaDetected` JSON file into an organized CSV `Metadata` file\n"
+                          "Enter '3' to sort the images into separate folder based on their `MegaDetected` classes "
+                          "using the CSV `Metadata` file\n"
                           "\n"
                           "Enter your choice here: ")
 
         pf_choice = int(pf_choice)
 
         if pf_choice == 1:
-            print("\n'1' Selected ! Creating the batch-input JSON file needed to execute `run_tf_detector_batch.py` .."
+            print("\n'1' Selected ! Creating the `BatchInput` JSON file needed to execute `run_detector_batch.py` .."
                   "\n")
             pf.md_json_creator()
 
         elif pf_choice == 2:
-            print("\n'2' Selected ! Converting the output JSON file from MegaDetection into a CSV metadata file .."
+            print("\n'2' Selected ! Converting the `MegaDetected` JSON file into an organized CSV `Metadata` file .."
                   "\n")
             pf.md_csv_converter()
 
         elif pf_choice == 3:
-            print("\n'3' Selected ! Sorting the images into separate folder based on their `mega-detected classes` "
-                  "using the CSV metadata file .."
+            print("\n'3' Selected ! Sorting the images into separate folder based on their `MegaDetected` classes "
+                  "using the CSV `Metadata` file .."
                   "\n")
             pf.sort_images_csv()
 
@@ -100,11 +100,11 @@ def main():
         print("\n'3' Selected ! Please choose one batch function to start from the list of options below .."
               "\n")
 
-        bf_choice = input("Enter '1' to create multiple 'pf*.txt' files needed to 'batch-run' one of the Processing "
-                          "Functions \n"
-                          "Enter '2' to create a python commands '.txt' file needed to start `pf_batchrun()` function "
-                          "from `batchrun.py`\n"
-                          "Enter '3' to create a python commands '.txt' file needed to start `md_batchrun()` function "
+        bf_choice = input("Enter '1' to create multiple '.txt' files needed to 'batch-run' one of the Processing "
+                          "Functions, except for `Run MegaDetector` function \n"
+                          "Enter '2' to create a combined '.txt' file contains the commands needed to start "
+                          "`pf_batchrun()` from `batchrun.py`\n"
+                          "Enter '3' to create a '.txt' file contains the commands needed to start `md_batchrun()` "
                           "from `batchrun.py`\n"
                           "\n"
                           "Enter your choice here: ")
@@ -112,19 +112,19 @@ def main():
         bf_choice = int(bf_choice)
 
         if bf_choice == 1:
-            print("\n'1' Selected ! Create multiple 'pf*.txt' files needed to 'batch-run' one of the processing "
-                  "functions from `/baydetect/batch_functions.py` script .."
+            print("\n'1' Selected ! Create multiple '.txt' files needed to 'batch-run' one of the processing "
+                  "functions from the `/baydetect/batch_functions.py` script .."
                   "\n")
             bf.pf_txtcmds_creator()
 
         elif bf_choice == 2:
-            print("\n'2' Selected ! Create a python commands `.txt` file needed to start `pf_batchrun()` function "
-                  "from `batchrun.py` .."
+            print("\n'2' Selected ! Create a combined `.txt` file contains the commands needed to start `pf_batchrun()`"
+                  " from `batchrun.py` .."
                   "\n")
             bf.pf_pycmds_creator()
 
         elif bf_choice == 3:
-            print("\n'3' Selected ! Create a python commands `.txt` file to start `md_batchrun()` function from "
+            print("\n'3' Selected ! Create a `.txt` file contains the commands needed to start `md_batchrun()` from "
                   "`batchrun.py` .."
                   "\n")
             bf.md_pycmds_creator()

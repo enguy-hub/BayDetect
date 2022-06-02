@@ -92,7 +92,7 @@ def pf_txtcmds_creator():
         station.append('_'.join(name.split('_')[1:]))
 
     txtcmds_choice = input("Which `processing function` would you like to create "
-                           "the 'pf*.txt' files for? (answer with `1`, `3`, or `4`) ")
+                           "the 'pf*.txt' files for? (answer with `1`, `2`, or `3`) ")
     txtcmds_choice = int(txtcmds_choice)
 
     if txtcmds_choice == 1:
@@ -116,8 +116,8 @@ def pf_txtcmds_creator():
                          f"{jsonInputDir}{dataset}_{ista}_{isess}_BI.json\n")
             create.close()
 
-    elif txtcmds_choice == 3:
-        print("\n'3' Selected ! Follow the prompted questions to create "
+    elif txtcmds_choice == 2:
+        print("\n'2' Selected ! Follow the prompted questions to create "
               "the '.txt' files for processing function `3` !!\n")
 
         input_MD_json_dir = input("Enter the absolute path of the directory where all "
@@ -160,8 +160,8 @@ def pf_txtcmds_creator():
                          f"{csv_dir_input}{icsv_woMeta}_Meta.csv\n")
             create.close()
 
-    elif txtcmds_choice == 4:
-        print("\n'4' Selected ! Follow the prompted questions to create the '.txt' files for processing function `4` !!"
+    elif txtcmds_choice == 3:
+        print("\n'3' Selected ! Follow the prompted questions to create the '.txt' files for processing function `4` !!"
               "\n")
 
         input_CSV_dir = input("Enter the absolute path to the directory where all "

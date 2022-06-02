@@ -202,9 +202,9 @@ with `/` as separator:
   - The values inside the squared brackets at the end of lines `169-171` should be changed accordingly depending on 
   users' specific situation:
 
-        169|   imageName = list(json_info['image'][i].values())[0].split('/')[12] <-- Change this value
-        170|   session = list(json_info['image'][i].values())[0].split('/')[10] <-- Change this value
-        171|   station = list(json_info['image'][i].values())[0].split('/')[9] <-- Change this value
+        167|   imageName = list(json_info['image'][i].values())[0].split('/')[12] <-- Change this value
+        168|   session = list(json_info['image'][i].values())[0].split('/')[10] <-- Change this value
+        169|   station = list(json_info['image'][i].values())[0].split('/')[9] <-- Change this value
 
 ###### ======================================================================================
 #### BF 2 | Create a combined `.txt` file containing the commands needed to start `pf_batchrun()` from `batchrun.py`
