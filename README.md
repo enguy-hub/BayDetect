@@ -133,7 +133,7 @@ JSON file, open the `cameratraps/detection/run_detector.py` file and change the 
 ------------------------------------------------------------------------------------------------------------------------
 ### Processing Function (PF)
 
-###### =================================================================================================================
+###### ======================================================================================
 #### PF 1 | Create the `BatchInput` JSON file
 
 - We suggest the `BatchInput (BI)` JSON file should be saved in a `*_BatchInput/` folder, 
@@ -146,7 +146,7 @@ should be named corresponding to its station and session. See the example JSON f
 
       /BayDetect/example/metadata/Example_Forest/JSON/EF_BatchInput/EF_007_20201104_BI.json
 
-###### =================================================================================================================
+###### ======================================================================================
 #### PF 2 | Run MegaDetector 
 
 - We suggest that the output `MegaDetected (MD)` JSON files should be saved in a `*_MegaDetected/` folder, and the 
@@ -154,7 +154,7 @@ filenames to end with `*_MD.json` similar to our example below:
 
       /BayDetect/example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_007_20201104_MD.json
 
-###### =================================================================================================================
+###### ======================================================================================
 #### PF 3 | Convert output `MegaDetected (MD)` JSON file into an organized CSV `Metadata (Meta)` file.
 
 - We suggest that the output CSV `Metadata (Meta)` files should be saved in a `*_CSV/` folder, and the filename to 
@@ -167,7 +167,7 @@ should be named corresponding to its station and session. See the example files 
 
       /BayDetect/example/metadata/Example_Forest/EF_CSV/EF_007_20201104_Meta.csv
 
-###### =================================================================================================================
+###### ======================================================================================
 #### PF 4 | Sort images into folders based on their `MegaDetected` classes indicated in the CSV `Meta` file
 
 - By default, only copies of the original images will be sorted inside `Animal`, `Human`, `Vehicle`, or `Empty` folders. 
@@ -182,7 +182,7 @@ Thus, if you want to save space and to directly move the original images into 's
 ------------------------------------------------------------------------------------------------------------------------
 ### Batch Function (BF)
 
-###### =================================================================================================================
+###### ======================================================================================
 #### BF 1 | Create `.txt` files needed to 'batch-run' one of the Processing Functions (except for `Run MegaDetector`)
 
 - For better organizing the output `.txt` files, we suggest to store the files similar to our folder structure 
@@ -206,7 +206,7 @@ with `/` as separator:
         170|   session = list(json_info['image'][i].values())[0].split('/')[10] <-- Change this value
         171|   station = list(json_info['image'][i].values())[0].split('/')[9] <-- Change this value
 
-###### =================================================================================================================
+###### ======================================================================================
 #### BF 2 | Create a combined `.txt` file containing the commands needed to start `pf_batchrun()` from `batchrun.py`
 
 - With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
@@ -232,7 +232,7 @@ into the `pf_batchrun()` function in the `batchrun.py` script, and make sure tha
 "error" saying that your commands are too long. When this happens, just commented out a portion 
 of the commands and execute them in multiple smaller executions.
 
-###### =================================================================================================================
+###### ======================================================================================
 #### BF 3 - Create a `.txt` file containing the commands needed to start `md_batchrun()` from `batchrun.py` ('batch-run' function for `PF 2 | Run MegaDetector`)
 
 - With regard to saving the `.txt` file, we suggest to save the file with the following naming format 
