@@ -21,8 +21,8 @@ animal species in forests in and around Bavaria, Germany. Hence, the name `BayDe
 ------------------------------------------------------------------------------------------------------------------------
 ## **Important notes**
 
-*At the moment BayDetect is only supported for Linux and Windows OS. If you using it on a MAC, please beware of 
-potential MAC-related errors/problems.*
+*At the moment, BayDetect is only supported for Linux and Windows OS. Thus, if you using it on a MAC, please keep in 
+mind that there you might encounter potential MAC-related errors/problems.*
 
 There are two ways to use BayDetect:
 - Via a Graphical User Interface (GUI) with was built using `tkinter` library from Python
@@ -193,18 +193,16 @@ as shown in the `EF_batch_commands/` example folder. For reference, please check
 
       /example/metadata/Example_Forest/EF_batch_commands/
 
-- **For PF 3 Only**: The CSV metadata file organizes the `Name`, `Station`, and `Session` of the image files based on 
-the file paths in `*_MD.json` file. Hence, you will need to change the values for `imageName`, `station`, and `session` 
-variables in lines `169-171` in the `process_functions.py` script (*path shown below*) according to whichever index 
-order would the `imageName`, `station`, and `session` be in an array when the file path in the `*_MD.json` is split 
-with `/` as separator:
+- **For PF 3 Only**: The CSV metadata file organizes the `Station`, and `Session` of the image files based on the file 
+paths in `*_MD.json` file. Hence, you will need to change the values for `station`, and `session` variables in lines 
+`168-169` in the `process_functions.py` script (*path shown below*) accordingly the index order (backward) that 
+`station`, and `session` names would be in an array when the `*_MD.json` filepath is split with `/` as separator:
 
       /baydetect/process_functions.py
 
-  - The values inside the squared brackets at the end of lines `169-171` should be changed accordingly depending on 
+  - The values inside the squared brackets at the end of lines `168-169` should be changed accordingly depending on 
   users' specific situation:
 
-        167|   imageName = list(json_info['image'][i].values())[0].split('/')[-1] <-- Change this value
         168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- Change this value
         169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- Change this value
 
