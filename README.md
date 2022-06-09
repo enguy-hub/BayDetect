@@ -193,18 +193,30 @@ as shown in the `EF_batch_commands/` example folder. For reference, please check
 
       /example/metadata/Example_Forest/EF_batch_commands/
 
-- **For PF 3 Only**: The CSV metadata file organizes the `Station`, and `Session` of the image files based on the file 
-paths in `*_MD.json` file. Hence, you will need to change the values for `station`, and `session` variables in lines 
-`168-169` in the `process_functions.py` script (*path shown below*) accordingly the index order (backward) that 
-`station`, and `session` names would be in an array when the `*_MD.json` filepath is split with `/` as separator:
-
-      /baydetect/process_functions.py
-
-  - The values inside the squared brackets at the end of lines `168-169` should be changed accordingly depending on 
-  users' specific situation:
-
-        168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- Change this value
-        169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- Change this value
+***Important Remark - For PF 3 Only***
+- The CSV 'Metadata' file organizes the `Station`, and `Session` of the image files based on the 'FILEPATHS' stated 
+inside `*_MD.json` files. Hence, you will need to change the values for the `station` and `session` variables at 
+in the `/baydetect/gui/batchpage.py` script lines `229-230`, and in the `/baydetect/process_functions.py` script  at 
+lines `168-169`, accordingly to the index order (count backward), in which `station` and `session` names would be 
+located in when the `*_MD.json` filepath is split with `/` as separator:
+    
+   - Taking `Session_1_20201104` of station `EF_001` as an example, the images are currently being stored inside 
+   `./example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/*.JPG`, which means two things:
+     
+     1. The index orders for `session` and `station` at lines `229-230` in the `/baydetect/gui/batchpage.py` are 
+     correctly set at `-2` and `-3` respectively, that `-1` would give the string of `100CUDDY`.
+     
+            228|   self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
+            229|   self.session.append(''.join(idirpaths.split('/')[-2]))         <-- Change this value if needed
+            230|   self.dataset_station.append(''.join(idirpaths.split('/')[-3])) <-- Change this value if needed
+ 
+     2. The index orders for `session` and `station` at lines `168-169` in the `/baydetect/process_functions.py` are 
+     correctly set at `-3` and `-4` respectively, as `-2` would give the string of `100CUDDY`, and `-1` would give the 
+     name of the image file.
+        
+            167|   imageName = list(json_info['images'][i].values())[0].split('/')[-1]
+            168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- Change this value if needed
+            169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- Change this value if needed
 
 ###### ======================================================================================
 #### BF 2 | How to execute `pf_batchrun()` function from `/batchrun.py` script
@@ -218,7 +230,7 @@ into the `pf_batchrun()` function in the `batchrun.py` script, and make sure tha
     
 - 3/ Enter number `1` to execute the function
 
-- **Note**: If you have a large dataset with many stations and sessions, you will receive an 
+**Note**: If you have a large dataset with many stations and sessions, you will receive an 
 "error" saying that your commands are too long. When this happens, just commented out a portion 
 of the commands and execute them in multiple smaller executions.
 
@@ -234,7 +246,7 @@ of the commands and execute them in multiple smaller executions.
     
 - 3/ Enter number `2` to execute the `md_batchrun()` function
 
-- **Note**: If you have a large dataset with many stations and sessions, you will receive an "error" saying that your 
+**Note**: If you have a large dataset with many stations and sessions, you will receive an "error" saying that your 
 commands are too long. When this happens, just commented out a portion of the commands and execute them in multiple
 smaller executions.
 

@@ -317,7 +317,7 @@ def sort_images_csv():  # input_path, csv_input
 
         # Make copy of the image and sorted them in categories
         for o, n in zip(old_path, new_path):
-            shutil.copy(o, n)
+            shutil.move(o, n)
 
     else:
         print("\nWrong choice, please re-run the script and follow the instructions !!!"

@@ -108,6 +108,9 @@ class FindReplaceFolderNames(ttk.Frame):
                 self.exeButton.config(text="FIND/REPLACE FOLDER-NAMES SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
 
+                self.findEntry.delete(0, 'end')
+                self.replaceEntry.delete(0, 'end')
+
 
 """
 ------------------------------------------------------------------------------------------------------------------------
@@ -175,6 +178,9 @@ class FindReplaceFileNames(ttk.Frame):
 
                 self.exeButton.config(text="FIND/REPLACE FILE-NAMES SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
+
+                self.findEntry.delete(0, 'end')
+                self.replaceEntry.delete(0, 'end')
 
 
 """
@@ -255,6 +261,10 @@ class FindReplaceContentInFiles(ttk.Frame):
 
                 self.exeButton.config(text="FIND/REPLACE FILE CONTENT SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
+
+                self.extensionEntry.delete(0, 'end')
+                self.findEntry.delete(0, 'end')
+                self.replaceEntry.delete(0, 'end')
 
 
 if __name__ == "__main__":

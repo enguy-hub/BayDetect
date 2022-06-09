@@ -39,7 +39,7 @@ def pf_txtcmds_creator():
     pattern1_list = []
     pattern2_list = []
 
-    img_paths = []
+    img_folderpaths = []
     dataset_station = []
     station = []
     session = []
@@ -81,9 +81,9 @@ def pf_txtcmds_creator():
     for idirpaths in org_img_dirpath:
         for dirpath, dirnames, files in os.walk(idirpaths):
             if files:
-                img_paths.append(''.join(idirpaths.split()[-1]))
-                dataset_station.append(''.join(idirpaths.split('/')[input_dataset_station]))
+                img_folderpaths.append(''.join(idirpaths.split()[-1]))
                 session.append(''.join(idirpaths.split('/')[input_session]))
+                dataset_station.append(''.join(idirpaths.split('/')[input_dataset_station]))
             if not files:
                 pass
 
@@ -108,7 +108,7 @@ def pf_txtcmds_creator():
         jsonInputDir = input_BI_json_dir.replace("\\", "/") + "/"
         txtcmds_dir_input = input_txtcmds_dir.replace("\\", "/") + "/"
 
-        for ista, isess, ipaths in zip(station, session, img_paths):
+        for ista, isess, ipaths in zip(station, session, img_folderpaths):
             create = open(f"{txtcmds_dir_input}pf1_createBIJSON_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
