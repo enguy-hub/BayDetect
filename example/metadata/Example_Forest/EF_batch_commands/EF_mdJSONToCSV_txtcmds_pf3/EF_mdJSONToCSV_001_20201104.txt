@@ -1,5 +1,0 @@
-1
-2
-C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/20201104/
-C:/BayDetect/example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_001_20201104_MD.json
-C:/BayDetect/example/metadata/Example_Forest/EF_CSV/EF_001_20201104_MD_Meta.csv

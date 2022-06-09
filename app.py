@@ -1,5 +1,6 @@
 # License: http://creativecommons.org/licenses/by-sa/3.0/
 from tkinter import Tk
+from tkinter import *
 
 from baydetect.gui.homepage import HomePage
 from baydetect.gui.processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
@@ -38,7 +39,10 @@ class BayDetectApp(Tk):
     def __init__(self):
         Tk.__init__(self)
 
-        self.iconbitmap(self, default='./baydetect/gui/resources/lwf_icon.ico')
+        favico = PhotoImage(file="./baydetect/gui/resources/lwf_icon-1.png")
+
+        # self.iconbitmap(self, default='./baydetect/gui/resources/lwf_icon.ico')
+        self.iconphoto(False, favico)
         Tk.title(self, "Bay Detect App")
 
         w = Tk.winfo_reqwidth(self)

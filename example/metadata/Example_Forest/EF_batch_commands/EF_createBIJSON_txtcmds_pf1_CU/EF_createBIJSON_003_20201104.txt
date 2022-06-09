@@ -1,4 +1,0 @@
-1
-1
-C:/BayDetect/example/image_data/Example_Forest/Raw_Photos_CU/EF_003/20201104/100CUDDY/
-C:/BayDetect/example/metadata/Example_Forest/EF_JSON/EF_BatchInput_CU//EF_003_20201104_BI.json

@@ -1,5 +1,0 @@
-1
-3
-C:/BayDetect/example/image_data/Example_Forest/Raw_Photos_CU/EF_002/20201104/100CUDDY/
-C:/BayDetect/example/metadata/Example_Forest/EF_CSV_CU/EF_002_20201104_MD_Meta.csv
-N

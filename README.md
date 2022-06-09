@@ -21,6 +21,9 @@ animal species in forests in and around Bavaria, Germany. Hence, the name `BayDe
 ------------------------------------------------------------------------------------------------------------------------
 ## **Important notes**
 
+*At the moment BayDetect is only supported for Linux and Windows OS. If you using it on a MAC, please beware of 
+potential MAC-related errors/problems.*
+
 There are two ways to use BayDetect:
 - Via a Graphical User Interface (GUI) with was built using `tkinter` library from Python
 - Via the command line, for which users can give BayDetect instructions using the built-in 
@@ -73,12 +76,15 @@ the `run_detector_batch.py` file from the `/cameratraps/detection/` folder to th
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- *EXAMPLE*: if you are working with multiple camera-trap stations and sessions, we suggest to arrange the images inside
-folder structure as follows:
+- ***As an example***: 
+- Navigate to `/example/image_data/Example_Forest/` folder to see how the IMAGE FILES are currently being 
+stored on our server at LWF.
 
-      /example/image_data/Example_Forest/Raw_Photos/EF_001/20201104/*.jpg
-      /example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/*.jpg
-      /example/image_data/Example_Forest/Raw_Photos/EF_003/20201104/*.jpg
+#### 8. Create sub-folders inside the `/metadata` directory for the output JSON, CSV and TXT files, which will be created after running `BayDetect`
+
+- ***As an example***: 
+- Navigate to `/example/metadata/Example_Forest/` folder to see how the OUTPUT JSON,CSV, and TXT FILES are currently 
+being stored on our server at LWF.
 
 ### Once all the above steps are complete, you are ready to use BayDetect !!!
 
@@ -100,17 +106,17 @@ and produce a `MegaDetected` JSON file as the output.
 - 3/ Convert the output `MegaDetected` JSON file into an organized CSV `Metadata` file.
 - 4/ Sort the images into separated folders based on their `MegaDetected` classes indicated in the CSV `Metadata` file.
 
-#### Utility Functions (UF)
-- 1/ Find and replace the names of multiple folders at once.
-- 2/ Find and replace the names of multiple files at once.
-- 3/ Find and replace the text-content inside multiple files at once.
-
 #### Batch Functions (BF)
 - 1/ Create '.txt' files containing the commands needed to 'batch-run' one of the Processing Function (except for 
 Processing Function #2 | Run MegaDetector)
 - 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` from `batchrun.py`.
 - 3/ Create ".txt" file containing the commands needed to 'batch-run' the process of executing MegaDetector via the 
 `md_batchrun()` from `batchrun.py`. ('batch-run` function for Processing Function #2 | Run MegaDetector)
+
+#### Utility Functions (UF)
+- 1/ Find and replace the names of multiple folders at once.
+- 2/ Find and replace the names of multiple files at once.
+- 3/ Find and replace the text-content inside multiple files at once.
 
 ------------------------------------------------------------------------------------------------------------------------
 ## How to run BayDetect
