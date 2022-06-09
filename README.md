@@ -179,7 +179,7 @@ Thus, if you want to save space and to directly move the original images into 's
 - Line `320` in `/baydetect/process_functions.py` script should be as follows:
 
       319|  for o, n in zip(old_path, new_path):
-      320|     shutil.move(o, n)        <-- Change from `.copy()` to `.move()`
+      320|     shutil.move(o, n)                <-- Change from `.copy()` to `.move()`
 
 ------------------------------------------------------------------------------------------------------------------------
 ### Batch Function (BF)
