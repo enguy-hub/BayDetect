@@ -334,6 +334,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -449,6 +450,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -543,6 +545,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -702,6 +705,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) CREATED SUCCESSFULLY !!!"
@@ -772,37 +776,35 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         csvDir = self.yesOutputCSVDirPath
         txtOutputDir = self.yesOutputTxtDirPath2
 
-        md_json_paths = []
-        md_json_names = []
+        md_json_fullpaths = []
+        md_json_withMD = []
         csv_woMeta = []
 
         for (dirpath, dirnames, filenames) in os.walk(mdJSONDir):
             for ifilenames in filenames:
-                md_json_paths.append(os.path.join(dirpath, ifilenames))
+                md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
+                json_names, extension = os.path.splitext(ifilenames)
+                md_json_withMD.append(json_names)
 
-            for ifilenames in range(len(filenames)):
-                fullnames = filenames[ifilenames]
-                json_names, extension = os.path.splitext(fullnames)
-                md_json_names.append(json_names)
+        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
+        print(md_json_withMD)
 
-            print(md_json_names)
-
-        for iname in md_json_names:
+        for iname in md_json_withMD:
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
-        print("\nSelected IMAGE FOLDERS: ")
+        print("\nIMAGE FOLDER PATHS: ")
         print(self.org_img_dirpath)
 
-        print("\nSelected JSON files: ")
-        print(md_json_paths)
+        print("\nPaths to MegaDetected JSON files: ")
+        print(md_json_fullpaths)
 
-        print("\nSelected CSV files: ")
+        print("\nFirst part of CSV filenames: ")
         print(csv_woMeta)
 
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.org_img_dirpath,
-                                                                          md_json_paths, csv_woMeta):
+                                                                          md_json_fullpaths, csv_woMeta):
             create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
@@ -827,6 +829,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -926,6 +929,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for widget in destroy_these:
                 widget.destroy()
 
+            self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -1005,6 +1009,8 @@ class Batchrun_CombinedTXT(ttk.Frame):
 
                 self.createCombinedTxtButton.config(text="THE COMBINED `.TXT` FILE WAS CREATED SUCCESSFULLY !!!"
                                                          "\nPlease adjust the previous steps for the new run")
+
+        self.chosenFunctionEntry.delete(0, 'end')
 
         print("\nTHE COMBINED `.TXT` FILE WAS CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for the new run")

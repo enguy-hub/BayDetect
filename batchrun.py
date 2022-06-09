@@ -8,13 +8,13 @@ def pf_batchrun():
         # Insert new python commands below this line
 
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_002_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_001_Session_1_20201104.txt '
         '&& '
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_003_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_002_Session_1_20201104.txt '
         '&& '
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_001_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_003_Session_1_20201104.txt '
 
     )
     return print('Finished !!')

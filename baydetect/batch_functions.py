@@ -109,7 +109,7 @@ def pf_txtcmds_creator():
         txtcmds_dir_input = input_txtcmds_dir.replace("\\", "/") + "/"
 
         for ista, isess, ipaths in zip(station, session, img_paths):
-            create = open(f"{txtcmds_dir_input}{dataset}_createBIJSON_{ista}_{isess}.txt", "a")
+            create = open(f"{txtcmds_dir_input}pf1_createBIJSON_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
@@ -133,26 +133,35 @@ def pf_txtcmds_creator():
         csv_dir_input = input_csv_dir.replace("\\", "/") + "/"
         txtcmds_dir_input = input_txtcmds_dir.replace("\\", "/") + "/"
 
-        md_json_paths = []
-        md_json_names = []
+        md_json_fullpaths = []
+        md_json_withMD = []
         csv_woMeta = []
 
         for (dirpath, dirnames, filenames) in os.walk(MD_json_dir_input):
             for ifilenames in filenames:
-                md_json_paths.append(os.path.join(dirpath, ifilenames))
+                md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
+                json_names, extension = os.path.splitext(ifilenames)
+                md_json_withMD.append(json_names)
 
-            for ifilenames in range(len(filenames)):
-                fullnames = filenames[ifilenames]
-                json_names, extension = os.path.splitext(fullnames)
-                md_json_names.append(json_names)
+        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
+        print(md_json_withMD)
 
-        for iname in md_json_names:
+        for iname in md_json_withMD:
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
+        print("\nIMAGE FOLDER PATHS: ")
+        print(org_img_dirpath)
+
+        print("\nPaths to MegaDetected JSON files: ")
+        print(md_json_fullpaths)
+
+        print("\nFirst part of CSV filenames: ")
+        print(csv_woMeta)
+
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(station, session, org_img_dirpath,
-                                                                          md_json_paths, csv_woMeta):
-            create = open(f"{txtcmds_dir_input}{dataset}_mdJSONToCSV_{ista}_{isess}.txt", "a")
+                                                                          md_json_fullpaths, csv_woMeta):
+            create = open(f"{txtcmds_dir_input}pf3_mdJSONToCSV_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
                          f"{iorg_dirpath}/\n"
@@ -161,7 +170,7 @@ def pf_txtcmds_creator():
             create.close()
 
     elif txtcmds_choice == 3:
-        print("\n'3' Selected ! Follow the prompted questions to create the '.txt' files for processing function `4` !!"
+        print("\n'3' Selected ! Follow the prompted questions to create the '.txt' files for processing function `3` !!"
               "\n")
 
         input_CSV_dir = input("Enter the absolute path to the directory where all "
@@ -184,7 +193,7 @@ def pf_txtcmds_creator():
                 CSV_paths.append(os.path.join(dirpath, ifilenames))
 
         for ista, isess, iorg_dirpath, icsv in zip(station, session, org_img_dirpath, CSV_paths):
-            create = open(f"{txtcmds_dir_input}{dataset}_sortImages_{ista}_{isess}.txt", "a")
+            create = open(f"{txtcmds_dir_input}pf4_sortImages_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
@@ -213,13 +222,12 @@ def pf_pycmds_creator():
 
         txtcmd_dir_name = ''.join(dirpath.split('/')[-2])
         chosenFunction = ''.join(txtcmd_dir_name.split('_')[1])
-        dataset_name = ''.join(txtcmd_dir_name.split())[:2]
 
         for ifilenames in filenames:
             fullpaths = Path(os.path.join(dirpath, ifilenames))
             new_fullpath = str(fullpaths).replace("\\", "/")
 
-            f = open(f"{output_txtfile_dir}{dataset_name}_{chosenFunction}_combinedCmds.txt", "a")
+            f = open(f"{output_txtfile_dir}pf{chosenFunction}_combinedCmds.txt", "a")
             f.write(f"'python main.py < '\n'{new_fullpath} '\n"
                     f"'&& '\n")
             f.close()
@@ -232,7 +240,7 @@ def md_pycmds_creator():
     input_json_dir = input("Enter the absolute path of the 'JSON/BatchInput' directory: ")
 
     output_txtfile = input("Enter the absolute path and name for the python commands "
-                           "`.txt` file (end with '*dataset_name*_runMD_cmds.txt'): ")
+                           "`.txt` file (end with 'pf2_runMD_cmds.txt'): ")
 
     json_dir_input = input_json_dir.replace("\\", "/") + "/"
 
@@ -246,7 +254,7 @@ def md_pycmds_creator():
             names_withBI, extension = os.path.splitext(fullnames)
             name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-            with open(output_txtfile, "a") as f:
+            with open(f"pf2_runMD_cmds.txt", "a") as f:
                 f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
                         f"'..{root_path}{names_withBI}.json ' \n"
                         f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"
