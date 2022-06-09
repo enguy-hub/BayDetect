@@ -86,7 +86,7 @@ stored on our server at LWF.
 - Navigate to `/example/metadata/Example_Forest/` folder to see how the OUTPUT JSON,CSV, and TXT FILES are currently 
 being stored on our server at LWF.
 
-### Once all the above steps are complete, you are ready to use BayDetect !!!
+### !!! Once all the above steps are complete, you are ready to use BayDetect !!!
 
 ------------------------------------------------------------------------------------------------------------------------
 ## Extra Note
