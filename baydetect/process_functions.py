@@ -164,9 +164,9 @@ def md_csv_converter():
 
     for i in range(len(list(json_info['images']))):
 
-        imageName = list(json_info['images'][i].values())[0].split('/')[8]
-        session = list(json_info['images'][i].values())[0].split('/')[7]
-        station = list(json_info['images'][i].values())[0].split('/')[6]
+        imageName = list(json_info['images'][i].values())[0].split('/')[-1]
+        session = list(json_info['images'][i].values())[0].split('/')[-2]
+        station = list(json_info['images'][i].values())[0].split('/')[-3]
 
         imagePath = list(json_info['images'][i].values())[0]
 

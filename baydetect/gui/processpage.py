@@ -39,12 +39,12 @@ class ProcessingPage(ttk.Frame):
         proc2_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
         proc3_btn = ttk.Button(self.sw.scrollwindow,
-                               text="3/ Convert the `mega-detected` JSON file into a CSV `Metadata` file",
+                               text="3/ Convert the `MegaDetected` JSON file into a CSV `Metadata` file",
                                command=lambda: master.switch_frame("CSV Convertor Page"))
         proc3_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
         proc4_btn = ttk.Button(self.sw.scrollwindow, text="4/ Sort the images into separate folders based on their "
-                                                          "\n`mega-detected` classes using a CSV `Metadata` file",
+                                                          "\n`MegaDetected` classes using a CSV `Metadata` file",
                                command=lambda: master.switch_frame("Image Sorter Page"))
         proc4_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
@@ -139,7 +139,7 @@ class JSONCreator(ttk.Frame):
         with open(outputDir, 'w') as f:
             print(json.dump(files, f, indent=4))
 
-            self.createJSONButton.config(text="THE `BATCHINPUT` JSON WAS CREATED SUCCESSFULLY !!!"
+            self.createJSONButton.config(text="THE `BATCH-INPUT` JSON WAS CREATED SUCCESSFULLY !!!"
                                               "\nPlease adjust the previous steps for the "
                                               "new run then CLICK this button to run again")
 
@@ -294,16 +294,16 @@ class CSVConvertor(ttk.Frame):
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
         sessionNameLabel = ttk.Label(self.sw.scrollwindow,
-                                     text="2/ What is the index order in an array would the `SESSION NAME` be when"
-                                          "\nthe folder path shown above is split into an array with `/` as separator?")
+                                     text="2/ Which index order is the `SESSION NAME` when the "
+                                          "\nabove FOLDER-PATH is split with `/` as separator?")
         sessionNameLabel.grid(row=2, sticky='')
 
         self.sessionNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.sessionNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
         stationNameLabel = ttk.Label(self.sw.scrollwindow,
-                                     text="3/ What is the index order in an array would the `STATION NAME` be when the"
-                                          "\nfolder path shown above is split into an array with `/` as separator?")
+                                     text="3/ Which index order is the `STATION NAME` when the"
+                                          "\nabove FOLDER-PATH is split with `/` as separator?")
         stationNameLabel.grid(row=4, sticky='')
 
         self.stationNameEntry = ttk.Entry(self.sw.scrollwindow)

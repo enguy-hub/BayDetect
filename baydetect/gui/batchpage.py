@@ -24,8 +24,8 @@ class BatchPage(ttk.Frame):
         label.pack(ipady=5, padx=5, pady=5, expand=1)
 
         batc1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Create `.txt` files needed to `batch-run` "
-                                                          "one of the `Processing\nFunction`, except for "
-                                                          "`Run MegaDetector` function",
+                                                          "one of the `Processing Function`,\nexcept for "
+                                                          "`Processing Function 2` (Run MegaDetector)",
                                command=lambda: master.switch_frame("Batchrun Processing Functions"))
         batc1_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
 
@@ -250,12 +250,12 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noJSONCreator_btn.grid(row=8, ipady=5, ipadx=5, sticky='n')
 
         self.noCSVConverter_btn = ttk.Button(self.sw.scrollwindow,
-                                             text="Convert `MegaDetected` JSON to CSV `Metadata` Files",
+                                             text="Convert `MegaDetected` JSON to CSV `Metadata` file",
                                              command=self.noCSVConvertor)
         self.noCSVConverter_btn.grid(row=9, ipady=5, ipadx=5, sticky='n')
 
         self.noSortImages_btn = ttk.Button(self.sw.scrollwindow,
-                                           text="Sort the images using CSV `Metadata` files",
+                                           text="Sort the images using CSV `Metadata` file",
                                            command=self.noImageSorter)
         self.noSortImages_btn.grid(row=10, ipady=5, ipadx=5, sticky='n')
 
@@ -286,7 +286,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
     def noInputJSONDir(self):
         noInputJSONDir = filedialog.askdirectory(title='Please select the output folder for `BatchInput` JSON files')
-        self.noInputJSONDirPath = str(noInputJSONDir) + "/"
+        self.noInputJSONDirPath = str(noInputJSONDir)
         self.noInputJSONDirPath.replace("\\", "/")
 
         self.noInputJSONDirLabel = ttk.Label(self.sw.scrollwindow,
@@ -312,7 +312,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         txtOutputDir = self.noOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_pf1_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
@@ -422,7 +422,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.org_img_dirpath, md_json_paths,
                                                                           csv_woMeta):
-            create = open(f"{txtOutputDir}{self.dataset}_mdJSONToCSV_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_mdJSONToCSV_pf3_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
                          f"{iorg_dirpath}/\n"
@@ -515,7 +515,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                 CSV_paths.append(os.path.join(dirpath, ifilenames))
 
         for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_sortImages_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_sortImages_pf4_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
@@ -595,8 +595,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print(self.station)
         print(self.session)
 
-        self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="4/ Which `processing function` would you like "
-                                                                     "to create the batch-run's `*.txt` files for?")
+        self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="4/ Which PROCESSING FUNCTION would you like "
+                                                                     "to create the batch-run `*.txt` files for?")
         self.yesPFChoiceLabel.grid(row=10, sticky='')
 
         self.yesJSONCreator_btn = ttk.Button(self.sw.scrollwindow, text="`BatchInput` JSON Creator",
@@ -604,11 +604,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesJSONCreator_btn.grid(row=11, ipady=5, ipadx=5, sticky='n')
 
         self.yesCSVConverter_btn = ttk.Button(self.sw.scrollwindow,
-                                              text="Convert `MegaDetected` JSON to CSV `Metadata` Files",
+                                              text="Convert `MegaDetected` JSON to CSV `Metadata` file",
                                               command=self.yesCSVConvertor)
         self.yesCSVConverter_btn.grid(row=12, ipady=5, ipadx=5, sticky='n')
 
-        self.yesSortImages_btn = ttk.Button(self.sw.scrollwindow, text="Sort the images using CSV `Metadata` files",
+        self.yesSortImages_btn = ttk.Button(self.sw.scrollwindow, text="Sort the images using CSV `Metadata` file",
                                             command=self.yesImageSorter)
         self.yesSortImages_btn.grid(row=13, ipady=5, ipadx=5, sticky='n')
 
@@ -663,7 +663,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         txtOutputDir = self.yesOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_pf1_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
@@ -772,7 +772,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.org_img_dirpath, md_json_paths,
                                                                           csv_woMeta):
-            create = open(f"{txtOutputDir}{self.dataset}_mdJSONToCSV_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_mdJSONToCSV_pf3_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
                          f"{iorg_dirpath}/\n"
@@ -866,7 +866,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print(CSV_paths)
 
         for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_sortImages_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}{self.dataset}_sortImages_pf4_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
@@ -1038,7 +1038,7 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                 names_withBI, extension = os.path.splitext(fullnames)
                 name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-                with open(output_txtdir + datasetName + "_runMD_cmds.txt", "a") as f:
+                with open(output_txtdir + datasetName + "_runMD_cmds_pf2.txt", "a") as f:
                     f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
                             f"'..{root_path}{names_withBI}.json ' \n"
                             f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"

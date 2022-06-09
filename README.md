@@ -73,13 +73,22 @@ the `run_detector_batch.py` file from the `/cameratraps/detection/` folder to th
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- When there are multiple camera-trap stations and sessions, we suggest to arrange them as shown below:
+- *EXAMPLE*: if you are working with multiple camera-trap stations and sessions, we suggest to arrange the images inside
+folder structure as follows:
 
       /example/image_data/Example_Forest/Raw_Photos/EF_001/20201104/*.jpg
       /example/image_data/Example_Forest/Raw_Photos/EF_002/20201104/*.jpg
       /example/image_data/Example_Forest/Raw_Photos/EF_003/20201104/*.jpg
 
 ### Once all the above steps are complete, you are ready to use BayDetect !!!
+
+------------------------------------------------------------------------------------------------------------------------
+## Extra Note
+
+Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
+JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follows:
+
+    DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
 
 ------------------------------------------------------------------------------------------------------------------------
 ## Features in BayDetect
@@ -102,19 +111,6 @@ Processing Function #2 | Run MegaDetector)
 - 2/ Create a combined ".txt" file containing the commands needed to start the `pf_batchrun()` from `batchrun.py`.
 - 3/ Create ".txt" file containing the commands needed to 'batch-run' the process of executing MegaDetector via the 
 `md_batchrun()` from `batchrun.py`. ('batch-run` function for Processing Function #2 | Run MegaDetector)
-
-------------------------------------------------------------------------------------------------------------------------
-## **Extra Note**
-
-Before using BayDetect, always makesure that the `cameratraps-detector` conda environment is activated. 
-Activate it with the following command:
-
-    conda activate cameratraps-detector
-
-Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
-JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follows:
-
-    DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
 
 ------------------------------------------------------------------------------------------------------------------------
 ## How to run BayDetect
