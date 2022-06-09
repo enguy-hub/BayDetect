@@ -76,13 +76,13 @@ the `run_detector_batch.py` file from the `/cameratraps/detection/` folder to th
 
 #### 7. Putting the images that you want to be classified inside `/image_data` directory
 
-- ***As an example***: 
+***Our example***: 
 - Navigate to `/example/image_data/Example_Forest/` folder to see how the IMAGE FILES are currently being 
 stored on our server at LWF.
 
 #### 8. Create sub-folders inside the `/metadata` directory for the output JSON, CSV and TXT files, which will be created after running `BayDetect`
 
-- ***As an example***: 
+***Our example***: 
 - Navigate to `/example/metadata/Example_Forest/` folder to see how the OUTPUT JSON,CSV, and TXT FILES are currently 
 being stored on our server at LWF.
 
