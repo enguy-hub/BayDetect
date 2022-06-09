@@ -59,7 +59,7 @@ def md_json_creator():
     usr_input_name = input("Give a name and absolute path of where the `BatchInput` "
                            "JSON file will be saved at (end with '*_BI.json'): ")
 
-    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
+    usr_input_dir = input_usr_dir.replace("\\", "/")
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
@@ -165,8 +165,8 @@ def md_csv_converter():
     for i in range(len(list(json_info['images']))):
 
         imageName = list(json_info['images'][i].values())[0].split('/')[-1]
-        session = list(json_info['images'][i].values())[0].split('/')[-2]
-        station = list(json_info['images'][i].values())[0].split('/')[-3]
+        session = list(json_info['images'][i].values())[0].split('/')[-3]
+        station = list(json_info['images'][i].values())[0].split('/')[-4]
 
         imagePath = list(json_info['images'][i].values())[0]
 

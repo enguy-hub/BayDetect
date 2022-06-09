@@ -24,7 +24,7 @@ class BatchPage(ttk.Frame):
         label.pack(ipady=5, padx=5, pady=5, expand=1)
 
         batc1_btn = ttk.Button(self.sw.scrollwindow, text="1/ Create `.txt` files needed to `batch-run` "
-                                                          "one of the `Processing Function`,\nexcept for "
+                                                          "one of the `Processing\nFunction`, except for "
                                                           "`Processing Function 2` (Run MegaDetector)",
                                command=lambda: master.switch_frame("Batchrun Processing Functions"))
         batc1_btn.pack(ipadx=10, ipady=10, expand=True, fill=tk.BOTH)
@@ -95,21 +95,20 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         # -------------------------------------- #
         # Variables for JSON Creator `batch-run`
         self.yesInputJSONDirPath = None
-        self.yesOutputTxtDirPath1 = None
-
         self.noInputJSONDirPath = None
-        self.noOutputTxtDirPath1 = None
 
         # To destroy | JSON Creator `batch-run` widget variables
         self.yesInputJSONDirButton = None
         self.yesInputJSONDirLabel = None
         self.yesOutputTxtDirButton1 = None
+        self.yesOutputTxtDirPath1 = None
         self.yesOutputTxtDirLabel1 = None
         self.yesCreateJSONTxtButton = None
 
         self.noInputJSONDirButton = None
         self.noInputJSONDirLabel = None
         self.noOutputTxtDirButton1 = None
+        self.noOutputTxtDirPath1 = None
         self.noOutputTxtDirLabel1 = None
         self.noCreateJSONTxtButton = None
 
@@ -117,11 +116,9 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         # Variables for CSV Convertor `batch-run`
         self.yesMDJSONDirPath = None
         self.yesOutputCSVDirPath = None
-        self.yesOutputTxtDirPath2 = None
 
         self.noMDJSONDirPath = None
         self.noOutputCSVDirPath = None
-        self.noOutputTxtDirPath2 = None
 
         # To destroy | CSV Convertor `batch-run` widget variables
         self.yesMDJSONDirButton = None
@@ -129,6 +126,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputCSVDirButton = None
         self.yesOutputCSVDirLabel = None
         self.yesOutputTxtDirButton2 = None
+        self.yesOutputTxtDirPath2 = None
         self.yesOutputTxtDirLabel2 = None
         self.yesConvertCSVTxtButton = None
 
@@ -137,16 +135,14 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputCSVDirButton = None
         self.noOutputCSVDirLabel = None
         self.noOutputTxtDirButton2 = None
+        self.noOutputTxtDirPath2 = None
         self.noOutputTxtDirLabel2 = None
         self.noConvertCSVTxtButton = None
 
         # -------------------------------------- #
         # Variables for Image Sorter `batch-run`
         self.yesInputCSVDirPath = None
-        self.yesOutputTxtDirPath3 = None
-
         self.noInputCSVDirPath = None
-        self.noOutputTxtDirPath3 = None
 
         # To destroy | CSV Convertor `batch-run` widget variables
         self.yesInputCSVDirButton = None
@@ -154,6 +150,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesSortedLabel = None
         self.yesSortedEntry = None
         self.yesOutputTxtDirButton3 = None
+        self.yesOutputTxtDirPath3 = None
         self.yesOutputTxtDirLabel3 = None
         self.yesSortImagesTxtButton = None
 
@@ -162,6 +159,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSortedLabel = None
         self.noSortedEntry = None
         self.noOutputTxtDirButton3 = None
+        self.noOutputTxtDirPath3 = None
         self.noOutputTxtDirLabel3 = None
         self.noSortImagesTxtButton = None
 
@@ -228,8 +226,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_paths.append(''.join(idirpaths.split()[-1]))
-                    self.dataset_station.append(''.join(idirpaths.split('/')[9]))
-                    self.session.append(''.join(idirpaths.split('/')[10]))
+                    self.session.append(''.join(idirpaths.split('/')[-2]))
+                    self.dataset_station.append(''.join(idirpaths.split('/')[-4]))
                 if not files:
                     pass
 
@@ -237,8 +235,12 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print(self.dataset)
+        print("\nDataset Name: " + self.dataset)
+
+        print("\nList of Stations: ")
         print(self.station)
+
+        print("\nList of Sessions: ")
         print(self.session)
 
         self.noPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="4/ Which `processing function` would you like "
@@ -300,11 +302,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirPath1 = str(noOutputTxtDir1) + "/"
         self.noOutputTxtDirPath1.replace("\\", "/")
 
-        self.noOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow,
-                                              text=self.noOutputTxtDirPath1)
+        self.noOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=str(noOutputTxtDir1))
         self.noOutputTxtDirLabel1.grid(row=14, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.noOutputTxtDirPath1)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(noOutputTxtDir1))
 
     def noCreateJSONTxt(self):
 
@@ -312,7 +313,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         txtOutputDir = self.noOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_pf1_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf1_createBIJSON_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
@@ -327,8 +328,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                              self.noPFChoiceLabel, self.noJSONCreator_btn,
                              self.noCSVConverter_btn,  self.noSortImages_btn,
                              self.noInputJSONDirButton, self.noInputJSONDirLabel,
-                             self.noOutputTxtDirButton1, self.noOutputTxtDirLabel1,
-                             self.noCreateJSONTxtButton]
+                             self.noOutputTxtDirButton1, # self.noOutputTxtDirPath1,
+                             self.noOutputTxtDirLabel1, self.noCreateJSONTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -391,10 +392,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirPath2.replace("\\", "/")
 
         self.noOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow,
-                                              text=self.noOutputTxtDirPath2)
+                                              text=str(noOutputTxtDir2))
         self.noOutputTxtDirLabel2.grid(row=16, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.noOutputTxtDirPath2)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(noOutputTxtDir2))
 
     def noConvertCSVTxt(self):
 
@@ -422,7 +423,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.org_img_dirpath, md_json_paths,
                                                                           csv_woMeta):
-            create = open(f"{txtOutputDir}{self.dataset}_mdJSONToCSV_pf3_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
                          f"{iorg_dirpath}/\n"
@@ -434,15 +435,15 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=23, sticky='n', pady=4)  #
 
-            self.successLabel.after(2000, lambda: self.successLabel.destroy())
+            # self.successLabel.after(2000, lambda: self.successLabel.destroy())
 
             destroy_these = [self.inputDirLabel,
                              self.noPFChoiceLabel, self.noJSONCreator_btn,
                              self.noCSVConverter_btn,  self.noSortImages_btn,
                              self.noMDJSONDirButton, self.noMDJSONDirLabel,
                              self.noOutputCSVDirButton, self.noOutputCSVDirLabel,
-                             self.noOutputTxtDirButton2, self.noOutputTxtDirLabel2,
-                             self.noConvertCSVTxtButton]
+                             self.noOutputTxtDirButton2, # self.noOutputTxtDirPath2,
+                             self.noOutputTxtDirLabel2, self.noConvertCSVTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -497,10 +498,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirPath3 = str(noOutputTxtDir3) + "/"
         self.noOutputTxtDirPath3.replace("\\", "/")
 
-        self.noOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=self.noOutputTxtDirPath3)
+        self.noOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=str(noOutputTxtDir3))
         self.noOutputTxtDirLabel3.grid(row=16, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.noOutputTxtDirPath3)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(noOutputTxtDir3))
 
     def noSortImageTxt(self):
 
@@ -515,7 +516,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                 CSV_paths.append(os.path.join(dirpath, ifilenames))
 
         for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_sortImages_pf4_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
@@ -532,8 +533,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                              self.noCSVConverter_btn, self.noSortImages_btn,
                              self.noInputCSVDirButton, self.noInputCSVDirLabel,
                              self.noSortedLabel, self.noSortedEntry,
-                             self.noOutputTxtDirButton3, self.noOutputTxtDirLabel3,
-                             self.noSortImagesTxtButton]
+                             self.noOutputTxtDirButton3, # self.noOutputTxtDirPath3,
+                             self.noOutputTxtDirLabel3,  self.noSortImagesTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -582,17 +583,27 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_paths.append(''.join(idirpaths.split()[-1]))
-                    self.dataset_station.append(''.join(idirpaths.split('/')[9]))
-                    self.session.append(''.join(idirpaths.split('/')[10]))
+                    self.session.append(''.join(idirpaths.split('/')[-2]))
+                    self.dataset_station.append(''.join(idirpaths.split('/')[-3]))
                 if not files:
                     pass
+
+        print("\nList of Paths to Folders Contain Images: ")
+        print(self.img_paths)
+
+        print("\nList of Dataset Stations: ")
+        print(self.dataset_station)
 
         for name in self.dataset_station:
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print(self.dataset)
+        print("\nDataset Name: " + self.dataset)
+
+        print("\nList of Stations: ")
         print(self.station)
+
+        print("\nList of Sessions: ")
         print(self.session)
 
         self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="4/ Which PROCESSING FUNCTION would you like "
@@ -652,10 +663,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputTxtDirPath1 = str(yesOutputTxtDir1) + "/"
         self.yesOutputTxtDirPath1.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath1)
+        self.yesOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir1))
         self.yesOutputTxtDirLabel1.grid(row=17, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.yesOutputTxtDirPath1)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(yesOutputTxtDir1))
 
     def yesCreateJSONTxt(self):
 
@@ -663,24 +674,24 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         txtOutputDir = self.yesOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_createBIJSON_pf1_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf1_createBIJSON_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
-                         f"{jsonInputDir}/{self.dataset}_{ista}_{isess}_BI.json\n")
+                         f"{jsonInputDir}{self.dataset}_{ista}_{isess}_BI.json\n")
             create.close()
 
             self.successLabel = ttk.Label(self.sw.scrollwindow, text="`.TXT` FILE(S) CREATED SUCCESSFULLY !!!"
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=23, pady=4, sticky='n')
 
-            destroy_these = [self.inputDirLabel,
-                             self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+            destroy_these = [self.inputDirLabel, self.pattern2Label,
+                             self.pattern2Entry, self.confirmPattern2,
                              self.yesPFChoiceLabel, self.yesJSONCreator_btn,
                              self.yesCSVConverter_btn,  self.yesSortImages_btn,
                              self.yesInputJSONDirButton, self.yesInputJSONDirLabel,
-                             self.yesOutputTxtDirButton1, self.yesOutputTxtDirLabel1,
-                             self.yesCreateJSONTxtButton]
+                             self.yesOutputTxtDirButton1, # self.yesOutputTxtDirPath1,
+                             self.yesOutputTxtDirLabel1, self.yesCreateJSONTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -742,10 +753,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputTxtDirPath2 = str(yesOutputTxtDir2) + "/"
         self.yesOutputTxtDirPath2.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath2)
+        self.yesOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir2))
         self.yesOutputTxtDirLabel2.grid(row=19, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.yesOutputTxtDirPath2)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(yesOutputTxtDir2))
 
     def yesConvertCSVTxt(self):
         mdJSONDir = self.yesMDJSONDirPath
@@ -786,14 +797,14 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
             # self.successLabel.after(2000, lambda: self.successLabel.destroy())
 
-            destroy_these = [self.inputDirLabel,
-                             self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+            destroy_these = [self.inputDirLabel, self.pattern2Label,
+                             self.pattern2Entry, self.confirmPattern2,
                              self.yesPFChoiceLabel, self.yesJSONCreator_btn,
                              self.yesCSVConverter_btn,  self.yesSortImages_btn,
                              self.yesMDJSONDirButton, self.yesMDJSONDirLabel,
                              self.yesOutputCSVDirButton, self.yesOutputCSVDirLabel,
-                             self.yesOutputTxtDirButton2, self.yesOutputTxtDirLabel2,
-                             self.yesConvertCSVTxtButton]
+                             self.yesOutputTxtDirButton2, # self.yesOutputTxtDirPath2,
+                             self.yesOutputTxtDirLabel2,  self.yesConvertCSVTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -847,10 +858,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputTxtDirPath3 = str(yesOutputTxtDir3) + "/"
         self.yesOutputTxtDirPath3.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath3)
+        self.yesOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir3))
         self.yesOutputTxtDirLabel3.grid(row=19, pady=4, sticky='n')
 
-        print('SELECTED FOLDER FOR TXT FILES: ' + self.yesOutputTxtDirPath3)
+        print('SELECTED FOLDER FOR TXT FILES: ' + str(yesOutputTxtDir3))
 
     def yesSortImageTxt(self):
         csvInputDir = self.yesInputCSVDirPath
@@ -866,7 +877,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print(CSV_paths)
 
         for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
-            create = open(f"{txtOutputDir}{self.dataset}_sortImages_pf4_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
@@ -878,14 +889,14 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=23, sticky='n', pady=4)  #
 
-            destroy_these = [self.inputDirLabel,
-                             self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+            destroy_these = [self.inputDirLabel,  self.pattern2Label,
+                             self.pattern2Entry, self.confirmPattern2,
                              self.yesPFChoiceLabel, self.yesJSONCreator_btn,
                              self.yesCSVConverter_btn, self.yesSortImages_btn,
                              self.yesInputCSVDirButton, self.yesInputCSVDirLabel,
                              self.yesSortedLabel, self.yesSortedEntry,
-                             self.yesOutputTxtDirButton3, self.yesOutputTxtDirLabel3,
-                             self.yesSortImagesTxtButton]
+                             self.yesOutputTxtDirButton3, # self.yesOutputTxtDirPath3,
+                             self.yesOutputTxtDirLabel3, self.yesSortImagesTxtButton]
 
             for widget in destroy_these:
                 widget.destroy()
@@ -907,23 +918,32 @@ class Batchrun_CombinedTXT(ttk.Frame):
 
         self.txtDirPath = None
         self.txtDirPathLabel = None
+        self.chosenFunctionLabel = None
 
         txtDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder where "
                                                              "all `*.txt` files are located in",
                                   command=self.txtInputDir)
         txtDirButton.grid(row=0, ipadx=10, ipady=10, pady=4, sticky='')
 
+        self.chosenFunctionLabel = ttk.Label(self.sw.scrollwindow,
+                                             text="2/ Which 'PROCESSING FUNCTION' is this combined\n`.txt`"
+                                                  " file for? (please answer with '1', '3', or '4') ")
+        self.chosenFunctionLabel.grid(row=2, sticky='n')
+
+        self.chosenFunctionEntry = ttk.Entry(self.sw.scrollwindow)
+        self.chosenFunctionEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='n')
+
         self.createCombinedTxtButton = ttk.Button(self.sw.scrollwindow, text="CREATE THE COMBINED TXT FILE",
                                                   command=self.createCombinedTXT)
-        self.createCombinedTxtButton.grid(row=2, ipadx=10, ipady=10, pady=4, sticky='')
+        self.createCombinedTxtButton.grid(row=4, ipadx=10, ipady=10, pady=4, sticky='')
 
         batch_btn = ttk.Button(self.sw.scrollwindow, text="Back To Batch Functions Page",
                                command=lambda: master.switch_frame("BatchPage"))
-        batch_btn.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='n')
+        batch_btn.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='n')
 
         home_btn = ttk.Button(self.sw.scrollwindow, text="Back To Homepage",
                               command=lambda: master.switch_frame("HomePage"))
-        home_btn.grid(row=4, ipadx=10, ipady=10, pady=4, sticky='')
+        home_btn.grid(row=6, ipadx=10, ipady=10, pady=4, sticky='')
 
     def txtInputDir(self):
         txtDir = filedialog.askdirectory(title='Please select the folder contains all the `*.txt` files')
@@ -937,19 +957,17 @@ class Batchrun_CombinedTXT(ttk.Frame):
         path_txtcmd_dir = self.txtDirPath
         path_txtcmd_dir = path_txtcmd_dir.replace("\\", "/")
 
+        chosenFunction = str(self.chosenFunctionEntry.get())
+
         output_txtfile_dir = "/".join(list(path_txtcmd_dir.split('/')[:-2])) + "/"
 
         for (dirpath, dirnames, filenames) in os.walk(path_txtcmd_dir):
-
-            txtcmd_dir_name = ''.join(dirpath.split('/')[-2])
-            chosenFunction = ''.join(txtcmd_dir_name.split('_')[1])
-            dataset_name = ''.join(txtcmd_dir_name.split())[:2]
 
             for ifilenames in filenames:
                 fullpaths = Path(os.path.join(dirpath, ifilenames))
                 new_fullpath = str(fullpaths).replace("\\", "/")
 
-                f = open(f"{output_txtfile_dir}{dataset_name}_{chosenFunction}_combinedCmds.txt", "a")
+                f = open(f"{output_txtfile_dir}pf{chosenFunction}_combinedCmds.txt", "a")
                 f.write(f"'python main.py < '\n'{new_fullpath} '\n"
                         f"'&& '\n")
                 f.close()
@@ -957,8 +975,7 @@ class Batchrun_CombinedTXT(ttk.Frame):
                 self.txtDirPathLabel.destroy()
 
                 self.createCombinedTxtButton.config(text="THE COMBINED `.TXT` FILE WAS CREATED SUCCESSFULLY !!!"
-                                                         "\nPlease adjust the previous steps for the "
-                                                         "new run then CLICK this button to run again")
+                                                         "\nPlease adjust the previous steps for the new run")
 
 
 """
@@ -1038,10 +1055,10 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                 names_withBI, extension = os.path.splitext(fullnames)
                 name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-                with open(output_txtdir + datasetName + "_runMD_cmds_pf2.txt", "a") as f:
+                with open(output_txtdir + datasetName + "_pf2_runMD_cmds.txt", "a") as f:
                     f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
                             f"'..{root_path}{names_withBI}.json ' \n"
-                            f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"
+                            f"'..{path_withoutBI}MegaDetected_S6/{name_withoutBI}_MD.json ' \n"
                             f"'&& '\n")
 
                 self.jsonDirPathLabel.destroy()
