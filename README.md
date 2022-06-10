@@ -52,15 +52,15 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
       `git checkout main`; then `git pull`
 
-#### 3. Download MegaDetector model file
+#### 3. Download MegaDetector `md_v4.1.0.pb` model file and save it in the `/cameratraps/detection/` folder
 
 - The easiest way is to download it directly from the link shown in the [CameraTraps's GitHub page](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
 - Or via `wget`
 
       wget https://lilablobssc.blob.core.windows.net/models/Camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb
 
-- **VERY IMPORTANT**: Please save the model file (`md_v4.1.0.pb`) inside the `/cameratraps` folder, and also copy 
-the `run_detector_batch.py` file from the `/cameratraps/detection/` folder to the `/cameratraps` folder as well. 
+- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model file (`md_v4.1.0.pb`) inside 
+the `/cameratraps/detection/` folder.
 
 #### 4. Download and Install Miniconda
 

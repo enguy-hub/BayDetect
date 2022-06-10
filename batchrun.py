@@ -22,7 +22,7 @@ def pf_batchrun():
 
 def md_batchrun():
     os.system(
-        'cd cameratraps '
+        'cd cameratraps/detection/ '
         '&& '
         # Insert new python commands below this line
                         
