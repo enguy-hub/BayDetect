@@ -59,8 +59,10 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
       wget https://lilablobssc.blob.core.windows.net/models/Camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb
 
-- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model file (`md_v4.1.0.pb`) inside 
-the `/cameratraps/detection/` folder.
+- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model file (`md_v4.1.0.pb`) in the 
+`cameratraps/` folder, and also copy(or move) the `run_detector_batch.py` script from the `cameratraps/detection/` 
+folder to the `cameratraps/`. At the end, both the `md_v4.1.0.pb` model file and the `run_detector_batch.py` script 
+should be in the same folder, which is the `cametraps/` folder.
 
 #### 4. Download and Install Miniconda
 

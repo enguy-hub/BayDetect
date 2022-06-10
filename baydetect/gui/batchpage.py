@@ -776,24 +776,28 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         txtOutputDir = self.yesOutputTxtDirPath2
 
         md_json_fullpaths = []
-        md_json_withMD = []
+        md_json_withoutMD = []
         csv_woMeta = []
 
-        for (dirpath, dirnames, filenames) in os.walk(mdJSONDir):
+        for dirpath, dirnames, filenames in os.walk(mdJSONDir):
             for ifilenames in filenames:
                 md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
                 json_names, extension = os.path.splitext(ifilenames)
-                md_json_withMD.append(json_names)
+                md_json_withoutMD.append(json_names)
 
-        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
-        print(md_json_withMD)
+        # print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
+        # print(md_json_withoutMD)
 
-        for iname in md_json_withMD:
+        for iname in md_json_withoutMD:
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
-        print("\nIMAGE FOLDER PATHS: ")
-        print(self.org_img_dirpath)
+        # Sort the two lists so they are in ordered
+        md_json_fullpaths.sort()
+        csv_woMeta.sort()
+
+        print("\nPaths to IMAGE FOLDERS that contain images: ")
+        print(self.img_folderpaths)
 
         print("\nPaths to MegaDetected JSON files: ")
         print(md_json_fullpaths)
@@ -802,7 +806,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print(csv_woMeta)
 
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
-                                                                          self.org_img_dirpath,
+                                                                          self.img_folderpaths,
                                                                           md_json_fullpaths, csv_woMeta):
             create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
@@ -893,17 +897,24 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         CSV_paths = []
 
-        for (dirpath, dirnames, filenames) in os.walk(csvInputDir):
-            for ifilenames in filenames:
-                CSV_paths.append(os.path.join(dirpath, ifilenames))
+        for dirpath, dirnames, filenames in os.walk(csvInputDir):
+            if filenames:
+                for ifilenames in filenames:
+                    CSV_paths.append(os.path.join(dirpath, ifilenames))
+            if not filenames:
+                break
 
         print("\nSelected CSV `Metadata` files: ")
         print(CSV_paths)
 
-        print("\nSelected IMAGE FOLDERS: ")
-        print(self.org_img_dirpath)
+        print("\nSelected IMAGE FOLDERS which has images: ")
+        print(self.img_folderpaths)
 
-        for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
+        # Sort the two lists so they are in ordered
+        self.img_folderpaths.sort()
+        CSV_paths.sort()
+
+        for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.img_folderpaths, CSV_paths):
             create = open(f"{txtOutputDir}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
@@ -1090,7 +1101,7 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                 names_withBI, extension = os.path.splitext(fullnames)
                 name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-                with open(output_txtdir + "_pf2_runMD_cmds.txt", "a") as f:
+                with open(output_txtdir + "pf2_runMD_cmds.txt", "a") as f:
                     f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
                             f"'..{root_path}{names_withBI}.json ' \n"
                             f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"

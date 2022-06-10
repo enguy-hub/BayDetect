@@ -32,7 +32,7 @@ def pf_txtcmds_creator():
     second_common_dirname = input("Is there a second common pattern in the names for the sub-folders "
                                   "of above-mentioned folders? (answer with `Y` or `N`): ")
 
-    org_img_dir_input = org_img_dir_input + "/"
+    # org_img_dir_input = org_img_dir_input + "/"
 
     # Lists for all
     org_img_dirpath = []
@@ -137,7 +137,7 @@ def pf_txtcmds_creator():
         md_json_withMD = []
         csv_woMeta = []
 
-        for (dirpath, dirnames, filenames) in os.walk(MD_json_dir_input):
+        for dirpath, dirnames, filenames in os.walk(MD_json_dir_input):
             for ifilenames in filenames:
                 md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
                 json_names, extension = os.path.splitext(ifilenames)
@@ -150,8 +150,8 @@ def pf_txtcmds_creator():
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
-        print("\nIMAGE FOLDER PATHS: ")
-        print(org_img_dirpath)
+        print("\nPaths to IMAGE FOLDERS contains Images: ")
+        print(img_folderpaths)
 
         print("\nPaths to MegaDetected JSON files: ")
         print(md_json_fullpaths)
@@ -159,12 +159,16 @@ def pf_txtcmds_creator():
         print("\nFirst part of CSV filenames: ")
         print(csv_woMeta)
 
-        for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(station, session, org_img_dirpath,
-                                                                          md_json_fullpaths, csv_woMeta):
+        # Sort the two lists so they are in ordered
+        md_json_fullpaths.sort()
+        csv_woMeta.sort()
+
+        for ista, isess, iorg_idirpath, imd_json_paths, icsv_woMeta in zip(station, session, img_folderpaths,
+                                                                           md_json_fullpaths, csv_woMeta):
             create = open(f"{txtcmds_dir_input}pf3_mdJSONToCSV_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
-                         f"{iorg_dirpath}/\n"
+                         f"{iorg_idirpath}/\n"
                          f"{imd_json_paths}\n"
                          f"{csv_dir_input}{icsv_woMeta}_Meta.csv\n")
             create.close()
@@ -188,11 +192,15 @@ def pf_txtcmds_creator():
 
         CSV_paths = []
 
-        for (dirpath, dirnames, filenames) in os.walk(CSV_dir_input):
+        for dirpath, dirnames, filenames in os.walk(CSV_dir_input):
             for ifilenames in filenames:
                 CSV_paths.append(os.path.join(dirpath, ifilenames))
 
-        for ista, isess, iorg_dirpath, icsv in zip(station, session, org_img_dirpath, CSV_paths):
+        # Sort the two lists so they are in ordered
+        img_folderpaths.sort()
+        CSV_paths.sort()
+
+        for ista, isess, iorg_dirpath, icsv in zip(station, session, img_folderpaths, CSV_paths):
             create = open(f"{txtcmds_dir_input}pf4_sortImages_{dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
