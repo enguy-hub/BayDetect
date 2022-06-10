@@ -197,28 +197,20 @@ as shown in the `EF_batch_commands/` example folder. For reference, please check
 
 ***Important Remark - For PF 3 Only***
 - The CSV 'Metadata' file organizes the `Station`, and `Session` of the image files based on the 'FILEPATHS' stated 
-inside `*_MD.json` files. Hence, you will need to change the values for the `station` and `session` variables at 
-in the `/baydetect/gui/batchpage.py` script lines `229-230`, and in the `/baydetect/process_functions.py` script  at 
-lines `168-169`, accordingly to the index order (count backward), in which `station` and `session` names would be 
-located in when the `*_MD.json` filepath is split with `/` as separator:
+inside `*_MD.json` files. Hence, you will need to change the values for the `station` and `session` variables at in the 
+`/baydetect/process_functions.py` script  at lines `168-169`, accordingly to the index order (count backward), in which 
+`station` and `session` names would be located in when the `*_MD.json` filepath is split with `/` as separator:
     
    - Taking `Session_1_20201104` of station `EF_001` as an example, the images are currently being stored inside 
-   `./example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/*.JPG`, which means two things:
-     
-     1. The index orders for `session` and `station` at lines `229-230` in the `/baydetect/gui/batchpage.py` are 
-     correctly set at `-2` and `-3` respectively, that `-1` would give the string of `100CUDDY`.
-     
-            228|   self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
-            229|   self.session.append(''.join(idirpaths.split('/')[-2]))         <-- Change this value if needed
-            230|   self.dataset_station.append(''.join(idirpaths.split('/')[-3])) <-- Change this value if needed
+   `./example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/*.JPG`, which means:
  
-     2. The index orders for `session` and `station` at lines `168-169` in the `/baydetect/process_functions.py` are 
-     correctly set at `-3` and `-4` respectively, as `-2` would give the string of `100CUDDY`, and `-1` would give the 
-     name of the image file.
+     - The index orders for `session` and `station` at lines `168-169` in the `/baydetect/process_functions.py` are 
+     currently set correctly at `-3` and `-4` respectively, as `-2` would give the string of `100CUDDY`, and `-1` 
+     would give the name of the image file.
         
             167|   imageName = list(json_info['images'][i].values())[0].split('/')[-1]
-            168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- Change this value if needed
-            169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- Change this value if needed
+            168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- This might need to be changed
+            169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- This might need to be changed
 
 ###### ======================================================================================
 #### BF 2 | How to execute `pf_batchrun()` function from `/batchrun.py` script

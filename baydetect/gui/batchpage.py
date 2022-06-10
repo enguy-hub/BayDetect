@@ -225,8 +225,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
-                    self.session.append(''.join(idirpaths.split('/')[-2]))
-                    self.dataset_station.append(''.join(idirpaths.split('/')[-3]))
+                    self.session.append(''.join(idirpaths.split('/')[-1]))
+                    self.dataset_station.append(''.join(idirpaths.split('/')[-2]))
                 if not files:
                     pass
 
@@ -316,7 +316,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
-                         f"{jsonInputDir}{self.dataset}_{ista}_{isess}_BI.json\n")
+                         f"{jsonInputDir}/{self.dataset}_{ista}_{isess}_BI.json\n")
             create.close()
 
             self.successLabel = ttk.Label(self.sw.scrollwindow, text="THE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -595,7 +595,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                     self.session.append(''.join(idirpaths.split('/')[-2]))
                     self.dataset_station.append(''.join(idirpaths.split('/')[-3]))
                 if not files:
-                    pass
+                    break
 
         print("\nList of Paths to Folders Contain Images: ")
         print(self.img_folderpaths)

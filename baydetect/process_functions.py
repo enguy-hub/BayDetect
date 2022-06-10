@@ -315,7 +315,7 @@ def sort_images_csv():  # input_path, csv_input
             os.makedirs(new_img_path, exist_ok=True) if not os.path.exists(new_img_path) else None
             new_path.append(new_img_path)
 
-        # Make copy of the image and sorted them in categories
+        # Move the images into their sorted categories
         for o, n in zip(old_path, new_path):
             shutil.move(o, n)
 
