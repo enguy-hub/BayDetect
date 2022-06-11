@@ -1,7 +1,7 @@
 {
  "images": [
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042a.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042a.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -27,23 +27,7 @@
    ]
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042c.JPG",
-   "max_detection_conf": 0.999,
-   "detections": [
-    {
-     "category": "1",
-     "conf": 0.999,
-     "bbox": [
-      0.478,
-      0.3641,
-      0.1559,
-      0.3855
-     ]
-    }
-   ]
-  },
-  {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042b.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042b.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -59,7 +43,23 @@
    ]
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00051b.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00042c.JPG",
+   "max_detection_conf": 0.999,
+   "detections": [
+    {
+     "category": "1",
+     "conf": 0.999,
+     "bbox": [
+      0.478,
+      0.3641,
+      0.1559,
+      0.3855
+     ]
+    }
+   ]
+  },
+  {
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00051b.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -75,7 +75,7 @@
    ]
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00071c.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/I_00071c.JPG",
    "max_detection_conf": 0.997,
    "detections": [
     {
@@ -107,13 +107,8 @@
   "3": "vehicle"
  },
  "info": {
-  "detection_completion_time": "2022-06-10 08:56:14",
-  "format_version": "1.2",
-  "detector": "md_v4.1.0.pb",
-  "detector_metadata": {
-   "megadetector_version": "v4.1.0",
-   "typical_detection_threshold": 0.8,
-   "conservative_detection_threshold": 0.6
-  }
+  "detection_completion_time": "2022-06-11 11:22:12",
+  "format_version": "1.1",
+  "detector": "md_v4.1.0.pb"
  }
 }

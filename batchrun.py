@@ -8,13 +8,13 @@ def pf_batchrun():
         # Insert new python commands below this line
 
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf3_mdJSONToCSV/pf3_mdJSONToCSV_EF_002_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_001_Session_1_20201104.txt '
         '&& '
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf3_mdJSONToCSV/pf3_mdJSONToCSV_EF_001_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_002_Session_1_20201104.txt '
         '&& '
         'python main.py < '
-        '/home/user/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf3_mdJSONToCSV/pf3_mdJSONToCSV_EF_003_Session_1_20201104.txt '
+        'C:/BayDetect/example/metadata/Example_Forest/EF_batch_commands/pf4_sortImages/pf4_sortImages_EF_003_Session_1_20201104.txt '
 
     )
     return print('Finished !!')
@@ -25,18 +25,18 @@ def md_batchrun():
         'cd cameratraps '
         '&& '
         # Insert new python commands below this line
-                                
+                                        
         'python run_detector_batch.py md_v4.1.0.pb ' 
-        '../example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_003_Session_1_20201104_BI.json ' 
-        '../example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_003_Session_1_20201104_MD.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_001_Session_1_20201104_BI.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_001_Session_1_20201104_MD.json ' 
         '&& '
         'python run_detector_batch.py md_v4.1.0.pb ' 
         '../example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_002_Session_1_20201104_BI.json ' 
         '../example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_002_Session_1_20201104_MD.json ' 
         '&& '
         'python run_detector_batch.py md_v4.1.0.pb ' 
-        '../example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_001_Session_1_20201104_BI.json ' 
-        '../example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_001_Session_1_20201104_MD.json '
+        '../example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_003_Session_1_20201104_BI.json ' 
+        '../example/metadata/Example_Forest/EF_JSON/EF_MegaDetected/EF_003_Session_1_20201104_MD.json '
 
     )
     return print('Finished !!')

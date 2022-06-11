@@ -1,12 +1,7 @@
 {
  "images": [
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021b.JPG",
-   "max_detection_conf": 0,
-   "detections": []
-  },
-  {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00012b.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00012b.JPG",
    "max_detection_conf": 0.996,
    "detections": [
     {
@@ -22,7 +17,7 @@
    ]
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00012c.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00012c.JPG",
    "max_detection_conf": 0.999,
    "detections": [
     {
@@ -38,12 +33,17 @@
    ]
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021d.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021b.JPG",
    "max_detection_conf": 0,
    "detections": []
   },
   {
-   "file": "/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021c.JPG",
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021c.JPG",
+   "max_detection_conf": 0,
+   "detections": []
+  },
+  {
+   "file": "C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/I_00021d.JPG",
    "max_detection_conf": 0,
    "detections": []
   }
@@ -54,13 +54,8 @@
   "3": "vehicle"
  },
  "info": {
-  "detection_completion_time": "2022-06-10 08:57:03",
-  "format_version": "1.2",
-  "detector": "md_v4.1.0.pb",
-  "detector_metadata": {
-   "megadetector_version": "v4.1.0",
-   "typical_detection_threshold": 0.8,
-   "conservative_detection_threshold": 0.6
-  }
+  "detection_completion_time": "2022-06-11 11:21:19",
+  "format_version": "1.1",
+  "detector": "md_v4.1.0.pb"
  }
 }

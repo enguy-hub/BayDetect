@@ -43,7 +43,7 @@ class BayDetectApp(Tk):
 
         # self.iconbitmap(self, default='./baydetect/gui/resources/lwf_icon.ico')
         self.iconphoto(False, favico)
-        Tk.title(self, "Bay Detect App")
+        Tk.title(self, "BayDetect App")
 
         w = Tk.winfo_reqwidth(self)
         h = Tk.winfo_reqheight(self)

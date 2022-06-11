@@ -245,27 +245,33 @@ def pf_pycmds_creator():
 
 # ID: bf3 || md_pycmds_creator()
 def md_pycmds_creator():
-    input_json_dir = input("Enter the absolute path of the 'JSON/BatchInput' directory: ")
+    input_bijson_dir = input("Enter the absolute path of the 'BatchInput' JSON directory: ")
 
-    output_txtfile = input("Enter the absolute path and name for the python commands "
-                           "`.txt` file (end with 'pf2_runMD_cmds.txt'): ")
+    input_mdjson_dir = input("Enter the absolute path for the output 'MegaDetected' JSON directory: ")
 
-    json_dir_input = input_json_dir.replace("\\", "/") + "/"
+    input_output_txtdir = input("Enter the absolute path for the `.txt` file: ")
 
-    for (dirpath, dirnames, filenames) in os.walk(json_dir_input):
-        root_path = dirpath.split("BayDetect")[1]
-        root_path = root_path.replace("\\", "/")
-        path_withoutBI = root_path.split("BatchInput")[0]
+    bijson_dir_input = input_bijson_dir.replace("\\", "/") + "/"
+    mdjson_dir_input = input_mdjson_dir.replace("\\", "/") + "/"
+    output_txtdir = input_output_txtdir.replace("\\", "/") + "/"
+
+    md_dirpath = None
+
+    for dirpath, dirnames, filenames in os.walk(mdjson_dir_input):
+        md_dirpath = dirpath.split("BayDetect")[1].replace("\\", "/")
+
+    for dirpath, dirnames, filenames in os.walk(bijson_dir_input):
+        bi_dirpath = dirpath.split("BayDetect")[1].replace("\\", "/")
 
         for ifilenames in range(len(filenames)):
             fullnames = filenames[ifilenames]
             names_withBI, extension = os.path.splitext(fullnames)
             name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-            with open(f"pf2_runMD_cmds.txt", "a") as f:
+            with open(output_txtdir + "pf2_runMD_cmds.txt", "a") as f:
                 f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
-                        f"'..{root_path}{names_withBI}.json ' \n"
-                        f"'..{path_withoutBI}MegaDetected/{name_withoutBI}_MD.json ' \n"
+                        f"'..{bi_dirpath}{names_withBI}.json ' \n"
+                        f"'..{md_dirpath}{name_withoutBI}_MD.json ' \n"
                         f"'&& '\n")
 
     return print('\nDone !!! \n')

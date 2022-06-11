@@ -1,4 +1,4 @@
 1
 1
-/home/user/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/
-/home/user/BayDetect/example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_002_Session_1_20201104_BI.json
+C:/BayDetect/example/image_data/Example_Forest/Raw_Photos/EF_002/Session_1_20201104/100CUDDY/
+C:/BayDetect/example/metadata/Example_Forest/EF_JSON/EF_BatchInput/EF_002_Session_1_20201104_BI.json
