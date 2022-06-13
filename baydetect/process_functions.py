@@ -29,7 +29,6 @@ from PIL.ExifTags import GPSTAGS
 
 # ID: pf1 || md_json_creator()
 def md_json_creator():
-
     """
         This function create JSON file contains the paths to all the ".JPG" image of a directory given by the user.
 
@@ -78,7 +77,6 @@ def md_json_creator():
 
 # ID: pf2_supp || Supporting function for md_csv_converter()
 def get_exif(source_images_path):
-
     """
         This function takes the original images as input and returns the exif data of the corresponding images.
 
@@ -119,7 +117,6 @@ def get_exif(source_images_path):
 
 # ID: pf2 || md_csv_converter()
 def md_csv_converter():
-
     """
         This function converts the output JSON file from MegaDetector batch processing" into a CSV classified_metadata
         file. The CSV classified_metadata file will contain the image in the following seven columns "Image Name",
@@ -162,11 +159,23 @@ def md_csv_converter():
     df_exif = get_exif(usr_input_dir)
     df_json = pd.DataFrame()
 
+    samplePath = list(json_info['images'][0].values())[0]
+
+    print("\nSample IMAGE-PATH to the very first image: \n" + samplePath)
+
+    input_sessionIndex = input("\nWhich index order is the `SESSION NAME` located the above "
+                               "sample IMAGE-PATH string is split with `/` as separator? ")
+
+    input_stationIndex = input("Which index order is the `STATION NAME` located the above "
+                               "sample IMAGE-PATH string is split with `/` as separator? ")
+
     for i in range(len(list(json_info['images']))):
+        sessionIndex = int(input_sessionIndex)
+        stationIndex = int(input_stationIndex)
 
         imageName = list(json_info['images'][i].values())[0].split('/')[-1]
-        session = list(json_info['images'][i].values())[0].split('/')[-3]
-        station = list(json_info['images'][i].values())[0].split('/')[-4]
+        session = list(json_info['images'][i].values())[0].split('/')[sessionIndex]
+        station = list(json_info['images'][i].values())[0].split('/')[stationIndex]
 
         imagePath = list(json_info['images'][i].values())[0]
 
@@ -187,7 +196,7 @@ def md_csv_converter():
 
         for loc in bb_locations:
             # y_lower.append(max(loc[3] for loc in bb_locations))
-            y_lower.append(loc[3]+loc[1])
+            y_lower.append(loc[3] + loc[1])
 
         y_lower = list(set(y_lower))
 
@@ -324,6 +333,5 @@ def sort_images_csv():  # input_path, csv_input
               "\n")
 
     return print('\nDone !!! \n')
-
 
 # if __name__ == '__main__':

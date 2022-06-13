@@ -298,7 +298,7 @@ class CSVConvertor(ttk.Frame):
 
         sessionNameLabel = ttk.Label(self.sw.scrollwindow,
                                      text="2/ Which index order is the `SESSION NAME` when the "
-                                          "\nabove FOLDER-PATH is split with `/` as separator?")
+                                          "\nabove FULL-PATH is split with `/` as separator?")
         sessionNameLabel.grid(row=2, sticky='')
 
         self.sessionNameEntry = ttk.Entry(self.sw.scrollwindow)
@@ -306,7 +306,7 @@ class CSVConvertor(ttk.Frame):
 
         stationNameLabel = ttk.Label(self.sw.scrollwindow,
                                      text="3/ Which index order is the `STATION NAME` when the"
-                                          "\nabove FOLDER-PATH is split with `/` as separator?")
+                                          "\nabove FULL-PATH is split with `/` as separator?")
         stationNameLabel.grid(row=4, sticky='')
 
         self.stationNameEntry = ttk.Entry(self.sw.scrollwindow)
@@ -368,9 +368,6 @@ class CSVConvertor(ttk.Frame):
         outputDirLabel.grid(row=11, pady=8, sticky='')
 
     def convertCSV(self):
-        """
-
-        """
         self.createCSVButton.config(text="CREATING CSV `METADATA` FILE, PLEASE WAIT ......")
         self.createCSVButton.update_idletasks()
 

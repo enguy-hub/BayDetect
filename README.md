@@ -174,14 +174,14 @@ should be named corresponding to its station and session. See the example files 
 ###### ======================================================================================
 #### PF 4 | Sort images into folders based on their `MegaDetected` classes indicated in the CSV `Meta` file
 
-- By default, only copies of the original images will be sorted inside `Animal`, `Human`, `Vehicle`, or `Empty` folders. 
-Thus, if you want to save space and to directly move the original images into 'sorted folders', you can change the 
-`shutil.copy()` function to `shutil.move()` in line `320` in the `/baydetect/process_functions.py` script
+- When `Y` is selected for `*_Sorted` folder, copies of the original images will be sorted in `Animal`, `Human`, 
+`Vehicle`, `Empty`, or `Assitant Required` sub-folders inside a folder called `*_Sorted` located on the same level 
+as the folder where the images are stored in. 
 
-- Line `320` in `/baydetect/process_functions.py` script should be as follows:
+- When `N` is selected for `*_Sorted` folder, the original images will be moved to `Animal`, `Human`, `Vehicle`, `Empty`
+, or `Assitant Required` sub-folders inside the original folder where the images are stored in. 
 
-      319|  for o, n in zip(old_path, new_path):
-      320|     shutil.move(o, n)                <-- Change from `.copy()` to `.move()`
+***`Assistant Required`: when detected objects belong to two or more classes in a single image***
 
 ------------------------------------------------------------------------------------------------------------------------
 ### Batch Function (BF)
@@ -194,23 +194,6 @@ as shown in the `EF_batch_commands/` example folder. For reference, please check
 `.txt` files are saved in the `EF_batch_commands/` example folder. Path to `EF_batch_commands/` folder is listed below:
 
       /example/metadata/Example_Forest/EF_batch_commands/
-
-***Important Remark - For PF 3 Only***
-- The CSV 'Metadata' file organizes the `Station`, and `Session` of the image files based on the 'FILEPATHS' stated 
-inside `*_MD.json` files. Hence, you will need to change the values for the `station` and `session` variables at in the 
-`/baydetect/process_functions.py` script  at lines `168-169`, accordingly to the index order (count backward), in which 
-`station` and `session` names would be located in when the `*_MD.json` filepath is split with `/` as separator:
-    
-   - Taking `Session_1_20201104` of station `EF_001` as an example, the images are currently being stored inside 
-   `./example/image_data/Example_Forest/Raw_Photos/EF_001/Session_1_20201104/100CUDDY/*.JPG`, which means:
- 
-     - The index orders for `session` and `station` at lines `168-169` in the `/baydetect/process_functions.py` are 
-     currently set correctly at `-3` and `-4` respectively, as `-2` would give the string of `100CUDDY`, and `-1` 
-     would give the name of the image file.
-        
-            167|   imageName = list(json_info['images'][i].values())[0].split('/')[-1]
-            168|   session = list(json_info['image'][i].values())[0].split('/')[-3] <-- This might need to be changed
-            169|   station = list(json_info['image'][i].values())[0].split('/')[-4] <-- This might need to be changed
 
 ###### ======================================================================================
 #### BF 2 | How to execute `pf_batchrun()` function from `/batchrun.py` script

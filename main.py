@@ -101,7 +101,7 @@ def main():
               "\n")
 
         bf_choice = input("Enter '1' to create multiple '.txt' files needed to 'batch-run' one of the Processing "
-                          "Functions, except for `Run MegaDetector` function \n"
+                          "Functions,\nexcept for `Run MegaDetector` function \n"
                           "Enter '2' to create a combined '.txt' file contains the commands needed to start "
                           "`pf_batchrun()` from `batchrun.py`\n"
                           "Enter '3' to create a '.txt' file contains the commands needed to start `md_batchrun()` "
@@ -112,8 +112,7 @@ def main():
         bf_choice = int(bf_choice)
 
         if bf_choice == 1:
-            print("\n'1' Selected ! Create multiple '.txt' files needed to 'batch-run' one of the processing "
-                  "functions from the `/baydetect/batch_functions.py` script .."
+            print("\n'1' Selected ! Create '.txt' files needed to 'batch-run' one of the processing functions"
                   "\n")
             bf.pf_txtcmds_creator()
 

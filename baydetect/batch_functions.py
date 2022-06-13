@@ -24,7 +24,7 @@ from pathlib import Path
 def pf_txtcmds_creator():
     # Input commands for all
     org_img_dir_input = input("Enter the absolute path to the the `top-level folder`, in which all the "
-                              "images are being stored inside sub-folders under this `top-level folder`: ")
+                              "\nimages are being stored inside sub-folders under this `top-level folder`: ")
 
     common_dirname_input = input("What is the common pattern in the names of the folders where all "
                                  "the image are stored in (eg: `2020*`, ``Session*` or `100CU*`): ")
@@ -66,17 +66,17 @@ def pf_txtcmds_creator():
         for ip1, ip2 in zip(pattern1_list, pattern2_list):
             org_img_dirpath.append(os.path.join(ip1, ip2).replace("\\", "/"))
 
-    print("\nSAMPLE PATH WHERE IMAGES ARE STORED IN: \n" + org_img_dirpath[0].split()[-1] + "/" + "\n")
+    print("\nSAMPLE FOLDER-PATH WHERE IMAGES ARE STORED IN: \n" + org_img_dirpath[0].split()[-1] + "/" + "\n")
 
-    input_dataset_station = input("What is the index order in an array would the `DATASET_STATION` "
-                                  "name be when the above path is split with `/` as separator?: ")
-
-    input_dataset_station = int(input_dataset_station)
-
-    input_session = input("What is the index order in an array would the `SESSION` name "
-                          "be when the above path is split with `/` as separator?: ")
+    input_session = input("Which index order is the `SESSION NAME` located when the "
+                          "\nabove FOLDER-PATH string is split with `/` as separator? ")
 
     input_session = int(input_session)
+
+    input_dataset_station = input("Which index order is the `STATION NAME` located when the "
+                                  "\nabove FOLDER-PATH string is split with `/` as separator? ")
+
+    input_dataset_station = int(input_dataset_station)
 
     for idirpaths in org_img_dirpath:
         for dirpath, dirnames, files in os.walk(idirpaths):
@@ -120,6 +120,28 @@ def pf_txtcmds_creator():
         print("\n'2' Selected ! Follow the prompted questions to create "
               "the '.txt' files for processing function `3` !!\n")
 
+        sampleImgPath = []
+
+        for dirpath, dirnames, filenames in os.walk(img_folderpaths[0]):
+            print(filenames)
+            for ifilenames in filenames:
+                sampleImgPath.append(os.path.join(dirpath, ifilenames))
+
+        samplePath = sampleImgPath[0].replace("\\", "/")
+        print("\nSample IMAGE-PATH to the very first image: \n" + samplePath)
+
+        input_sessionIndex = input("\nWhich index order is the `SESSION NAME` located when the "
+                                   "above sample IMAGE-PATH is split with `/` as separator? ")
+        input_sessionIndex = int(input_sessionIndex)
+
+        input_stationIndex = input("Which index order is the `STATION NAME` located when the "
+                                   "above sample IMAGE-PATH string is split with `/` as separator? ")
+        input_stationIndex = int(input_stationIndex)
+
+        md_json_fullpaths = []
+        md_json_withMD = []
+        csv_woMeta = []
+
         input_MD_json_dir = input("Enter the absolute path of the directory where all "
                                   "the '*_MD.json' files are currently saved at: ")
 
@@ -132,10 +154,6 @@ def pf_txtcmds_creator():
         MD_json_dir_input = input_MD_json_dir.replace("\\", "/") + "/"
         csv_dir_input = input_csv_dir.replace("\\", "/") + "/"
         txtcmds_dir_input = input_txtcmds_dir.replace("\\", "/") + "/"
-
-        md_json_fullpaths = []
-        md_json_withMD = []
-        csv_woMeta = []
 
         for dirpath, dirnames, filenames in os.walk(MD_json_dir_input):
             for ifilenames in filenames:
@@ -170,7 +188,9 @@ def pf_txtcmds_creator():
                          f"2\n"
                          f"{iorg_idirpath}/\n"
                          f"{imd_json_paths}\n"
-                         f"{csv_dir_input}{icsv_woMeta}_Meta.csv\n")
+                         f"{csv_dir_input}{icsv_woMeta}_Meta.csv\n"
+                         f"{input_sessionIndex}\n"
+                         f"{input_stationIndex}\n")
             create.close()
 
     elif txtcmds_choice == 3:
@@ -218,7 +238,6 @@ def pf_txtcmds_creator():
 
 # ID: bf2 || pf_pycmds_creator
 def pf_pycmds_creator():
-
     input_path_txtcmd_dir = input("Enter the absolute path of the folder where "
                                   "all the '.txt' files are currently saved at: ")
 
@@ -275,6 +294,5 @@ def md_pycmds_creator():
                         f"'&& '\n")
 
     return print('\nDone !!! \n')
-
 
 # if __name__ == '__main__':
