@@ -516,25 +516,26 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         input_iSessionIndex = int(self.noiSessNameEntry.get())
         input_iStationIndex = int(self.noiStationNameEntry.get())
 
-        md_json_paths = []
+        md_json_fullpaths = []
         md_json_names = []
         csv_woMeta = []
 
-        for (dirpath, dirnames, filenames) in os.walk(mdJSONDir):
+        for dirpath, dirnames, filenames in os.walk(mdJSONDir):
             for ifilenames in filenames:
-                md_json_paths.append(os.path.join(dirpath, ifilenames))
-
-            for ifilenames in range(len(filenames)):
-                fullnames = filenames[ifilenames]
-                json_names, extension = os.path.splitext(fullnames)
+                md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
+                json_names, extension = os.path.splitext(ifilenames)
                 md_json_names.append(json_names)
 
         for iname in md_json_names:
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
+        # Sort the two lists so they are in ordered
+        md_json_fullpaths.sort()
+        csv_woMeta.sort()
+
         for ista, isess, iorg_idirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
-                                                                           self.img_folderpaths, md_json_paths,
+                                                                           self.img_folderpaths, md_json_fullpaths,
                                                                            csv_woMeta):
             create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
@@ -638,7 +639,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for ifilenames in filenames:
                 CSV_paths.append(os.path.join(dirpath, ifilenames))
 
-        for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.org_img_dirpath, CSV_paths):
+        # Sort the two lists so they are in ordered
+        self.img_folderpaths.sort()
+        CSV_paths.sort()
+
+        for ista, isess, iorg_dirpath, icsv in zip(self.station, self.session, self.img_folderpaths, CSV_paths):
             create = open(f"{txtOutputDir}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
@@ -991,10 +996,6 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
-        # Sort the two lists so they are in ordered
-        md_json_fullpaths.sort()
-        csv_woMeta.sort()
-
         print("\nPaths to IMAGE FOLDERS that contain images: ")
         print(self.img_folderpaths)
 
@@ -1003,6 +1004,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         print("\nFirst part of CSV filenames: ")
         print(csv_woMeta)
+
+        # Sort the two lists so they are in ordered
+        md_json_fullpaths.sort()
+        csv_woMeta.sort()
 
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.img_folderpaths,
