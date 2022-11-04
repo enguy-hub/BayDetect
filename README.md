@@ -42,27 +42,30 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
     git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
-#### 2. Fetch the latest changes for `cameratraps` and `ai4eutils` submodules
+#### 2. Fetch new updates for `cameratraps` and `ai4eutils` submodules and specific snapshot for 'yolov5' submodule
 
 - For ai4eutils, cd into `/ai4eutils` directory and run the following command:
 
-      `git checkout master`; then `git pull`
+      `git checkout master`
+      `git pull`
 
 - For cameratraps, cd into `/cameratraps` directory and run the following command:
 
-      `git checkout main`; then `git pull`
+      `git checkout main`
+      `git pull`
 
-#### 3. Download MegaDetector `md_v4.1.0.pb` model file and save it in the `/cameratraps/detection/` folder
+- For yolov5, cd into `/yolov5` directory and run the following command:
 
-- The easiest way is to download it directly from the link shown in the [CameraTraps's GitHub page](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md#downloading-the-model)
-- Or via `wget`
+      `git checkout c23a441c9df7ca9b1f275e8c8719c949269160d1`
 
-      wget https://lilablobssc.blob.core.windows.net/models/Camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb
+#### 3. Download MegaDetector `md_v5a.0.0.pt` and/or `md_v5b.0.0` model files and save it in the `/cameratraps/detection/` folder
 
-- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model file (`md_v4.1.0.pb`) in the 
-`cameratraps/` folder, and also copy(or move) the `run_detector_batch.py` script from the `cameratraps/detection/` 
-folder to the `cameratraps/`. At the end, both the `md_v4.1.0.pb` model file and the `run_detector_batch.py` script 
-should be in the same folder, which is the `cametraps/` folder.
+- The easiest way is to download it directly from the link shown in the [CameraTraps's GitHub page](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#megadetector-v50-20220615)
+
+- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model files `md_v5a.0.0.pt` and/or 
+`md_v5b.0.0` in the `cameratraps/` folder, and also copy/move the `run_detector_batch.py` script from the 
+`cameratraps/detection/` folder to the `cameratraps/`. At the end, both the model file and the `run_detector_batch.py` 
+script should be in the same folder, which is the `cametraps/` folder.
 
 #### 4. Download and Install Miniconda
 
