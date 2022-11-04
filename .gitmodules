@@ -1,9 +1,9 @@
-[submodule "ai4eutils"]
-	path = ai4eutils
-	url = https://github.com/microsoft/ai4eutils.git
 [submodule "cameratraps"]
 	path = cameratraps
-	url = https://github.com/microsoft/CameraTraps.git
+	url = https://github.com/Microsoft/cameratraps
+[submodule "ai4eutils"]
+	path = ai4eutils
+	url = https://github.com/Microsoft/ai4eutils
 [submodule "yolov5"]
 	path = yolov5
 	url = https://github.com/ultralytics/yolov5/

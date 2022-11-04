@@ -42,14 +42,14 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
     git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
-#### 2. Fetch new updates for `cameratraps` and `ai4eutils` submodules and specific snapshot for 'yolov5' submodule
+#### 2. Fetch new updates for `cameratraps` and `ai4eutils` submodules and a specific snapshot for 'yolov5' submodule
 
-- For ai4eutils, cd into `/ai4eutils` directory and run the following command:
+- For ai4eutils, cd into `/ai4eutils` directory and run the following commands:
 
       `git checkout master`
       `git pull`
 
-- For cameratraps, cd into `/cameratraps` directory and run the following command:
+- For cameratraps, cd into `/cameratraps` directory and run the following commands:
 
       `git checkout main`
       `git pull`
@@ -58,34 +58,40 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
       `git checkout c23a441c9df7ca9b1f275e8c8719c949269160d1`
 
-#### 3. Download MegaDetector `md_v5a.0.0.pt` and/or `md_v5b.0.0` model files and save it in the `/cameratraps/detection/` folder
+#### 3. Set `PYTHONPATH` for the three submodules `cameratraps`, `ai4eutils`, and `yolov5`
+
+- For WINDOWS, following this [Windows' instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#windows-instructions-for-gitpython-stuff) 
+
+- For LINUX, following this [Linux's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#linux-instructions-for-gitpython-stuff) 
+
+- For MAC, following this [Mac's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#mac-instructions-for-gitpython-stuff) 
+
+#### 4. Download MegaDetector `md_v5a.0.0.pt` and/or `md_v5b.0.0` model files and save it in the `/cameratraps/detection/` folder
 
 - The easiest way is to download it directly from the link shown in the [CameraTraps's GitHub page](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#megadetector-v50-20220615)
 
 - **VERY IMPORTANT**: Once you have downloaded the model file, please save the model files `md_v5a.0.0.pt` and/or 
-`md_v5b.0.0` in the `cameratraps/` folder, and also copy/move the `run_detector_batch.py` script from the 
-`cameratraps/detection/` folder to the `cameratraps/`. At the end, both the model file and the `run_detector_batch.py` 
-script should be in the same folder, which is the `cametraps/` folder.
+`md_v5b.0.0` in the `cameratraps` folder.
 
-#### 4. Download and Install Miniconda
+#### 5. Download and Install Miniconda
 
 - Go to [Miniconda page](https://docs.conda.io/en/latest/miniconda.html) and follow the instruction on how to download and install Miniconda based on your own OS.
 
-#### 5. Create `cameratraps-detector` conda environment by running this command at root folder (`/BayDetect`):
+#### 6. Create `cameratraps-detector` conda environment by running this command at root folder (`/BayDetect`):
 
     conda env create --file environment-detector-lwf.yml
 
-#### 6. Activate `cameratraps-detector` conda environment
+#### 7. Activate `cameratraps-detector` conda environment
 
     conda activate cameratraps-detector
 
-#### 7. Putting the images that you want to be classified inside `/image_data` directory
+#### 8. Putting the images that you want to be classified inside `/image_data` directory
 
 ***Our example***: 
 - Navigate to `/example/image_data/Example_Forest/` folder to see how the IMAGE FILES are currently being 
 stored on our server at LWF.
 
-#### 8. Create sub-folders inside the `/metadata` directory for the output JSON, CSV and TXT files, which will be created after running `BayDetect`
+#### 9. Create sub-folders inside the `/metadata` directory for the output JSON, CSV and TXT files, which will be created after running `BayDetect`
 
 ***Our example***: 
 - Navigate to `/example/metadata/Example_Forest/` folder to see how the OUTPUT JSON,CSV, and TXT FILES are currently 

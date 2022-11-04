@@ -222,7 +222,9 @@ class RunMegaDetector(ttk.Frame):
         outputDir = str(self.outJSONPath)
 
         exeMD = 'cd cameratraps && ' \
-                'python run_detector_batch.py md_v4.1.0.pb ' + inputDir + ' ' + outputDir + ' '
+                'python ./detection/run_detector_batch.py md_v5a.0.0.pt ' \
+                + inputDir + ' ' + outputDir + ' '
+                # '--output_relative_filenames --recursive ' #  --checkpoint_frequency 10000'
 
         if os.system(exeMD) == 0:
             self.executeButton.config(text="MEGADETECTOR WAS EXECUTED SUCCESSFULLY !!!"
