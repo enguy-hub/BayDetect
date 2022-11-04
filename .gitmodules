@@ -4,3 +4,6 @@
 [submodule "cameratraps"]
 	path = cameratraps
 	url = https://github.com/microsoft/CameraTraps.git
+[submodule "yolov5"]
+	path = yolov5
+	url = https://github.com/ultralytics/yolov5/
