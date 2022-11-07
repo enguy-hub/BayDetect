@@ -288,9 +288,9 @@ def md_pycmds_creator():
             name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
             with open(output_txtdir + "pf2_runMD_cmds.txt", "a") as f:
-                f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
-                        f"'..{bi_dirpath}{names_withBI}.json ' \n"
-                        f"'..{md_dirpath}{name_withoutBI}_MD.json ' \n"
+                f.write(f"'python run_detector_batch.py md_v5a.0.0.pt ' \n"
+                        f"'../..{bi_dirpath}{names_withBI}.json ' \n"
+                        f"'../..{md_dirpath}{name_withoutBI}_MD.json ' \n"
                         f"'&& '\n")
 
     return print('\nDone !!! \n')

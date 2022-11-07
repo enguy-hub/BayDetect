@@ -255,10 +255,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         self.noSampleFolderPathLabel = ttk.Label(
             self.sw.scrollwindow, text="\nSample FOLDER-PATH of the very folder, where images are stored: \n" +
-                                       self.org_img_dirpath[0].split()[-1] + "/")
+                                       self.org_img_dirpath[1].split()[-1] + "/")
         self.noSampleFolderPathLabel.grid(row=7, sticky='')
 
-        print("\nSample FOLDER-PATH of the very folder, where images are stored: \n" +
+        print("\nSample FOLDER-PATH of the first folder, where images are stored: \n" +
               self.org_img_dirpath[0].split()[-1] + "/" + "\n")
 
         self.noFolderPathConfirm_btn = ttk.Button(self.sw.scrollwindow, text="Confirm Folder-Path !!!",
@@ -1337,9 +1337,9 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                 name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
                 with open(output_txtdir + "pf2_runMD_cmds.txt", "a") as f:
-                    f.write(f"'python run_detector_batch.py md_v4.1.0.pb ' \n"
-                            f"'..{bi_dirpath}{names_withBI}.json ' \n"
-                            f"'..{md_dirpath}{name_withoutBI}_MD.json ' \n"
+                    f.write(f"'python run_detector_batch.py md_v5a.0.0.pt ' \n"
+                            f"'../..{bi_dirpath}{names_withBI}.json ' \n"
+                            f"'../..{md_dirpath}{name_withoutBI}_MD.json ' \n"
                             f"'&& '\n")
 
                 self.BIJSONDirPathLabel.destroy()

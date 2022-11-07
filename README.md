@@ -60,18 +60,24 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
 #### 3. Set `PYTHONPATH` for the three submodules `cameratraps`, `ai4eutils`, and `yolov5`
 
-- For WINDOWS, following this [Windows' instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#windows-instructions-for-gitpython-stuff) 
+- For WINDOWS, following this [Windows' instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#windows-instructions-for-gitpython-stuff). For example:
 
-- For LINUX, following this [Linux's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#linux-instructions-for-gitpython-stuff) 
+      `set PYTHONPATH=%PYTHONPATH%;c:\baydetect\cameratraps;c:\baydetect\ai4eutils;c:\baydetect\yolov5`
 
-- For MAC, following this [Mac's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#mac-instructions-for-gitpython-stuff) 
+- For LINUX, following this [Linux's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#linux-instructions-for-gitpython-stuff). For example:
+
+      `export PYTHONPATH="$PYTHONPATH:$HOME/baydetect/cameratraps:$HOME/baydetect/ai4eutils:$HOME/baydetect/yolov5"`
+
+- For MAC, following this [Mac's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#mac-instructions-for-gitpython-stuff). For example:
+
+      `export PYTHONPATH="$PYTHONPATH:$HOME/baydetect/cameratraps:$HOME/baydetect/ai4eutils:$HOME/baydetect/yolov5"`
 
 #### 4. Download MegaDetector `md_v5a.0.0.pt` and/or `md_v5b.0.0` model files and save it in the `/cameratraps/detection/` folder
 
 - The easiest way is to download it directly from the link shown in the [CameraTraps's GitHub page](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#megadetector-v50-20220615)
 
-- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model files `md_v5a.0.0.pt` and/or 
-`md_v5b.0.0` in the `cameratraps` folder.
+- **VERY IMPORTANT**: Once you have downloaded the model file, please save the model files `md_v5a.0.0.pt` and 
+`md_v5b.0.0` in the `cameratraps/detection` folder.
 
 #### 5. Download and Install Miniconda
 
