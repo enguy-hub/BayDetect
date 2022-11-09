@@ -101,10 +101,19 @@ class JSONCreator(ttk.Frame):
 
     def inputDir(self):
         inputDirectory = filedialog.askdirectory(title='Please select the image folder')
-        self.inputDirPath = str(inputDirectory) + "/"
+        self.inputDirPath = str(inputDirectory)
 
-        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + str(inputDirectory) + "/")
-        inputDirLabel.grid(row=1, pady=8, sticky='')
+        # inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + str(inputDirectory) + "/")
+        # inputDirLabel.grid(row=1, pady=8, sticky='')
+
+        inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        inputDirLabel.tag_configure("tag_name", justify='center')
+        inputDirLabel.insert("2.0", "FOLDER PATH: " + str(inputDirectory))
+        inputDirLabel.tag_add("tag_name", "2.0", "end")
+        inputDirLabel.grid(row=1, pady=8, sticky='n')
+
+        inputDirLabel.configure(state="disabled")
+        inputDirLabel.configure(inactiveselectbackground=inputDirLabel.cget("selectbackground"))
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(title='Please select the folder where the `BatchInput` JSON will be saved')
@@ -194,14 +203,23 @@ class RunMegaDetector(ttk.Frame):
 
     def inputJSON(self):
         inputJSON = filedialog.askopenfilename(title='Please select the `BatchInput` JSON file')
-        self.inputJSONPath = str(inputJSON)
+        self.inputJSONPath = str(inputJSON) + "/"
 
-        inputJSONLabel = ttk.Label(self.sw.scrollwindow, text='Input `BatchInput` JSON file: \n' + str(inputJSON))
-        inputJSONLabel.grid(row=1, pady=8, sticky='')
+        # inputJSONLabel = ttk.Label(self.sw.scrollwindow, text='Input `BatchInput` JSON file: \n' + str(inputJSON))
+        # inputJSONLabel.grid(row=1, pady=8, sticky='')
+
+        inputJSONLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        inputJSONLabel.tag_configure("tag_name", justify='center')
+        inputJSONLabel.insert("2.0", "`BI` JSON PATH: " + str(inputJSON) + "/")
+        inputJSONLabel.tag_add("tag_name", "2.0", "end")
+        inputJSONLabel.grid(row=1, pady=8, sticky='n')
+
+        inputJSONLabel.configure(state="disabled")
+        inputJSONLabel.configure(inactiveselectbackground=inputJSONLabel.cget("selectbackground"))
 
     def outputJSON(self):
         outputDir = filedialog.askdirectory(title='Please select the output folder for the `MegaDetected` JSON file')
-        outputDirPath = str(outputDir)
+        outputDirPath = str(outputDir) + "/"
 
         outputJSONName = self.outJSONNameEntry.get()
 
@@ -299,16 +317,16 @@ class CSVConvertor(ttk.Frame):
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
         sessionNameLabel = ttk.Label(self.sw.scrollwindow,
-                                     text="2/ Which index order is the `SESSION NAME` when the "
-                                          "\nabove FULL-PATH is split with `/` as separator?")
+                                     text="2/ Which `index-order` is the SESSION NAME in the above "
+                                          "\nFOLDER-PATH when it is split with `/` as separator?")
         sessionNameLabel.grid(row=2, sticky='')
 
         self.sessionNameEntry = ttk.Entry(self.sw.scrollwindow)
         self.sessionNameEntry.grid(row=3, ipady=10, ipadx=10, pady=4, sticky='')
 
         stationNameLabel = ttk.Label(self.sw.scrollwindow,
-                                     text="3/ Which index order is the `STATION NAME` when the"
-                                          "\nabove FULL-PATH is split with `/` as separator?")
+                                     text="3/ Which `index-order` is the STATION NAME in the above "
+                                          "\nFOLDER-PATH when it is split with `/` as separator?")
         stationNameLabel.grid(row=4, sticky='')
 
         self.stationNameEntry = ttk.Entry(self.sw.scrollwindow)
@@ -348,19 +366,37 @@ class CSVConvertor(ttk.Frame):
         inputDirectory = filedialog.askdirectory(title='Please select the image folder')
         self.inputDirPath = str(inputDirectory) + "/"
 
-        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + str(inputDirectory) + "/")
-        inputDirLabel.grid(row=1, pady=8, sticky='')
+        # inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + str(inputDirectory) + "/")
+        # inputDirLabel.grid(row=1, pady=8, sticky='')
+
+        inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        inputDirLabel.tag_configure("tag_name", justify='center')
+        inputDirLabel.insert("2.0", "FOLDER PATH: " + str(inputDirectory) + "/")
+        inputDirLabel.tag_add("tag_name", "2.0", "end")
+        inputDirLabel.grid(row=1, pady=8, sticky='n')
+
+        inputDirLabel.configure(state="disabled")
+        inputDirLabel.configure(inactiveselectbackground=inputDirLabel.cget("selectbackground"))
 
     def inputJSON(self):
         jsonFile = filedialog.askopenfilename(title='Please select the `MegaDetected` JSON file')
         self.jsonFilePath = str(jsonFile)
 
-        jsonFileLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED `MegaDetected` JSON file: \n' + str(jsonFile))
-        jsonFileLabel.grid(row=7, pady=8, sticky='')
+        # jsonFileLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED `MegaDetected` JSON file: \n' + str(jsonFile))
+        # jsonFileLabel.grid(row=7, pady=8, sticky='')
+
+        jsonFileLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        jsonFileLabel.tag_configure("tag_name", justify='center')
+        jsonFileLabel.insert("2.0", "`MD` JSON PATH: " + str(jsonFile))
+        jsonFileLabel.tag_add("tag_name", "2.0", "end")
+        jsonFileLabel.grid(row=7, pady=8, sticky='n')
+
+        jsonFileLabel.configure(state="disabled")
+        jsonFileLabel.configure(inactiveselectbackground=jsonFileLabel.cget("selectbackground"))
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(title='Please select the folder where the CSV file will be saved at')
-        outputDirPath = str(outputDir)
+        outputDirPath = str(outputDir) + "/"
 
         csvFilename = self.csvNameEntry.get()
 
@@ -452,7 +488,7 @@ class ImageSorter(ttk.Frame):
         inputDirButton = ttk.Button(self.sw.scrollwindow,
                                     text="1/ Please select the IMAGE FOLDER which has an associated "
                                          "`Metadata` CSV file, and this image\nfolder is also where you want "
-                                         "the images inside it to be sorted by their `Mega-Detected` classes",
+                                         "the images inside it to be sorted into their `MegaDetected` classes",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
