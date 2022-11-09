@@ -726,11 +726,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         self.yesSampleFolderPathLabel = ttk.Label(
             self.sw.scrollwindow, text="\nFOLDER-PATH of the first folder, where images are stored: \n" +
-                                       self.org_img_dirpath[0].split()[-1] + "/")
+                                       self.org_img_dirpath[0].split()[-1])
         self.yesSampleFolderPathLabel.grid(row=10, sticky='')
 
         print("\nFOLDER-PATH of the first folder, where images are stored: \n" +
-              self.org_img_dirpath[0].split()[-1] + "/" + "\n")
+              self.org_img_dirpath[0].split()[-1] + "\n")
 
         self.yesFolderPathConfirm_btn = ttk.Button(self.sw.scrollwindow, text="Confirm Folder-Path !!!",
                                                    command=self.yesFolderPathConfirmed)
@@ -762,6 +762,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         stationName = int(self.yesStationNameEntry.get())
 
         for idirpaths in self.org_img_dirpath:
+            # idirpaths = idirpaths + "/"
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
@@ -834,20 +835,20 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesInputJSONDirPath = str(yesInputJSONDir) + "/"
         self.yesInputJSONDirPath.replace("\\", "/")
 
-        self.yesInputJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=str(yesInputJSONDir) + "/")
+        self.yesInputJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=self.yesInputJSONDirPath)
         self.yesInputJSONDirLabel.grid(row=22, pady=4, sticky='n')
 
-        print('\n`BI` JSON FOLDER: ' + '\n' + str(yesInputJSONDir) + "/")
+        print('\n`BI` JSON FOLDER: ' + '\n' + self.yesInputJSONDirPath)
 
     def yesOutputTxtDir(self):
         yesOutputTxtDir1 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
         self.yesOutputTxtDirPath1 = str(yesOutputTxtDir1) + "/"
         self.yesOutputTxtDirPath1.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir1) + "/")
+        self.yesOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath1)
         self.yesOutputTxtDirLabel1.grid(row=24, pady=4, sticky='n')
 
-        print('\nTXT FILES FOLDER: ' + '\n' + str(yesOutputTxtDir1) + "/")
+        print('\nTXT FILES FOLDER: ' + '\n' + self.yesOutputTxtDirPath1)
 
     def yesCreateJSONTxt(self):
 
@@ -954,7 +955,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
     def yesMDJSONDir(self):
         yesMDJSONDir = filedialog.askdirectory(title='Select the folder contains `MegaDetected` JSON files')
-        self.yesMDJSONDirPath = str(yesMDJSONDir) + "/"
+        self.yesMDJSONDirPath = str(yesMDJSONDir)
         self.yesMDJSONDirPath.replace("\\", "/")
 
         self.yesMDJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=self.yesMDJSONDirPath)
@@ -967,10 +968,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputCSVDirPath = str(yesOutputCSVDir) + "/"
         self.yesOutputCSVDirPath.replace("\\", "/")
 
-        self.yesOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=str(yesOutputCSVDir) + "/")
+        self.yesOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=str(yesOutputCSVDir))
         self.yesOutputCSVDirLabel.grid(row=30, pady=4, sticky='n')
 
-        print('\nSELECTED FOLDER FOR CSV `METADATA` FILES: ' + '\n' + str(yesOutputCSVDir) + "/")
+        print('\nCSV `METADATA` FOLDER: ' + '\n' + str(yesOutputCSVDir))
 
     def yesOutputTxtDir2(self):
         yesOutputTxtDir2 = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
@@ -980,10 +981,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir2) + "/")
         self.yesOutputTxtDirLabel2.grid(row=32, pady=4, sticky='n')
 
-        print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + str(yesOutputTxtDir2) + "/")
+        print('\nTXT FILES FOLDER: ' + '\n' + str(yesOutputTxtDir2) + "/")
 
     def yesConvertCSVTxt(self):
-        mdJSONDir = self.yesMDJSONDirPath + "/"
+        mdJSONDir = self.yesMDJSONDirPath
         csvDir = self.yesOutputCSVDirPath
         txtOutputDir = self.yesOutputTxtDirPath2
         input_iSessionIndex = int(self.yesiSessNameEntry.get())
