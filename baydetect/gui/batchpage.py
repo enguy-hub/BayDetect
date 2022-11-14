@@ -418,6 +418,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
 
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
 
@@ -581,6 +585,12 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
 
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+        md_json_fullpaths.clear()
+        csv_woMeta.clear()
+
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
 
@@ -682,6 +692,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckYes_btn['state'] = 'normal'
+
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+        CSV_paths.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
@@ -884,6 +899,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
 
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+
         print("\nTHE `.TXT` FILE(S) CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
 
@@ -1057,6 +1076,12 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
 
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+        md_json_fullpaths.clear()
+        csv_woMeta.clear()
+
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
 
@@ -1165,6 +1190,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
             self.pattern1Entry.delete(0, 'end')
             self.pattern2CheckNo_btn['state'] = 'normal'
+
+        self.station.clear()
+        self.session.clear()
+        self.img_folderpaths.clear()
+        CSV_paths.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
@@ -1347,7 +1377,7 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                 names_withBI, extension = os.path.splitext(fullnames)
                 name_withoutBI = '_'.join(names_withBI.split('_')[:-1])
 
-                with open(output_txtdir + "pf2_runMD_cmds.txt", "a") as f:
+                with open(output_txtdir + "startSess1_pf2_runMD_cmds.txt", "a") as f:
                     f.write(f"'python run_detector_batch.py md_v5a.0.0.pt ' \n"
                             f"'../..{bi_dirpath}{names_withBI}.json ' \n"
                             f"'../..{md_dirpath}{name_withoutBI}_MD.json ' \n"
