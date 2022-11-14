@@ -106,12 +106,14 @@ being stored on our server at LWF.
 ### !!! Once all the above steps are complete, you are ready to use BayDetect !!!
 
 ------------------------------------------------------------------------------------------------------------------------
-## Extra Note
+## Extra - Detection confidence threshold
 
-Optional: if you want MegaDetector to only save `detection boxes` that are 85% confidence or above in the output 
-JSON file, open the `cameratraps/detection/run_detector.py` file and change the value in `line 73` to `0.85` as follows:
+Optional: if you want MegaDetector to only save detection boxes with detection confidence of 80% or above in the output 
+JSON file, open the `cameratraps/detection/run_detector.py` file and change the value on `line 101 & 102` to 
+`0.25 and 0.20` if you are using MDv5a and the same on `line 101 & 102` for MDv5b as follows:
 
-    DEFAULT_OUTPUT_CONFIDENCE_THRESHOLD = 0.85
+    'typical_detection_threshold':0.25,
+    'conservative_detection_threshold':0.20},
 
 ------------------------------------------------------------------------------------------------------------------------
 ## Features in BayDetect
