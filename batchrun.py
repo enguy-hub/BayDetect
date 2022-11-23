@@ -8,28 +8,13 @@ def pf_batchrun():
         # Insert new python commands below this line
 
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_001_Session_6_02052021.txt '
+        'C:/BayDetect/metadata/KW_BatchCmds/pf4_sortImages/pf4_sortImages_KW_001_Session_6_02052021.txt '
         '&& '
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_002_Session_6_07052021.txt '
+        'C:/BayDetect/metadata/KW_BatchCmds/pf4_sortImages/pf4_sortImages_KW_002_Session_6_07052021.txt '
         '&& '
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_013_Session_6_11052021.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_015_Session_6_29062021.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_016_Session_6_22102020.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_030_Session_6_05072021.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_035_Session_6_01072021.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Karwendel_Rohdaten/KW_BatchCmds/pf3_mdJSONToCSV/pf3_mdJSONToCSV_KW_038_Session_6_07052021.txt '
+        'C:/BayDetect/metadata/KW_BatchCmds/pf4_sortImages/pf4_sortImages_KW_013_Session_6_11052021.txt '
 
     )
     return print('Finished !!')

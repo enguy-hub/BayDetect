@@ -325,6 +325,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print("\nList of Sessions: ")
         print(self.session)
 
+        self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
+        print("\nList of file names (station + sessions): ")
+        print(self.station_session)
+
         self.noPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="6/ Which `processing function` would you like "
                                                                     "to create the `batch-run` `.txt` files for?")
         self.noPFChoiceLabel.grid(row=14, ipady=10, pady=10, sticky='n')
@@ -372,7 +376,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noInputJSONDirPath = str(noInputJSONDir) + "/"
         self.noInputJSONDirPath.replace("\\", "/")
 
-        self.noInputJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=str(noInputJSONDir) + "/")
+        self.noInputJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=self.noInputJSONDirPath)
         self.noInputJSONDirLabel.grid(row=19, pady=4, sticky='n')
 
         print('\n`BI` JSON FOLDER: ' + '\n' + self.noInputJSONDirPath)
@@ -382,10 +386,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirPath1 = str(noOutputTxtDir1) + "/"
         self.noOutputTxtDirPath1.replace("\\", "/")
 
-        self.noOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=str(noOutputTxtDir1) + "/")
+        self.noOutputTxtDirLabel1 = ttk.Label(self.sw.scrollwindow, text=self.noOutputTxtDirPath1)
         self.noOutputTxtDirLabel1.grid(row=21, pady=4, sticky='n')
 
-        print('\nTXT FILES FOLDER: ' + '\n' + str(noOutputTxtDir1) + "/")
+        print('\nTXT FILES FOLDER: ' + '\n' + self.noOutputTxtDirPath1)
 
     def noCreateJSONTxt(self):
         jsonInputDir = self.noInputJSONDirPath
@@ -497,10 +501,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noMDJSONDirPath = str(noMDJSONDir) + "/"
         self.noMDJSONDirPath.replace("\\", "/")
 
-        self.noMDJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=str(noMDJSONDir) + "/")
+        self.noMDJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=self.noMDJSONDirPath)
         self.noMDJSONDirLabel.grid(row=25, pady=4, sticky='n')
 
-        print('\n`MD` JSON FOLDER: ' + '\n' + str(noMDJSONDir) + "/")
+        print('\n`MD` JSON FOLDER: ' + '\n' + self.noMDJSONDirPath)
 
     def noOutputCSVDir(self):
         noOutputCSVDir = filedialog.askdirectory(title='Select the output folder for the `*_Meta.csv` files')
@@ -508,10 +512,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputCSVDirPath.replace("\\", "/")
 
         self.noOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow,
-                                             text=str(noOutputCSVDir) + "/")
+                                             text=self.noOutputCSVDirPath)
         self.noOutputCSVDirLabel.grid(row=27, pady=4, sticky='n')
 
-        print('\nCSV `METADATA` FILES FOLDER: ' + '\n' + str(noOutputCSVDir) + "/")
+        print('\nCSV `METADATA` FILES FOLDER: ' + '\n' + self.noOutputCSVDirPath)
 
     def noOutputTxtDir2(self):
         noOutputTxtDir2 = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
@@ -519,10 +523,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noOutputTxtDirPath2.replace("\\", "/")
 
         self.noOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow,
-                                              text=str(noOutputTxtDir2) + "/")
+                                              text=self.noOutputTxtDirPath2)
         self.noOutputTxtDirLabel2.grid(row=29, pady=4, sticky='n')
 
-        print('\nTXT FILES FOLDER: ' + '\n' + str(noOutputTxtDir2) + "/")
+        print('\nTXT FILES FOLDER: ' + '\n' + self.noOutputTxtDirPath2)
 
     def noConvertCSVTxt(self):
         mdJSONDir = self.noMDJSONDirPath
@@ -531,35 +535,48 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         input_iSessionIndex = int(self.noiSessNameEntry.get())
         input_iStationIndex = int(self.noiStationNameEntry.get())
 
-        md_json_fullpaths = []
-        md_json_names = []
-        csv_woMeta = []
+        md_withoutExt = []
+        iname_list = []
 
         for dirpath, dirnames, filenames in os.walk(mdJSONDir):
             for ifilenames in filenames:
-                md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
-                json_names, extension = os.path.splitext(ifilenames)
-                md_json_names.append(json_names)
+                fname, extension = os.path.splitext(ifilenames)
+                md_withoutExt.append(fname)
 
-        for iname in md_json_names:
-            icsv_names = '_'.join(iname.split('_')[0:5])
-            csv_woMeta.append(icsv_names)
+        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
+        print(md_withoutExt)
 
-        # Sort the two lists so they are in ordered
-        md_json_fullpaths.sort()
-        csv_woMeta.sort()
+        for inameNoExt in md_withoutExt:
+            inameRaw = '_'.join(inameNoExt.split('_')[0:5])
+            iname_list.append(inameRaw)
 
-        for ista, isess, iorg_idirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
-                                                                           self.img_folderpaths, md_json_fullpaths,
-                                                                           csv_woMeta):
+        # Sort the two lists in ordered
+        iname_list.sort()
+
+        print("\nPaths to image folders: ")
+        print(self.img_folderpaths)
+
+        print("\nStation + session of the presented image folders: ")
+        print(self.station_session)
+
+        print("\nFile names: ")
+        print(iname_list)
+
+        print("\nMatched file names (stations + sessions)")
+        matchNames_list = list(set(self.station_session).intersection(iname_list))
+        matchNames_list.sort()
+        print(matchNames_list)
+
+        for ista, isess, iorg_dirpath, imatch_name in zip(self.station, self.session, self.img_folderpaths,
+                                                          matchNames_list):
             create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
-                         f"{iorg_idirpath}/\n"
-                         f"{imd_json_paths}\n"
-                         f"{csvDir}{icsv_woMeta}_Meta.csv\n"
+                         f"{iorg_dirpath}/\n"
+                         f"{mdJSONDir}{imatch_name}_MD.json\n"
+                         f"{csvDir}{imatch_name}_Meta.csv\n"
                          f"{input_iSessionIndex}\n"
-                         f"{input_iStationIndex}\n")
+                         f"{input_iStationIndex}")
             create.close()
 
             self.successLabel = ttk.Label(self.sw.scrollwindow, text="THE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -589,8 +606,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.station.clear()
         self.session.clear()
         self.img_folderpaths.clear()
-        md_json_fullpaths.clear()
-        csv_woMeta.clear()
+        matchNames_list.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
@@ -633,20 +649,20 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noInputCSVDirPath = str(noInputCSVDir) + "/"
         self.noInputCSVDirPath.replace("\\", "/")
 
-        self.noInputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=str(noInputCSVDir) + "/")
+        self.noInputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=self.noInputCSVDirPath)
         self.noInputCSVDirLabel.grid(row=19, pady=4, sticky='n')
 
-        print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + str(noInputCSVDir) + "/")
+        print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + self.noInputCSVDirPath)
 
     def noOutputTxtDir3(self):
         noOutputTxtDir3 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
         self.noOutputTxtDirPath3 = str(noOutputTxtDir3) + "/"
         self.noOutputTxtDirPath3.replace("\\", "/")
 
-        self.noOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=str(noOutputTxtDir3) + "/")
+        self.noOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=self.noOutputTxtDirPath3)
         self.noOutputTxtDirLabel3.grid(row=23, pady=4, sticky='n')
 
-        print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + str(noOutputTxtDir3) + "/")
+        print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + self.noOutputTxtDirPath3)
 
     def noSortImageTxt(self):
 
@@ -778,7 +794,6 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         stationIndex = int(self.yesStationNameEntry.get())
 
         for idirpaths in self.org_img_dirpath:
-            # idirpaths = idirpaths + "/"
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
@@ -806,7 +821,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print(self.session)
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of Station + Sessions: ")
+        print("\nList of file names (station + sessions): ")
         print(self.station_session)
 
         self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="7/ Which PROCESSING FUNCTION would you like "
@@ -992,20 +1007,20 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesOutputCSVDirPath = str(yesOutputCSVDir) + "/"
         self.yesOutputCSVDirPath.replace("\\", "/")
 
-        self.yesOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=str(yesOutputCSVDir))
+        self.yesOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=self.yesOutputCSVDirPath)
         self.yesOutputCSVDirLabel.grid(row=30, pady=4, sticky='n')
 
-        print('\nCSV `METADATA` FOLDER: ' + '\n' + str(yesOutputCSVDir))
+        print('\nCSV `METADATA` FOLDER: ' + '\n' + self.yesOutputCSVDirPath)
 
     def yesOutputTxtDir2(self):
         yesOutputTxtDir2 = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
         self.yesOutputTxtDirPath2 = str(yesOutputTxtDir2) + "/"
         self.yesOutputTxtDirPath2.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir2) + "/")
+        self.yesOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath2)
         self.yesOutputTxtDirLabel2.grid(row=32, pady=4, sticky='n')
 
-        print('\nTXT FILES FOLDER: ' + '\n' + str(yesOutputTxtDir2) + "/")
+        print('\nTXT FILES FOLDER: ' + '\n' + self.yesOutputTxtDirPath2)
 
     def yesConvertCSVTxt(self):
         mdJSONDir = self.yesMDJSONDirPath
@@ -1014,27 +1029,23 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         input_iSessionIndex = int(self.yesiSessNameEntry.get())
         input_iStationIndex = int(self.yesiStationNameEntry.get())
 
-        md_json_fullpaths = []
-        md_json_withoutMD = []
-        csv_woMeta = []
-        matchCSV_woMeta = None
+        md_withoutExt = []
+        iname_list = []
 
         for dirpath, dirnames, filenames in os.walk(mdJSONDir):
             for ifilenames in filenames:
-                md_json_fullpaths.append(os.path.join(dirpath, ifilenames).replace("\\", "/"))
-                json_names, extension = os.path.splitext(ifilenames)
-                md_json_withoutMD.append(json_names)
+                fname, extension = os.path.splitext(ifilenames)
+                md_withoutExt.append(fname)
 
-        # print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
-        # print(md_json_withoutMD)
+        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
+        print(md_withoutExt)
 
-        for iname in md_json_withoutMD:
-            icsv_names = '_'.join(iname.split('_')[0:5])
-            csv_woMeta.append(icsv_names)
+        for inameNoExt in md_withoutExt:
+            inameRaw = '_'.join(inameNoExt.split('_')[0:5])
+            iname_list.append(inameRaw)
 
-        # Sort the two lists so they are in ordered
-        md_json_fullpaths.sort()
-        csv_woMeta.sort()
+        # Sort the two lists in ordered
+        iname_list.sort()
 
         print("\nPaths to image folders: ")
         print(self.img_folderpaths)
@@ -1042,28 +1053,22 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print("\nStation + session of the presented image folders: ")
         print(self.station_session)
 
-        print("\nPaths to MegaDetected JSON files: ")
-        print(md_json_fullpaths)
+        print("\nFile names: ")
+        print(iname_list)
 
+        print("\nMatched file names (stations + sessions)")
+        matchNames_list = list(set(self.station_session).intersection(iname_list))
+        matchNames_list.sort()
+        print(matchNames_list)
 
-        print("\nFirst part of CSV filenames: ")
-        print(csv_woMeta)
-
-        print("\nMatched stations + sessions")
-        # matchCSV_woMeta = [i for i, j in zip(self.station_session,csv_woMeta) if i == j]
-        matchCSV_woMeta = [set(self.station_session).intersection(csv_woMeta)]
-        matchCSV_woMeta.sort()
-        print(matchCSV_woMeta)
-
-        for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
-                                                                          self.img_folderpaths,
-                                                                          md_json_fullpaths, csv_woMeta):
+        for ista, isess, iorg_dirpath, imatch_name in zip(self.station, self.session, self.img_folderpaths,
+                                                          matchNames_list):
             create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
                          f"{iorg_dirpath}/\n"
-                         f"{imd_json_paths}\n"
-                         f"{csvDir}{icsv_woMeta}_Meta.csv\n"
+                         f"{mdJSONDir}{imatch_name}_MD.json\n"
+                         f"{csvDir}{imatch_name}_Meta.csv\n"
                          f"{input_iSessionIndex}\n"
                          f"{input_iStationIndex}")
             create.close()
@@ -1095,8 +1100,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.station.clear()
         self.session.clear()
         self.img_folderpaths.clear()
-        md_json_fullpaths.clear()
-        csv_woMeta.clear()
+        matchNames_list.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
               "\nPlease adjust the previous steps for a new run")
@@ -1138,20 +1142,20 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesInputCSVDirPath = str(yesInputCSVDir) + "/"
         self.yesInputCSVDirPath.replace("\\", "/")
 
-        self.yesInputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=str(yesInputCSVDir) + "/")
+        self.yesInputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=self.yesInputCSVDirPath)
         self.yesInputCSVDirLabel.grid(row=22, pady=4, sticky='n')
 
-        print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + str(yesInputCSVDir) + "/")
+        print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + self.yesInputCSVDirPath)
 
     def yesOutputTxtDir3(self):
         yesOutputTxtDir3 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
         self.yesOutputTxtDirPath3 = str(yesOutputTxtDir3) + "/"
         self.yesOutputTxtDirPath3.replace("\\", "/")
 
-        self.yesOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=str(yesOutputTxtDir3) + "/")
+        self.yesOutputTxtDirLabel3 = ttk.Label(self.sw.scrollwindow, text=self.yesOutputTxtDirPath3)
         self.yesOutputTxtDirLabel3.grid(row=26, pady=4, sticky='n')
 
-        print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + str(yesOutputTxtDir3) + "/")
+        print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + self.yesOutputTxtDirPath3)
 
     def yesSortImageTxt(self):
         csvInputDir = self.yesInputCSVDirPath
