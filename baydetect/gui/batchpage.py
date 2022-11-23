@@ -65,6 +65,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.dataset_station = []
         self.station = []
         self.session = []
+        self.station_session = []
         self.dataset = str
 
         self.pattern2Entry = None
@@ -773,16 +774,16 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesSesStaConfirm_btn.grid(row=16, pady=10, sticky='')
 
     def yesSesStaIndexConfirm(self):
-        sessionName = int(self.yesSesNameEntry.get())
-        stationName = int(self.yesStationNameEntry.get())
+        sessionIndex = int(self.yesSesNameEntry.get())
+        stationIndex = int(self.yesStationNameEntry.get())
 
         for idirpaths in self.org_img_dirpath:
             # idirpaths = idirpaths + "/"
             for dirpath, dirnames, files in os.walk(idirpaths):
                 if files:
                     self.img_folderpaths.append(''.join(idirpaths.split()[-1]))
-                    self.session.append(''.join(idirpaths.split('/')[sessionName]))
-                    self.dataset_station.append(''.join(idirpaths.split('/')[stationName]))
+                    self.session.append(''.join(idirpaths.split('/')[sessionIndex]))
+                    self.dataset_station.append(''.join(idirpaths.split('/')[stationIndex]))
                 if not files:
                     break
 
@@ -803,6 +804,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         print("\nList of Sessions: ")
         print(self.session)
+
+        self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
+        print("\nList of Station + Sessions: ")
+        print(self.station_session)
 
         self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="7/ Which PROCESSING FUNCTION would you like "
                                                                      "to create the batch-run `*.txt` files for?")
@@ -918,7 +923,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         sampleImgPaths = []
 
         for dirpath, dirnames, filenames in os.walk(self.img_folderpaths[0]):
-            print(filenames)
+            # print(filenames)
             for ifilenames in filenames:
                 sampleImgPaths.append(os.path.join(dirpath, ifilenames))
 
@@ -974,7 +979,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
     def yesMDJSONDir(self):
         yesMDJSONDir = filedialog.askdirectory(title='Select the folder contains `MegaDetected` JSON files')
-        self.yesMDJSONDirPath = str(yesMDJSONDir)
+        self.yesMDJSONDirPath = str(yesMDJSONDir) + "/"
         self.yesMDJSONDirPath.replace("\\", "/")
 
         self.yesMDJSONDirLabel = ttk.Label(self.sw.scrollwindow, text=self.yesMDJSONDirPath)
@@ -1012,10 +1017,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         md_json_fullpaths = []
         md_json_withoutMD = []
         csv_woMeta = []
+        matchCSV_woMeta = None
 
         for dirpath, dirnames, filenames in os.walk(mdJSONDir):
             for ifilenames in filenames:
-                md_json_fullpaths.append(os.path.join(dirpath, ifilenames))
+                md_json_fullpaths.append(os.path.join(dirpath, ifilenames).replace("\\", "/"))
                 json_names, extension = os.path.splitext(ifilenames)
                 md_json_withoutMD.append(json_names)
 
@@ -1026,18 +1032,28 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             icsv_names = '_'.join(iname.split('_')[0:5])
             csv_woMeta.append(icsv_names)
 
-        print("\nPaths to IMAGE FOLDERS: ")
+        # Sort the two lists so they are in ordered
+        md_json_fullpaths.sort()
+        csv_woMeta.sort()
+
+        print("\nPaths to image folders: ")
         print(self.img_folderpaths)
+
+        print("\nStation + session of the presented image folders: ")
+        print(self.station_session)
 
         print("\nPaths to MegaDetected JSON files: ")
         print(md_json_fullpaths)
 
+
         print("\nFirst part of CSV filenames: ")
         print(csv_woMeta)
 
-        # Sort the two lists so they are in ordered
-        md_json_fullpaths.sort()
-        csv_woMeta.sort()
+        print("\nMatched stations + sessions")
+        # matchCSV_woMeta = [i for i, j in zip(self.station_session,csv_woMeta) if i == j]
+        matchCSV_woMeta = [set(self.station_session).intersection(csv_woMeta)]
+        matchCSV_woMeta.sort()
+        print(matchCSV_woMeta)
 
         for ista, isess, iorg_dirpath, imd_json_paths, icsv_woMeta in zip(self.station, self.session,
                                                                           self.img_folderpaths,
