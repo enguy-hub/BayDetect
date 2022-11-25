@@ -229,11 +229,13 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.inputDirPath = str(inputDir) + "/"
         # self.inputDirPath.replace("\\", "/")
 
+        print("\nStarting new image folder selection !!")
+        print("\nInput image folder:")
         print(self.inputDirPath)
 
         self.inputDirLabel = tk.Text(self.sw.scrollwindow, height=1, borderwidth=0)
         self.inputDirLabel.tag_configure("tag_name", justify='center')
-        self.inputDirLabel.insert("1.0", "Selected path: " + str(inputDir) + "/")
+        self.inputDirLabel.insert("1.0", "Selected path: " + self.inputDirPath)
         self.inputDirLabel.tag_add("tag_name", "1.0", "end")
         self.inputDirLabel.grid(row=1, pady=4, sticky='n')
 
@@ -248,10 +250,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         self.pattern2CheckYes_btn['state'] = 'disabled'
 
-        self.pattern1 = self.pattern1Entry.get()
+        pattern1 = self.pattern1Entry.get()
 
         for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
-            for dirname in fnmatch.filter(dirs, self.pattern1):
+            for dirname in fnmatch.filter(dirs, pattern1):
                 self.org_img_dirpath.append(os.path.join(path, dirname).replace("\\", "/"))
 
         # self.noSampleFolderPathLabel = ttk.Label(
@@ -259,8 +261,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         #                                self.org_img_dirpath[1].split()[-1])
         # self.noSampleFolderPathLabel.grid(row=7, sticky='')
 
-        print("\nFOLDER-PATH of the first folder: \n" +
-              self.org_img_dirpath[0].split()[-1] + "/" + "\n")
+        print("\nFOLDER-PATH of the first folder: \n" + self.org_img_dirpath[0].split()[-1] + "/" + "\n")
 
         self.noSampleFolderPathLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
         self.noSampleFolderPathLabel.tag_configure("tag_name", justify='center')
@@ -407,24 +408,28 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, sticky='n', pady=4)
 
-            destroy_these = [self.inputDirLabel,
-                             self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
-                             self.noSessionNameLabel, self.noSessionNameEntry,
-                             self.noStationNameLabel, self.noStationNameEntry,
-                             self.noSesStaConfirm_btn, self.noPFChoiceLabel,
-                             self.noJSONCreator_btn, self.noCSVConverter_btn,
-                             self.noSortImages_btn, self.noInputJSONDirButton,
-                             self.noInputJSONDirLabel, self.noOutputTxtDirButton1,
-                             self.noOutputTxtDirLabel1, self.noCreateJSONTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
+                         self.noSessionNameLabel, self.noSessionNameEntry,
+                         self.noStationNameLabel, self.noStationNameEntry,
+                         self.noSesStaConfirm_btn, self.noPFChoiceLabel,
+                         self.noJSONCreator_btn, self.noCSVConverter_btn,
+                         self.noSortImages_btn, self.noInputJSONDirButton,
+                         self.noInputJSONDirLabel, self.noOutputTxtDirButton1,
+                         self.noOutputTxtDirLabel1, self.noCreateJSONTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckYes_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckYes_btn['state'] = 'normal'
 
+        # Delete existing lists for next round
+        self.pattern1_list.clear()
+        self.org_img_dirpath.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -583,28 +588,32 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, sticky='n', pady=4)
 
-            destroy_these = [self.inputDirLabel,
-                             self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
-                             self.noSessionNameLabel, self.noSessionNameEntry,
-                             self.noStationNameLabel, self.noStationNameEntry,
-                             self.noSesStaConfirm_btn, self.noPFChoiceLabel,
-                             self.noJSONCreator_btn, self.noCSVConverter_btn,
-                             self.noSortImages_btn, self.noSampleImagePathLabel,
-                             self.noiSessNameLabel, self.noiSessNameEntry,
-                             self.noiStationNameLabel, self.noiStationNameEntry,
-                             self.noiSesStaConfirm_btn, self.noMDJSONDirButton,
-                             self.noMDJSONDirLabel, self.noOutputCSVDirButton,
-                             self.noOutputCSVDirLabel, self.noOutputTxtDirButton2,
-                             self.noOutputTxtDirLabel2, self.noConvertCSVTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
+                         self.noSessionNameLabel, self.noSessionNameEntry,
+                         self.noStationNameLabel, self.noStationNameEntry,
+                         self.noSesStaConfirm_btn, self.noPFChoiceLabel,
+                         self.noJSONCreator_btn, self.noCSVConverter_btn,
+                         self.noSortImages_btn, self.noSampleImagePathLabel,
+                         self.noiSessNameLabel, self.noiSessNameEntry,
+                         self.noiStationNameLabel, self.noiStationNameEntry,
+                         self.noiSesStaConfirm_btn, self.noMDJSONDirButton,
+                         self.noMDJSONDirLabel, self.noOutputCSVDirButton,
+                         self.noOutputCSVDirLabel, self.noOutputTxtDirButton2,
+                         self.noOutputTxtDirLabel2, self.noConvertCSVTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckYes_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckYes_btn['state'] = 'normal'
 
+        # Delete existing lists for next round
+        self.pattern1_list.clear()
+        self.org_img_dirpath.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
         matchNames_list.clear()
 
@@ -693,25 +702,29 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, sticky='n', pady=4)
 
-            destroy_these = [self.inputDirLabel,
-                             self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
-                             self.noSessionNameLabel, self.noSessionNameEntry,
-                             self.noStationNameLabel, self.noStationNameEntry,
-                             self.noSesStaConfirm_btn, self.noPFChoiceLabel,
-                             self.noJSONCreator_btn, self.noCSVConverter_btn,
-                             self.noSortImages_btn, self.noInputCSVDirButton,
-                             self.noInputCSVDirLabel, self.noSortedLabel,
-                             self.noSortedEntry, self.noOutputTxtDirButton3,
-                             self.noOutputTxtDirLabel3, self.noSortImagesTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.noSampleFolderPathLabel, self.noFolderPathConfirm_btn,
+                         self.noSessionNameLabel, self.noSessionNameEntry,
+                         self.noStationNameLabel, self.noStationNameEntry,
+                         self.noSesStaConfirm_btn, self.noPFChoiceLabel,
+                         self.noJSONCreator_btn, self.noCSVConverter_btn,
+                         self.noSortImages_btn, self.noInputCSVDirButton,
+                         self.noInputCSVDirLabel, self.noSortedLabel,
+                         self.noSortedEntry, self.noOutputTxtDirButton3,
+                         self.noOutputTxtDirLabel3, self.noSortImagesTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckYes_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckYes_btn['state'] = 'normal'
 
+        # Delete existing lists for next round
+        self.pattern1_list.clear()
+        self.org_img_dirpath.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
         CSV_paths.clear()
 
@@ -726,10 +739,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         self.pattern2CheckNo_btn['state'] = 'disable'
 
-        self.pattern1 = self.pattern1Entry.get()
+        pattern1 = self.pattern1Entry.get()
+        print("Pattern 1 is: " + pattern1)
 
         for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
-            for dirname_p1 in fnmatch.filter(dirs, self.pattern1):
+            for dirname_p1 in fnmatch.filter(dirs, pattern1):
                 self.pattern1_list.append(os.path.join(path, dirname_p1).replace("\\", "/"))
 
         self.pattern2Label = ttk.Label(self.sw.scrollwindow,
@@ -748,6 +762,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
     def clickedYes(self):
 
         pattern2 = self.pattern2Entry.get()
+        print("Pattern 2 is: " + pattern2)
 
         for path, dirs, files in os.walk(os.path.abspath(self.inputDirPath)):
             for dirname_p2 in fnmatch.filter(dirs, pattern2):
@@ -757,12 +772,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             self.org_img_dirpath.append(os.path.join(ip1, ip2).replace("\\", "/"))
 
         self.yesSampleFolderPathLabel = ttk.Label(
-            self.sw.scrollwindow, text="\nFOLDER-PATH of the first folder, where images are stored: \n" +
-                                       self.org_img_dirpath[0].split()[-1])
+            self.sw.scrollwindow, text="\nPath to the FIRST image folder matches the pattern(s): \n"
+                                       + self.org_img_dirpath[0].split()[-1])
         self.yesSampleFolderPathLabel.grid(row=10, sticky='')
 
-        print("\nFOLDER-PATH of the first folder, where images are stored: \n" +
-              self.org_img_dirpath[0].split()[-1] + "\n")
+        print("\nPath to the FIRST image folder matches the pattern(s): \n" + self.org_img_dirpath[0].split()[-1])
 
         self.yesFolderPathConfirm_btn = ttk.Button(self.sw.scrollwindow, text="Confirm Folder-Path !!!",
                                                    command=self.yesFolderPathConfirmed)
@@ -802,26 +816,26 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                 if not files:
                     break
 
-        print("\nList of Paths to Folders Contain Images: ")
+        print("\nList of all image folders matches the above patterns: ")
         print(self.img_folderpaths)
 
-        print("\nList of Dataset Stations: ")
+        print("\nList of stations: ")
         print(self.dataset_station)
 
         for name in self.dataset_station:
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print("\nDataset Name: " + self.dataset)
+        print("\nDataset name: " + self.dataset)
 
-        print("\nList of Stations: ")
+        print("\nList of stations #: ")
         print(self.station)
 
-        print("\nList of Sessions: ")
+        print("\nList of sessions: ")
         print(self.session)
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of file names (station + sessions): ")
+        print("\nList of file-names for cross-checking later: ")
         print(self.station_session)
 
         self.yesPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="7/ Which PROCESSING FUNCTION would you like "
@@ -902,25 +916,31 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, pady=4, sticky='n')
 
-            destroy_these = [self.inputDirLabel, self.pattern2Label,
-                             self.pattern2Entry, self.confirmPattern2,
-                             self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
-                             self.yesSesNameLabel, self.yesSesNameEntry,
-                             self.yesStationNameLabel, self.yesStationNameEntry,
-                             self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
-                             self.yesJSONCreator_btn, self.yesCSVConverter_btn,
-                             self.yesSortImages_btn, self.yesInputJSONDirButton,
-                             self.yesInputJSONDirLabel, self.yesOutputTxtDirButton1,
-                             self.yesOutputTxtDirLabel1, self.yesCreateJSONTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+                         self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
+                         self.yesSesNameLabel, self.yesSesNameEntry,
+                         self.yesStationNameLabel, self.yesStationNameEntry,
+                         self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
+                         self.yesJSONCreator_btn, self.yesCSVConverter_btn,
+                         self.yesSortImages_btn, self.yesInputJSONDirButton,
+                         self.yesInputJSONDirLabel, self.yesOutputTxtDirButton1,
+                         self.yesOutputTxtDirLabel1, self.yesCreateJSONTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckNo_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckNo_btn['state'] = 'normal'
 
+        # Delete existing lists for next round
+        self.pattern1_list.clear()
+        self.pattern2_list.clear()
+        self.org_img_dirpath.clear()
+        self.dataset_station.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
 
         print("\nTHE `.TXT` FILE(S) CREATED SUCCESSFULLY !!!"
@@ -1037,9 +1057,6 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                 fname, extension = os.path.splitext(ifilenames)
                 md_withoutExt.append(fname)
 
-        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
-        print(md_withoutExt)
-
         for inameNoExt in md_withoutExt:
             inameRaw = '_'.join(inameNoExt.split('_')[0:5])
             iname_list.append(inameRaw)
@@ -1047,16 +1064,16 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         # Sort the two lists in ordered
         iname_list.sort()
 
-        print("\nPaths to image folders: ")
-        print(self.img_folderpaths)
+        # print("\nPaths to image folders need cross-checking: ")
+        # print(self.img_folderpaths)
 
-        print("\nStation + session of the presented image folders: ")
+        print("\nList of all JSON files currently in the `MD` folder: ")
+        print(md_withoutExt)
+
+        print("\nList of file-names that need cross-checking: ")
         print(self.station_session)
 
-        print("\nFile names: ")
-        print(iname_list)
-
-        print("\nMatched file names (stations + sessions)")
+        print("\nList of matched file-names:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
         matchNames_list.sort()
         print(matchNames_list)
@@ -1077,29 +1094,37 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, sticky='n', pady=4)
 
-            destroy_these = [self.inputDirLabel, self.pattern2Label,
-                             self.pattern2Entry, self.confirmPattern2,
-                             self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
-                             self.yesSesNameLabel, self.yesSesNameEntry,
-                             self.yesStationNameLabel, self.yesStationNameEntry,
-                             self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
-                             self.yesJSONCreator_btn, self.yesCSVConverter_btn,
-                             self.yesSortImages_btn, self.yesSampleImagePathLabel,
-                             self.yesiSessNameLabel, self.yesiSessNameEntry,
-                             self.yesiStationNameLabel, self.yesiStationNameEntry, self.yesiSesStaConfirm_btn,
-                             self.yesMDJSONDirButton, self.yesMDJSONDirLabel,
-                             self.yesOutputCSVDirButton, self.yesOutputCSVDirLabel,
-                             self.yesOutputTxtDirButton2, self.yesOutputTxtDirLabel2, self.yesConvertCSVTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+                         self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
+                         self.yesSesNameLabel, self.yesSesNameEntry,
+                         self.yesStationNameLabel, self.yesStationNameEntry,
+                         self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
+                         self.yesJSONCreator_btn, self.yesCSVConverter_btn,
+                         self.yesSortImages_btn, self.yesSampleImagePathLabel,
+                         self.yesiSessNameLabel, self.yesiSessNameEntry,
+                         self.yesiStationNameLabel, self.yesiStationNameEntry, self.yesiSesStaConfirm_btn,
+                         self.yesMDJSONDirButton, self.yesMDJSONDirLabel,
+                         self.yesOutputCSVDirButton, self.yesOutputCSVDirLabel,
+                         self.yesOutputTxtDirButton2, self.yesOutputTxtDirLabel2, self.yesConvertCSVTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckNo_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckNo_btn['state'] = 'normal'
 
+        # Clear up lists
+        self.pattern1_list.clear()
+        self.pattern2_list.clear()
+        self.org_img_dirpath.clear()
+        self.dataset_station.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
+        md_withoutExt.clear()
+        iname_list.clear()
         matchNames_list.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -1194,25 +1219,31 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                                                                      "\nPlease adjust the previous steps for a new run")
             self.successLabel.grid(row=36, sticky='n', pady=4)
 
-            destroy_these = [self.inputDirLabel, self.pattern2Label,
-                             self.pattern2Entry, self.confirmPattern2,
-                             self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
-                             self.yesSesNameLabel, self.yesSesNameEntry,
-                             self.yesStationNameLabel, self.yesStationNameEntry,
-                             self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
-                             self.yesJSONCreator_btn, self.yesCSVConverter_btn, self.yesSortImages_btn,
-                             self.yesInputCSVDirButton, self.yesInputCSVDirLabel,
-                             self.yesSortedLabel, self.yesSortedEntry,
-                             self.yesOutputTxtDirButton3, self.yesOutputTxtDirLabel3, self.yesSortImagesTxtButton]
+        destroy_these = [self.inputDirLabel,
+                         self.pattern2Label, self.pattern2Entry, self.confirmPattern2,
+                         self.yesSampleFolderPathLabel, self.yesFolderPathConfirm_btn,
+                         self.yesSesNameLabel, self.yesSesNameEntry,
+                         self.yesStationNameLabel, self.yesStationNameEntry,
+                         self.yesSesStaConfirm_btn, self.yesPFChoiceLabel,
+                         self.yesJSONCreator_btn, self.yesCSVConverter_btn, self.yesSortImages_btn,
+                         self.yesInputCSVDirButton, self.yesInputCSVDirLabel,
+                         self.yesSortedLabel, self.yesSortedEntry,
+                         self.yesOutputTxtDirButton3, self.yesOutputTxtDirLabel3, self.yesSortImagesTxtButton]
 
-            for widget in destroy_these:
-                widget.destroy()
+        for widget in destroy_these:
+            widget.destroy()
 
-            self.pattern1Entry.delete(0, 'end')
-            self.pattern2CheckNo_btn['state'] = 'normal'
+        self.pattern1Entry.delete(0, 'end')
+        self.pattern2CheckNo_btn['state'] = 'normal'
 
+        # Delete existing lists
+        self.pattern1_list.clear()
+        self.pattern2_list.clear()
+        self.org_img_dirpath.clear()
+        self.dataset_station.clear()
         self.station.clear()
         self.session.clear()
+        self.station_session.clear()
         self.img_folderpaths.clear()
         CSV_paths.clear()
 
