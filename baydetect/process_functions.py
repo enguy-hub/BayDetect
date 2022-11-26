@@ -3,9 +3,11 @@
 import os
 import json
 import shutil
-import PIL.Image
+import PIL
+# import PIL.Image
 import pandas as pd
 
+from PIL import Image
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
@@ -52,11 +54,11 @@ def md_json_creator():
             JSON file will be saved at where user defined in the "usr_output_json" prompt
     """
 
-    input_usr_dir = input("Enter the absolute path of the directory containing the "
-                          "images which you would like to execute MegaDetector on: ")
+    input_usr_dir = input("\nEnter the absolute path of the directory containing the "
+                          "images which you would like to execute MegaDetector on: \n")
 
-    usr_input_name = input("Give a name and absolute path of where the `BatchInput` "
-                           "JSON file will be saved at (end with '*_BI.json'): ")
+    usr_input_name = input("\nGive a name and absolute path of where the `BatchInput` "
+                           "JSON file will be saved at (end with '*_BI.json'): \n")
 
     usr_input_dir = input_usr_dir.replace("\\", "/")
 
@@ -91,12 +93,15 @@ def get_exif(source_images_path):
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
     for image_name in os.listdir(source_images_path):
-        if image_name.endswith(ext):
-            image = PIL.Image.open(os.path.join(source_images_path, image_name))
+        imgPath = os.path.join(source_images_path, image_name)
+        if image_name.endswith(ext) & os.stat(imgPath).st_size > 0:
+            image = PIL.Image.open(imgPath)
             exif = image.getexif()
             if exif is None:
                 return
+
             exif_data = {'Image Name': image_name}
+
             for tag_id, value in exif.items():
                 tag = TAGS.get(tag_id, tag_id)
                 if tag == "GPSInfo":
@@ -107,6 +112,7 @@ def get_exif(source_images_path):
                     exif_data[tag] = gps_data
                 else:
                     exif_data[tag] = value
+
             lst_dict.append(exif_data)
 
     # df_exif = pd.DataFrame.from_dict(lst_dict)
@@ -142,14 +148,14 @@ def md_csv_converter():
              CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
     """
 
-    input_usr_dir = input("Enter the absolute path of the image directory "
-                          "that you just created a `*_MD.json` file for: ")
+    input_usr_dir = input("\nEnter the absolute path of the image directory "
+                          "that you just created a `*_MD.json` file for: \n")
 
-    usr_input_json = input("Enter the absolute path to the `*_MD.json` file that you would "
-                           "like to perform the CSV conversion on (end with '*_MD.json'): ")
+    usr_input_json = input("\nEnter the absolute path to the `*_MD.json` file that you would "
+                           "like to perform the CSV conversion on (end with '*_MD.json'): \n")
 
-    usr_output_csv = input("Give a name and absolute path to where the CSV `Metadata` "
-                           "file will be saved at (end with '*_Meta.csv'): ")
+    usr_output_csv = input("\nGive a name and absolute path to where the CSV `Metadata` "
+                           "file will be saved at (end with '*_Meta.csv'): \n")
 
     usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
 
@@ -164,12 +170,13 @@ def md_csv_converter():
     print("\nSample IMAGE-PATH to the very first image: \n" + samplePath)
 
     input_sessionIndex = input("\nWhich index order is the `SESSION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? ")
+                               "sample IMAGE-PATH string is split with `/` as separator? \n")
 
-    input_stationIndex = input("Which index order is the `STATION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? ")
+    input_stationIndex = input("\nWhich index order is the `STATION NAME` located the above "
+                               "sample IMAGE-PATH string is split with `/` as separator? \n")
 
     for i in range(len(list(json_info['images']))):
+
         sessionIndex = int(input_sessionIndex)
         stationIndex = int(input_stationIndex)
 
@@ -181,38 +188,46 @@ def md_csv_converter():
 
         trigger = imageName[2:7]
 
-        detection_box = list(json_info['images'][i].values())[2]
-        bb_numbers = len(detection_box)
+        valLength = len(list(json_info['images'][i].values()))
 
-        pred_category, confidence, bb_locations, y_lower = [], [], [], []
+        if valLength == 3:
+            detection_box = list(json_info['images'][i].values())[2]
+            bb_numbers = len(detection_box)
 
-        if bb_numbers != 0:
-            for b in range(bb_numbers):
-                pred_category.append(list(detection_box[b].values())[0])
-                confidence.append(list(detection_box[b].values())[1])
-                bb_locations.append(list(detection_box[b].values())[2])
-        else:
-            pred_category.append('0')
+            pred_category, confidence, bb_locations, y_lower = [], [], [], []
 
-        for loc in bb_locations:
-            # y_lower.append(max(loc[3] for loc in bb_locations))
-            y_lower.append(loc[3] + loc[1])
+            if bb_numbers != 0:
+                for b in range(bb_numbers):
+                    pred_category.append(list(detection_box[b].values())[0])
+                    confidence.append(list(detection_box[b].values())[1])
+                    bb_locations.append(list(detection_box[b].values())[2])
+            else:
+                pred_category.append('0')
 
-        y_lower = list(set(y_lower))
+            for loc in bb_locations:
+                # y_lower.append(max(loc[3] for loc in bb_locations))
+                y_lower.append(loc[3] + loc[1])
 
-        data = imageName, trigger, station, session, str(
-            bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
-        data = [list(data)]
+            y_lower = list(set(y_lower))
 
-        df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
-                                                'Number of BBs', 'Predicted Category', 'Confidence',
-                                                'Location of BBs', 'Y Lower', 'Image Path'])
+            data = imageName, trigger, station, session, str(
+                bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
+            data = [list(data)]
 
-        df_json = pd.concat([df_json, df_single])
+            df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
+                                                    'Number of BBs', 'Predicted Category', 'Confidence',
+                                                    'Location of BBs', 'Y Lower', 'Image Path'])
 
-        df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
+            df_json = pd.concat([df_json, df_single])
 
-        df_final.to_csv(usr_output_csv, index=False)
+            df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
+
+            df_final.to_csv(usr_output_csv, index=False)
+
+        elif valLength != 3:
+            print("\nThe following image is broken: ")
+            print(imagePath)
+            continue
 
     return print('\nDone !!! \n')
 
