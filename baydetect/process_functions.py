@@ -54,7 +54,7 @@ def md_json_creator():
             JSON file will be saved at where user defined in the "usr_output_json" prompt
     """
 
-    input_usr_dir = input("\nEnter the absolute path of the directory containing the "
+    input_usr_dir = input("Enter the absolute path of the directory containing the "
                           "images which you would like to execute MegaDetector on: \n")
 
     usr_input_name = input("\nGive a name and absolute path of where the `BatchInput` "
@@ -78,7 +78,7 @@ def md_json_creator():
 
 
 # ID: pf2_supp || Supporting function for md_csv_converter()
-def get_exif(source_images_path):
+def get_exif(input_imageDir):
     """
         This function takes the original images as input and returns the exif data of the corresponding images.
 
@@ -92,9 +92,16 @@ def get_exif(source_images_path):
     lst_dict = []
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-    for image_name in os.listdir(source_images_path):
-        imgPath = os.path.join(source_images_path, image_name)
-        if image_name.endswith(ext) & os.stat(imgPath).st_size > 0:
+    for image_name in os.listdir(input_imageDir):
+        imgPath = str(os.path.join(input_imageDir, image_name))
+        imgStat = os.stat(imgPath).st_size
+
+        if image_name.endswith(ext) and imgStat == 0:
+            print("\nThe following image is broken:")
+            print(image_name)
+            continue
+
+        else:
             image = PIL.Image.open(imgPath)
             exif = image.getexif()
             if exif is None:
@@ -167,13 +174,13 @@ def md_csv_converter():
 
     samplePath = list(json_info['images'][0].values())[0]
 
-    print("\nSample IMAGE-PATH to the very first image: \n" + samplePath)
+    print("\nSample path to the FIRST image: \n" + samplePath)
 
-    input_sessionIndex = input("\nWhich index order is the `SESSION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? \n")
+    input_sessionIndex = input("\nWhich index order is the `Session` located the above "
+                               "sample path string is split with `/` as separator? \n")
 
-    input_stationIndex = input("\nWhich index order is the `STATION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? \n")
+    input_stationIndex = input("\nWhich index order is the `Station` located the above "
+                               "sample path string is split with `/` as separator? \n")
 
     for i in range(len(list(json_info['images']))):
 
@@ -257,15 +264,16 @@ def sort_images_csv():  # input_path, csv_input
             be sorted (by copying) into their according categorical folders.
     """
 
-    input_usr_dir = input("Enter the absolute path of the directory that you "
-                          "want to sort the images by `classified classes`: ")
+    input_img_dir = input("\nEnter the absolute path of the directory that you "
+                          "want to sort the images by `classified classes`: \n")
 
-    usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
+    input_csv_file = input("\nEnter the absolute path of the '*_Meta.csv' file of "
+                           "the above directory (end with '.csv'): \n")
 
-    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` folder, located "
-                         "at the same level as the original images' directory (answer with 'Y' or 'N')? ")
+    sorted_input = input("\nWould you like the sorted images to be saved in a separate `*_Sorted` folder, located "
+                         "at the same level as the original images' directory (answer with 'Y' or 'N')? \n")
 
-    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
+    img_input_dir = input_img_dir.replace("\\", "/") + "/"
 
     old_path = []  # Old - full original paths of where the image files are currently stored
     parent_path = []  # First half of the o_path (parent path) without the image name
@@ -273,18 +281,23 @@ def sort_images_csv():  # input_path, csv_input
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-    for root, dirs, files in os.walk(usr_input_dir):
-        for fname in files:
-            if fname.endswith(ext):
-                org_path = os.path.join(root, fname)
-                org_path = os.path.normpath(org_path)
-                old_path.append(org_path)
+    for image_name in os.listdir(img_input_dir):
+        imgPath = str(os.path.join(img_input_dir, image_name))
+        imgStat = os.stat(imgPath).st_size
 
-                p_path = os.path.split(org_path)[0]
-                p_path = os.path.normpath(p_path)
-                parent_path.append(p_path)
+        if image_name.endswith(ext) and imgStat == 0:
+            print("\nThe following image is broken and not included in the sorting:")
+            print(image_name)
+            continue
+        else:
+            old_path.append(imgPath)
 
-    csv_file = pd.read_csv(usr_input_csv)
+    for p in old_path:
+        p_path = os.path.split(p)[0]
+        p_path = os.path.normpath(p_path)
+        parent_path.append(p_path)
+
+    csv_file = pd.read_csv(input_csv_file)
     df_csv = pd.DataFrame(csv_file)
 
     classified_folder = []  # Classified categories of each image
@@ -344,9 +357,9 @@ def sort_images_csv():  # input_path, csv_input
             shutil.move(o, n)
 
     else:
-        print("\nWrong choice, please re-run the script and follow the instructions !!!"
-              "\n")
+        print("\nWrong choice, please re-run the script and follow the instructions !!! \n")
 
     return print('\nDone !!! \n')
+
 
 # if __name__ == '__main__':
