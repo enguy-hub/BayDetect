@@ -3,9 +3,11 @@
 import os
 import json
 import shutil
-import PIL.Image
+import PIL
+# import PIL.Image
 import pandas as pd
 
+from PIL import Image
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
@@ -53,10 +55,10 @@ def md_json_creator():
     """
 
     input_usr_dir = input("Enter the absolute path of the directory containing the "
-                          "images which you would like to execute MegaDetector on: ")
+                          "images which you would like to execute MegaDetector on: \n")
 
-    usr_input_name = input("Give a name and absolute path of where the `BatchInput` "
-                           "JSON file will be saved at (end with '*_BI.json'): ")
+    usr_input_name = input("\nGive a name and absolute path of where the `BatchInput` "
+                           "JSON file will be saved at (end with '*_BI.json'): \n")
 
     usr_input_dir = input_usr_dir.replace("\\", "/")
 
@@ -76,7 +78,7 @@ def md_json_creator():
 
 
 # ID: pf2_supp || Supporting function for md_csv_converter()
-def get_exif(source_images_path):
+def get_exif(input_imageDir):
     """
         This function takes the original images as input and returns the exif data of the corresponding images.
 
@@ -90,13 +92,23 @@ def get_exif(source_images_path):
     lst_dict = []
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-    for image_name in os.listdir(source_images_path):
-        if image_name.endswith(ext):
-            image = PIL.Image.open(os.path.join(source_images_path, image_name))
+    for image_name in os.listdir(input_imageDir):
+        imgPath = str(os.path.join(input_imageDir, image_name))
+        imgStat = os.stat(imgPath).st_size
+
+        if image_name.endswith(ext) and imgStat == 0:
+            print("\nThe following image is broken:")
+            print(image_name)
+            continue
+
+        else:
+            image = PIL.Image.open(imgPath)
             exif = image.getexif()
             if exif is None:
                 return
+
             exif_data = {'Image Name': image_name}
+
             for tag_id, value in exif.items():
                 tag = TAGS.get(tag_id, tag_id)
                 if tag == "GPSInfo":
@@ -107,6 +119,7 @@ def get_exif(source_images_path):
                     exif_data[tag] = gps_data
                 else:
                     exif_data[tag] = value
+
             lst_dict.append(exif_data)
 
     # df_exif = pd.DataFrame.from_dict(lst_dict)
@@ -142,14 +155,14 @@ def md_csv_converter():
              CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
     """
 
-    input_usr_dir = input("Enter the absolute path of the image directory "
-                          "that you just created a `*_MD.json` file for: ")
+    input_usr_dir = input("\nEnter the absolute path of the image directory "
+                          "that you just created a `*_MD.json` file for: \n")
 
-    usr_input_json = input("Enter the absolute path to the `*_MD.json` file that you would "
-                           "like to perform the CSV conversion on (end with '*_MD.json'): ")
+    usr_input_json = input("\nEnter the absolute path to the `*_MD.json` file that you would "
+                           "like to perform the CSV conversion on (end with '*_MD.json'): \n")
 
-    usr_output_csv = input("Give a name and absolute path to where the CSV `Metadata` "
-                           "file will be saved at (end with '*_Meta.csv'): ")
+    usr_output_csv = input("\nGive a name and absolute path to where the CSV `Metadata` "
+                           "file will be saved at (end with '*_Meta.csv'): \n")
 
     usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
 
@@ -161,15 +174,16 @@ def md_csv_converter():
 
     samplePath = list(json_info['images'][0].values())[0]
 
-    print("\nSample IMAGE-PATH to the very first image: \n" + samplePath)
+    print("\nSample path to the FIRST image: \n" + samplePath)
 
-    input_sessionIndex = input("\nWhich index order is the `SESSION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? ")
+    input_sessionIndex = input("\nWhich index order is the `Session` located the above "
+                               "sample path string is split with `/` as separator? \n")
 
-    input_stationIndex = input("Which index order is the `STATION NAME` located the above "
-                               "sample IMAGE-PATH string is split with `/` as separator? ")
+    input_stationIndex = input("\nWhich index order is the `Station` located the above "
+                               "sample path string is split with `/` as separator? \n")
 
     for i in range(len(list(json_info['images']))):
+
         sessionIndex = int(input_sessionIndex)
         stationIndex = int(input_stationIndex)
 
@@ -181,38 +195,46 @@ def md_csv_converter():
 
         trigger = imageName[2:7]
 
-        detection_box = list(json_info['images'][i].values())[2]
-        bb_numbers = len(detection_box)
+        valLength = len(list(json_info['images'][i].values()))
 
-        pred_category, confidence, bb_locations, y_lower = [], [], [], []
+        if valLength == 3:
+            detection_box = list(json_info['images'][i].values())[2]
+            bb_numbers = len(detection_box)
 
-        if bb_numbers != 0:
-            for b in range(bb_numbers):
-                pred_category.append(list(detection_box[b].values())[0])
-                confidence.append(list(detection_box[b].values())[1])
-                bb_locations.append(list(detection_box[b].values())[2])
-        else:
-            pred_category.append('0')
+            pred_category, confidence, bb_locations, y_lower = [], [], [], []
 
-        for loc in bb_locations:
-            # y_lower.append(max(loc[3] for loc in bb_locations))
-            y_lower.append(loc[3] + loc[1])
+            if bb_numbers != 0:
+                for b in range(bb_numbers):
+                    pred_category.append(list(detection_box[b].values())[0])
+                    confidence.append(list(detection_box[b].values())[1])
+                    bb_locations.append(list(detection_box[b].values())[2])
+            else:
+                pred_category.append('0')
 
-        y_lower = list(set(y_lower))
+            for loc in bb_locations:
+                # y_lower.append(max(loc[3] for loc in bb_locations))
+                y_lower.append(loc[3] + loc[1])
 
-        data = imageName, trigger, station, session, str(
-            bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
-        data = [list(data)]
+            y_lower = list(set(y_lower))
 
-        df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
-                                                'Number of BBs', 'Predicted Category', 'Confidence',
-                                                'Location of BBs', 'Y Lower', 'Image Path'])
+            data = imageName, trigger, station, session, str(
+                bb_numbers), pred_category, confidence, bb_locations, y_lower, imagePath
+            data = [list(data)]
 
-        df_json = pd.concat([df_json, df_single])
+            df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
+                                                    'Number of BBs', 'Predicted Category', 'Confidence',
+                                                    'Location of BBs', 'Y Lower', 'Image Path'])
 
-        df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
+            df_json = pd.concat([df_json, df_single])
 
-        df_final.to_csv(usr_output_csv, index=False)
+            df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
+
+            df_final.to_csv(usr_output_csv, index=False)
+
+        elif valLength != 3:
+            print("\nThe following image is broken: ")
+            print(imagePath)
+            continue
 
     return print('\nDone !!! \n')
 
@@ -242,15 +264,16 @@ def sort_images_csv():  # input_path, csv_input
             be sorted (by copying) into their according categorical folders.
     """
 
-    input_usr_dir = input("Enter the absolute path of the directory that you "
-                          "want to sort the images by `classified classes`: ")
+    input_img_dir = input("\nEnter the absolute path of the directory that you "
+                          "want to sort the images by `classified classes`: \n")
 
-    usr_input_csv = input("Enter the absolute path of the '*_Meta.csv' file of the above directory (end with '.csv'): ")
+    input_csv_file = input("\nEnter the absolute path of the '*_Meta.csv' file of "
+                           "the above directory (end with '.csv'): \n")
 
-    sorted_input = input("Would you like the sorted images to be saved in a separate `*_Sorted` folder, located "
-                         "at the same level as the original images' directory (answer with 'Y' or 'N')? ")
+    sorted_input = input("\nWould you like the sorted images to be saved in a separate `*_Sorted` folder, located "
+                         "at the same level as the original images' directory (answer with 'Y' or 'N')? \n")
 
-    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
+    img_input_dir = input_img_dir.replace("\\", "/") + "/"
 
     old_path = []  # Old - full original paths of where the image files are currently stored
     parent_path = []  # First half of the o_path (parent path) without the image name
@@ -258,18 +281,23 @@ def sort_images_csv():  # input_path, csv_input
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-    for root, dirs, files in os.walk(usr_input_dir):
-        for fname in files:
-            if fname.endswith(ext):
-                org_path = os.path.join(root, fname)
-                org_path = os.path.normpath(org_path)
-                old_path.append(org_path)
+    for image_name in os.listdir(img_input_dir):
+        imgPath = str(os.path.join(img_input_dir, image_name))
+        imgStat = os.stat(imgPath).st_size
 
-                p_path = os.path.split(org_path)[0]
-                p_path = os.path.normpath(p_path)
-                parent_path.append(p_path)
+        if image_name.endswith(ext) and imgStat == 0:
+            print("\nThe following image is broken and not included in the sorting:")
+            print(image_name)
+            continue
+        else:
+            old_path.append(imgPath)
 
-    csv_file = pd.read_csv(usr_input_csv)
+    for p in old_path:
+        p_path = os.path.split(p)[0]
+        p_path = os.path.normpath(p_path)
+        parent_path.append(p_path)
+
+    csv_file = pd.read_csv(input_csv_file)
     df_csv = pd.DataFrame(csv_file)
 
     classified_folder = []  # Classified categories of each image
@@ -329,9 +357,9 @@ def sort_images_csv():  # input_path, csv_input
             shutil.move(o, n)
 
     else:
-        print("\nWrong choice, please re-run the script and follow the instructions !!!"
-              "\n")
+        print("\nWrong choice, please re-run the script and follow the instructions !!! \n")
 
     return print('\nDone !!! \n')
+
 
 # if __name__ == '__main__':

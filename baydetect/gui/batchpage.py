@@ -59,6 +59,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
         # -------------------------------------- #
         # Common variables | To keep
+        self.rootDir = os.path.abspath(os.curdir)
         self.inputDirPath = None
         self.org_img_dirpath = []
         self.img_folderpaths = []
@@ -225,7 +226,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
 
     def inputDir(self):
 
-        inputDir = filedialog.askdirectory(title='Select the `top-level` folder which contains all the images')
+        inputDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                           title='Select the `top-level` folder which contains all the images')
         self.inputDirPath = str(inputDir) + "/"
         # self.inputDirPath.replace("\\", "/")
 
@@ -271,7 +273,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSampleFolderPathLabel.grid(row=1, pady=7, sticky='n')
 
         self.noSampleFolderPathLabel.configure(state="disabled")
-        self.noSampleFolderPathLabel.configure(inactiveselectbackground=self.noSampleFolderPathLabel.cget("selectbackground"))
+        self.noSampleFolderPathLabel.configure(
+            inactiveselectbackground=self.noSampleFolderPathLabel.cget("selectbackground"))
 
         self.noFolderPathConfirm_btn = ttk.Button(self.sw.scrollwindow, text="Confirm Folder-Path !!!",
                                                   command=self.noFolderPathConfirmed)
@@ -314,20 +317,26 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
                 if not files:
                     pass
 
+        print("\nList of all image folders matches the above patterns: ")
+        print(self.img_folderpaths)
+
+        print("\nList of stations: ")
+        print(self.dataset_station)
+
         for name in self.dataset_station:
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print("\nDataset Name: " + self.dataset)
+        print("\nDataset name: " + self.dataset)
 
-        print("\nList of Stations: ")
+        print("\nList of stations #: ")
         print(self.station)
 
-        print("\nList of Sessions: ")
+        print("\nList of sessions: ")
         print(self.session)
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of file names (station + sessions): ")
+        print("\nList of file-names for cross-checking later: ")
         print(self.station_session)
 
         self.noPFChoiceLabel = ttk.Label(self.sw.scrollwindow, text="6/ Which `processing function` would you like "
@@ -373,7 +382,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noCreateJSONTxtButton.grid(row=22, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def noInputJSONDir(self):
-        noInputJSONDir = filedialog.askdirectory(title='Select the output folder for `BatchInput` JSON files')
+        noInputJSONDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                 title='Select the output folder for `BatchInput` JSON files')
         self.noInputJSONDirPath = str(noInputJSONDir) + "/"
         self.noInputJSONDirPath.replace("\\", "/")
 
@@ -383,7 +393,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\n`BI` JSON FOLDER: ' + '\n' + self.noInputJSONDirPath)
 
     def noOutputTxtDir1(self):
-        noOutputTxtDir1 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
+        noOutputTxtDir1 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                  title='Select the folder for the `.txt` files')
         self.noOutputTxtDirPath1 = str(noOutputTxtDir1) + "/"
         self.noOutputTxtDirPath1.replace("\\", "/")
 
@@ -454,10 +465,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         sampleImgPath = sampleImgPaths[0].replace("\\", "/")
 
         self.noSampleImagePathLabel = ttk.Label(
-            self.sw.scrollwindow, text="\nIMAGE-PATH to the first image: \n" + sampleImgPath)
+            self.sw.scrollwindow, text="\nPath to the FIRST image: \n" + sampleImgPath)
         self.noSampleImagePathLabel.grid(row=18, sticky='')
 
-        print("\nIMAGE-PATH to the first image: \n" + sampleImgPath)
+        print("\nPath to the FIRST image: \n" + sampleImgPath)
 
         self.noiSessNameLabel = ttk.Label(self.sw.scrollwindow,
                                           text="7/ Which `index-order` is the SESSION NAME in the above"
@@ -502,7 +513,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noConvertCSVTxtButton.grid(row=30, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def noMDJSONDir(self):
-        noMDJSONDir = filedialog.askdirectory(title='Select the folder contains `MegaDetected` JSON files')
+        noMDJSONDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                              title='Select the folder contains `MegaDetected` JSON files')
         self.noMDJSONDirPath = str(noMDJSONDir) + "/"
         self.noMDJSONDirPath.replace("\\", "/")
 
@@ -512,23 +524,23 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\n`MD` JSON FOLDER: ' + '\n' + self.noMDJSONDirPath)
 
     def noOutputCSVDir(self):
-        noOutputCSVDir = filedialog.askdirectory(title='Select the output folder for the `*_Meta.csv` files')
+        noOutputCSVDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                 title='Select the output folder for the `*_Meta.csv` files')
         self.noOutputCSVDirPath = str(noOutputCSVDir) + "/"
         self.noOutputCSVDirPath.replace("\\", "/")
 
-        self.noOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow,
-                                             text=self.noOutputCSVDirPath)
+        self.noOutputCSVDirLabel = ttk.Label(self.sw.scrollwindow, text=self.noOutputCSVDirPath)
         self.noOutputCSVDirLabel.grid(row=27, pady=4, sticky='n')
 
         print('\nCSV `METADATA` FILES FOLDER: ' + '\n' + self.noOutputCSVDirPath)
 
     def noOutputTxtDir2(self):
-        noOutputTxtDir2 = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
+        noOutputTxtDir2 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                  title='Select the output folder for the `.txt` files')
         self.noOutputTxtDirPath2 = str(noOutputTxtDir2) + "/"
         self.noOutputTxtDirPath2.replace("\\", "/")
 
-        self.noOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow,
-                                              text=self.noOutputTxtDirPath2)
+        self.noOutputTxtDirLabel2 = ttk.Label(self.sw.scrollwindow, text=self.noOutputTxtDirPath2)
         self.noOutputTxtDirLabel2.grid(row=29, pady=4, sticky='n')
 
         print('\nTXT FILES FOLDER: ' + '\n' + self.noOutputTxtDirPath2)
@@ -558,16 +570,16 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         # Sort the two lists in ordered
         iname_list.sort()
 
-        print("\nPaths to image folders: ")
-        print(self.img_folderpaths)
+        # print("\nPaths to image folders need cross-checking: ")
+        # print(self.img_folderpaths)
 
-        print("\nStation + session of the presented image folders: ")
+        print("\nList of all JSON files currently in the `MD` folder: ")
+        print(md_withoutExt)
+
+        print("\nList of file-names that need cross-checking: ")
         print(self.station_session)
 
-        print("\nFile names: ")
-        print(iname_list)
-
-        print("\nMatched file names (stations + sessions)")
+        print("\nList of matched file-names:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
         matchNames_list.sort()
         print(matchNames_list)
@@ -654,7 +666,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.noSortImagesTxtButton.grid(row=24, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def noInputCSVDir(self):
-        noInputCSVDir = filedialog.askdirectory(title='Select the folder contains CSV `Metadata` files')
+        noInputCSVDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                title='Select the folder contains CSV `Metadata` files')
         self.noInputCSVDirPath = str(noInputCSVDir) + "/"
         self.noInputCSVDirPath.replace("\\", "/")
 
@@ -664,7 +677,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + self.noInputCSVDirPath)
 
     def noOutputTxtDir3(self):
-        noOutputTxtDir3 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
+        noOutputTxtDir3 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                  title='Select the folder for the `.txt` files')
         self.noOutputTxtDirPath3 = str(noOutputTxtDir3) + "/"
         self.noOutputTxtDirPath3.replace("\\", "/")
 
@@ -880,7 +894,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesCreateJSONTxtButton.grid(row=25, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def yesInputJSONDir(self):
-        yesInputJSONDir = filedialog.askdirectory(title='Select the folder contains `BatchInput` JSON files')
+        yesInputJSONDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                  title='Select the folder contains `BatchInput` JSON files')
         self.yesInputJSONDirPath = str(yesInputJSONDir) + "/"
         self.yesInputJSONDirPath.replace("\\", "/")
 
@@ -890,7 +905,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\n`BI` JSON FOLDER: ' + '\n' + self.yesInputJSONDirPath)
 
     def yesOutputTxtDir(self):
-        yesOutputTxtDir1 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
+        yesOutputTxtDir1 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                   title='Select the folder for the `.txt` files')
         self.yesOutputTxtDirPath1 = str(yesOutputTxtDir1) + "/"
         self.yesOutputTxtDirPath1.replace("\\", "/")
 
@@ -965,10 +981,10 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         sampleImgPath = sampleImgPaths[0].replace("\\", "/")
 
         self.yesSampleImagePathLabel = ttk.Label(
-            self.sw.scrollwindow, text="\nIMAGE-PATH to the first image: \n" + sampleImgPath)
+            self.sw.scrollwindow, text="\nPath to the FIRST image: \n" + sampleImgPath)
         self.yesSampleImagePathLabel.grid(row=21, pady=10, sticky='')
 
-        print("\nIMAGE-PATH to the first image: \n" + sampleImgPath)
+        print("\nPath to the FIRST image: \n" + sampleImgPath)
 
         self.yesiSessNameLabel = ttk.Label(self.sw.scrollwindow,
                                            text="8/ Which `index-order` is the SESSION NAME in the above "
@@ -1013,7 +1029,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesConvertCSVTxtButton.grid(row=33, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def yesMDJSONDir(self):
-        yesMDJSONDir = filedialog.askdirectory(title='Select the folder contains `MegaDetected` JSON files')
+        yesMDJSONDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                               title='Select the folder contains `MegaDetected` JSON files')
         self.yesMDJSONDirPath = str(yesMDJSONDir) + "/"
         self.yesMDJSONDirPath.replace("\\", "/")
 
@@ -1023,7 +1040,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\nSELECTED `MEGA-DETECTED` JSON FOLDER: ' + '\n' + self.yesMDJSONDirPath)
 
     def yesOutputCSVDir(self):
-        yesOutputCSVDir = filedialog.askdirectory(title='Select the output folder for the `*_Meta.csv` files')
+        yesOutputCSVDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                  title='Select the output folder for the `*_Meta.csv` files')
         self.yesOutputCSVDirPath = str(yesOutputCSVDir) + "/"
         self.yesOutputCSVDirPath.replace("\\", "/")
 
@@ -1033,7 +1051,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\nCSV `METADATA` FOLDER: ' + '\n' + self.yesOutputCSVDirPath)
 
     def yesOutputTxtDir2(self):
-        yesOutputTxtDir2 = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
+        yesOutputTxtDir2 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                   title='Select the output folder for the `.txt` files')
         self.yesOutputTxtDirPath2 = str(yesOutputTxtDir2) + "/"
         self.yesOutputTxtDirPath2.replace("\\", "/")
 
@@ -1163,7 +1182,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesSortImagesTxtButton.grid(row=27, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def yesInputCSVDir(self):
-        yesInputCSVDir = filedialog.askdirectory(title='Select the folder contains CSV `Metadata` files')
+        yesInputCSVDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                                 title='Select the folder contains CSV `Metadata` files')
         self.yesInputCSVDirPath = str(yesInputCSVDir) + "/"
         self.yesInputCSVDirPath.replace("\\", "/")
 
@@ -1173,7 +1193,8 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + self.yesInputCSVDirPath)
 
     def yesOutputTxtDir3(self):
-        yesOutputTxtDir3 = filedialog.askdirectory(title='Select the folder for the `.txt` files')
+        yesOutputTxtDir3 = filedialog.askdirectory(initialdir=self.rootDir,
+                                                   title='Select the folder for the `.txt` files')
         self.yesOutputTxtDirPath3 = str(yesOutputTxtDir3) + "/"
         self.yesOutputTxtDirPath3.replace("\\", "/")
 
@@ -1263,6 +1284,7 @@ class Batchrun_CombinedTXT(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.sw = ScrolledPage(self)
 
+        self.rootDir = os.path.abspath(os.curdir)
         self.txtDirPath = None
         self.txtDirPathLabel = None
         self.chosenFunctionLabel = None
@@ -1293,7 +1315,8 @@ class Batchrun_CombinedTXT(ttk.Frame):
         home_btn.grid(row=6, ipadx=10, ipady=10, pady=4, sticky='')
 
     def txtInputDir(self):
-        txtDir = filedialog.askdirectory(title='Select the folder contains all the `*.txt` files')
+        txtDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                         title='Select the folder contains all the `*.txt` files')
         self.txtDirPath = str(txtDir) + "/"
 
         self.txtDirPathLabel = ttk.Label(self.sw.scrollwindow, text=self.txtDirPath)
@@ -1344,6 +1367,7 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.sw = ScrolledPage(self)
 
+        self.rootDir = os.path.abspath(os.curdir)
         self.BIJSONDirPath = None
         self.BIJSONDirPathLabel = None
 
@@ -1382,7 +1406,8 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         home_btn.grid(row=8, ipadx=10, ipady=10, pady=4, sticky='')
 
     def BIJSONDir(self):
-        BIJSONDir = filedialog.askdirectory(title='Select the folder contains `BatchInput` JSON files')
+        BIJSONDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                            title='Select the folder contains `BatchInput` JSON files')
         self.BIJSONDirPath = str(BIJSONDir) + "/"
 
         self.BIJSONDirPathLabel = ttk.Label(self.sw.scrollwindow, text=self.BIJSONDirPath)
@@ -1391,7 +1416,8 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         print('\nSELECTED FOLDER CONTAINING THE `BATCH-INPUT` JSON FILES: ' + '\n' + str(BIJSONDir))
 
     def MDJSONDir(self):
-        MDJSONDirPath = filedialog.askdirectory(title='Select the folder for `MegaDetected` JSON files')
+        MDJSONDirPath = filedialog.askdirectory(initialdir=self.rootDir,
+                                                title='Select the folder for `MegaDetected` JSON files')
         self.MDJSONDirPath = str(MDJSONDirPath) + "/"
 
         self.MDJSONDirPathLabel = ttk.Label(self.sw.scrollwindow, text=self.MDJSONDirPath)
@@ -1400,7 +1426,8 @@ class Batchrun_RunMegaDetector(ttk.Frame):
         print('\nSELECTED FOLDER FOR THE `MEGA-DETECTED` JSON FILES: ' + '\n' + str(MDJSONDirPath))
 
     def outputTxtDir(self):
-        outputTxtDir = filedialog.askdirectory(title='Select the output folder for the `.txt` files')
+        outputTxtDir = filedialog.askdirectory(initialdir=self.rootDir,
+                                               title='Select the output folder for the `.txt` files')
         self.outputTxtDirPath = str(outputTxtDir) + "/"
 
         self.outputTxtDirPathLabel = ttk.Label(self.sw.scrollwindow, text=self.outputTxtDirPath)
