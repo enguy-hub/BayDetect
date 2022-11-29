@@ -103,11 +103,11 @@ class JSONCreator(ttk.Frame):
     def inputDir(self):
         inputDirectory = filedialog.askdirectory(initialdir=self.rootDir + "/image_data",
                                                  title='Please select the image folder')
-        self.inputDirPath = str(inputDirectory)
+        self.inputDirPath = str(inputDirectory) + "/"
 
         inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
         inputDirLabel.tag_configure("tag_name", justify='center')
-        inputDirLabel.insert("2.0", "FOLDER PATH: " + str(inputDirectory))
+        inputDirLabel.insert("2.0", "FOLDER PATH: " + self.inputDirPath)
         inputDirLabel.tag_add("tag_name", "2.0", "end")
         inputDirLabel.grid(row=1, pady=8, sticky='n')
 
@@ -450,7 +450,7 @@ class CSVConvertor(ttk.Frame):
             y_lower = list(set(y_lower))
 
             data = imageName, trigger, station, session, str(bb_numbers), \
-                   pred_category, confidence, bb_locations, y_lower, imagePath
+                pred_category, confidence, bb_locations, y_lower, imagePath
             data = [list(data)]
 
             df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',

@@ -229,7 +229,7 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         inputDir = filedialog.askdirectory(initialdir=self.rootDir + "/image_data",
                                            title='Select the `top-level` folder which contains all the images')
         self.inputDirPath = str(inputDir) + "/"
-        # self.inputDirPath.replace("\\", "/")
+        self.inputDirPath.replace("\\", "/")
 
         print("\nStarting new image folder selection !!")
         print("\nInput image folder:")
@@ -258,16 +258,11 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
             for dirname in fnmatch.filter(dirs, pattern1):
                 self.org_img_dirpath.append(os.path.join(path, dirname).replace("\\", "/"))
 
-        # self.noSampleFolderPathLabel = ttk.Label(
-        #     self.sw.scrollwindow, text="\nSample FOLDER-PATH of the first folder, where images are stored: \n" +
-        #                                self.org_img_dirpath[1].split()[-1])
-        # self.noSampleFolderPathLabel.grid(row=7, sticky='')
-
-        print("\nFOLDER-PATH of the first folder: \n" + self.org_img_dirpath[0].split()[-1] + "/" + "\n")
+        print("\nPath to the first folder: \n" + self.org_img_dirpath[0].split()[-1] + "/" + "\n")
 
         self.noSampleFolderPathLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
         self.noSampleFolderPathLabel.tag_configure("tag_name", justify='center')
-        self.noSampleFolderPathLabel.insert("2.0", "FOLDER-PATH of first folder: " +
+        self.noSampleFolderPathLabel.insert("2.0", "Path to the first folder: " +
                                             str(self.org_img_dirpath[1].split()[-1]) + "/")
         self.noSampleFolderPathLabel.tag_add("tag_name", "2.0", "end")
         self.noSampleFolderPathLabel.grid(row=1, pady=7, sticky='n')
@@ -878,13 +873,13 @@ class Batchrun_ProcessingFunctions(ttk.Frame):
         self.yesCSVConverter_btn['state'] = 'disabled'
         self.yesSortImages_btn['state'] = 'disabled'
 
-        self.yesInputJSONDirButton = ttk.Button(self.sw.scrollwindow, text="8/ Select the folder where all "
-                                                                           "the '*_BI.json' files will be saved at",
+        self.yesInputJSONDirButton = ttk.Button(self.sw.scrollwindow, text="8/ Select the folder where all the"
+                                                                           "'*_BI.json' files will be saved at",
                                                 command=self.yesInputJSONDir)
         self.yesInputJSONDirButton.grid(row=21, ipadx=10, ipady=10, pady=4, sticky='n')
 
-        self.yesOutputTxtDirButton1 = ttk.Button(self.sw.scrollwindow, text="9/ Select the folder where "
-                                                                            "all the '.txt' files will be saved at",
+        self.yesOutputTxtDirButton1 = ttk.Button(self.sw.scrollwindow, text="9/ Select the folder where all"
+                                                                            "the '.txt' files will be saved at",
                                                  command=self.yesOutputTxtDir)
         self.yesOutputTxtDirButton1.grid(row=23, ipadx=10, ipady=10, pady=4, sticky='n')
 
