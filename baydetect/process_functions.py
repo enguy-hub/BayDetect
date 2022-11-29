@@ -83,7 +83,7 @@ def get_exif(input_imageDir):
         This function takes the original images as input and returns the exif data of the corresponding images.
 
         Parameters:
-            source_images_path (str): the path of the images folder
+            input_imageDir (str): the path of the images folder
 
         Returns:
             df_exif: A dataframe containing the exif cameratrap_data of the images in the given folder

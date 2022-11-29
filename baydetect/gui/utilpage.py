@@ -52,6 +52,7 @@ class FindReplaceFolderNames(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.sw = ScrolledPage(self)
 
+        self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
         self.dirPath = None
 
@@ -85,7 +86,8 @@ class FindReplaceFolderNames(ttk.Frame):
         home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(title='Please select a directory')
+        directory = filedialog.askdirectory(initialdir=self.rootDir,
+                                            title='Please select a directory')
         self.chosenDir = str(directory)
 
         dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
@@ -124,11 +126,13 @@ class FindReplaceFileNames(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.sw = ScrolledPage(self)
 
+        self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
         self.dirPath = None
 
-        dirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the folder which contains all the files "
-                                                          "that\nyou wish to collectively change their FILE-NAMES with",
+        dirButton = ttk.Button(self.sw.scrollwindow,
+                               text="1/ Please select the folder which contains all the files "
+                                    "that\nyou wish to collectively change their FILE-NAMES with",
                                command=self.selectDir)
         dirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='n')
 
@@ -156,7 +160,8 @@ class FindReplaceFileNames(ttk.Frame):
         home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(title='Please select a directory')
+        directory = filedialog.askdirectory(initialdir=self.rootDir,
+                                            title='Please select a directory')
         self.chosenDir = str(directory)
 
         dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
@@ -195,6 +200,7 @@ class FindReplaceContentInFiles(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.sw = ScrolledPage(self)
 
+        self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
         self.dirPath = None
 
@@ -234,7 +240,8 @@ class FindReplaceContentInFiles(ttk.Frame):
         home_btn.grid(row=11, ipady=10, ipadx=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(title='Please select a directory')
+        directory = filedialog.askdirectory(initialdir=self.rootDir,
+                                            title='Please select a directory')
         self.chosenDir = str(directory)
 
         dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
