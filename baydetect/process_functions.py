@@ -101,7 +101,9 @@ def get_exif(input_imageDir):
 
     for image_name in os.listdir(input_imageDir):
         imgPath = str(os.path.join(input_imageDir, image_name))
+        # print(imgPath)
         imgStat = os.stat(imgPath).st_size
+        # print(imgStat)
 
         if image_name.endswith(ext) and imgStat == 0:
             print("\nThe following image is broken:")
@@ -148,7 +150,6 @@ def md_csv_converter():
          file from MegaDetector batch processing".
 
          Parameters:
-             inputDir: the absolute path to the image folder that you ran MegaDetector batch processing on
 
              inputJSON: the absolute path to the '*_MegaDetected.json' file resulted from MegaDetector
              batch processing (end with .json)
@@ -162,26 +163,24 @@ def md_csv_converter():
              CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
     """
 
-    input_usr_dir = input("\nEnter the absolute path of the image directory "
-                          "that you just created a `*_MD.json` file for: \n")
-
     usr_input_json = input("\nEnter the absolute path to the `*_MD.json` file that you would "
                            "like to perform the CSV conversion on (end with '*_MD.json'): \n")
 
     usr_output_csv = input("\nGive a name and absolute path to where the CSV `Metadata` "
                            "file will be saved at (end with '*_Meta.csv'): \n")
 
-    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
-
     input_json = open(usr_input_json, 'r')
     json_info = json.load(input_json)
 
-    df_exif = get_exif(usr_input_dir)
+    sampleImagePath = list(json_info['images'][0].values())[0]
+    imgDir = os.path.dirname(sampleImagePath)  # get path only
+    # imgDir = imgDir + "/"
+    print(imgDir)
+
+    df_exif = get_exif(imgDir)
     df_json = pd.DataFrame()
 
-    samplePath = list(json_info['images'][0].values())[0]
-
-    print("\nSample path to the FIRST image: \n" + samplePath)
+    print("\nSample path to the FIRST image: \n" + sampleImagePath)
 
     input_sessionIndex = input("\nWhich index order is the `Session` located the above "
                                "sample path string is split with `/` as separator? \n")

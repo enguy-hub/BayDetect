@@ -205,11 +205,11 @@ class RunMegaDetector(ttk.Frame):
     def inputJSON(self):
         inputJSON = filedialog.askopenfilename(initialdir=self.rootDir + "/metadata",
                                                title='Please select the `BatchInput` JSON file')
-        self.inputJSONPath = str(inputJSON) + "/"
+        self.inputJSONPath = str(inputJSON)
 
         inputJSONLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
         inputJSONLabel.tag_configure("tag_name", justify='center')
-        inputJSONLabel.insert("2.0", "`BI` JSON PATH: " + str(inputJSON) + "/")
+        inputJSONLabel.insert("2.0", "`BI` JSON PATH: " + self.inputJSONPath)
         inputJSONLabel.tag_add("tag_name", "2.0", "end")
         inputJSONLabel.grid(row=1, pady=8, sticky='n')
 
