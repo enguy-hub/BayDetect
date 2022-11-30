@@ -63,12 +63,19 @@ def md_json_creator():
     usr_input_dir = input_usr_dir.replace("\\", "/")
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
-
     files = []
+
     # p = path, d = dirs, f = files
     for p, d, f in os.walk(usr_input_dir):
         for name in f:
-            if name.endswith(ext):
+            imgPath = str(os.path.join(usr_input_dir, name))
+            imgStat = os.stat(imgPath).st_size
+
+            if name.endswith(ext) and imgStat == 0:
+                print("\nThe following image is broken and not included in the JSON list:")
+                print(name + "\n")
+                continue
+            else:
                 files.append(os.path.join(p, name))
 
     with open(usr_input_name, 'w') as f:
@@ -83,7 +90,7 @@ def get_exif(input_imageDir):
         This function takes the original images as input and returns the exif data of the corresponding images.
 
         Parameters:
-            source_images_path (str): the path of the images folder
+            input_imageDir (str): the path of the images folder
 
         Returns:
             df_exif: A dataframe containing the exif cameratrap_data of the images in the given folder
