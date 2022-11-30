@@ -745,26 +745,30 @@ class Batchrun_MetadataCSV(ttk.Frame):
 
         print('\n`MD` JSON FOLDER: ' + '\n' + self.mdJSONDirPath)
 
-        jsonList = []
+        jsonSet = set()
+        imgDirSet = set()
 
-        for iJSON in os.listdir(self.mdJSONDirPath):
-            jsonPaths = os.path.join(self.mdJSONDirPath, iJSON)
-            jsonList.append(jsonPaths)
-        jsonList.sort()
+        for ijson in os.listdir(self.mdJSONDirPath):
+            jsonPaths = os.path.join(self.mdJSONDirPath, ijson)
+            jsonSet.add(jsonPaths)
 
-        exampleJSON = str(jsonList[0])
-        input_json = open(exampleJSON, 'r')
-        json_info = json.load(input_json)
+        for j in jsonSet:
+            inputJSON = open(j, 'r')
+            infoJSON = json.load(inputJSON)
 
-        sampleImagePath = list(json_info['images'][0].values())[0]
-        # print(sampleImagePath)
-        self.org_img_dirpath = os.path.dirname(sampleImagePath)  # get path only
-        # imgDir = imgDir + "/"
+            for i in range(len(list(infoJSON['images']))):
+                imagePath = list(infoJSON['images'][i].values())[0]
+                imgDir = os.path.dirname(imagePath)
+                imgDirSet.add(imgDir)
+
+        self.org_img_dirpath = list(imgDirSet)
+        self.org_img_dirpath.sort()
+        print("\nList of all the image folders found from `MegaDetected` JSON files:")
         print(self.org_img_dirpath)
 
         self.exampleImgPath_label = ttk.Label(self.sw.scrollwindow,
-                                              text="2/ Is the below path of the first image correct? \n"
-                                                   + sampleImagePath)
+                                              text="2/ Is the below path of the image folder correct? \n"
+                                                   + self.org_img_dirpath[0])
         self.exampleImgPath_label.grid(row=2, pady=4, sticky='n')
 
         self.confirmExampleImgPath_btn = ttk.Button(self.sw.scrollwindow, text="CONFIRM FIRST IMAGE PATH !!",
@@ -806,26 +810,29 @@ class Batchrun_MetadataCSV(ttk.Frame):
                 if not files:
                     break
 
-        print("\nList of all image folders matches the above patterns: ")
-        print(self.img_folderpaths)
-
-        print("\nList of stations: ")
-        print(self.dataset_station)
-
         for name in self.dataset_station:
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
+        # Sort all the sets
+        self.img_folderpaths.sort()
+        # self.session.sort()
+        # self.station.sort()
+        # self.dataset_station.sort()
+
+        # Set of dataset_station
+        datasetStationSet = set(self.dataset_station)
+
+        print("\nList of image folders available on the machine matched with the ones on the list above: ")
+        print(self.img_folderpaths)
+
         print("\nDataset name: " + self.dataset)
 
-        print("\nList of stations #: ")
-        print(self.station)
-
-        print("\nList of sessions: ")
-        print(self.session)
+        print("\nList of stations available on the machine's image folders: ")
+        print(sorted(datasetStationSet))
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of file-names for cross-checking later: ")
+        print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
         print(self.station_session)
 
         self.outputCSVDir_btn = ttk.Button(self.sw.scrollwindow, text="7/ Select the folder where all the "
@@ -867,51 +874,41 @@ class Batchrun_MetadataCSV(ttk.Frame):
         print('\nTXT FILES FOLDER: ' + '\n' + self.outputTxtDirPath)
 
     def convertCSVTxt(self):
-        mdJSONDir = self.mdJSONDirPath
-        csvDir = self.outputCSVDirPath
-        txtOutputDir = self.outputTxtDirPath
-        input_iSessionIndex = int(self.sessName_entry.get())
-        input_iStationIndex = int(self.stationName_entry.get())
+        # mdJSONDir = self.mdJSONDirPath
+        # csvDir = self.outputCSVDirPath
+        # txtOutputDir = self.outputTxtDirPath
+        input_iSessionIndex = int(self.sessName_entry.get()) - 1
+        input_iStationIndex = int(self.stationName_entry.get()) - 1
 
         md_withoutExt = []
         iname_list = []
 
-        for dirpath, dirnames, filenames in os.walk(mdJSONDir):
+        for dirpath, dirnames, filenames in os.walk(self.mdJSONDirPath):
             for ifilenames in filenames:
                 fname, extension = os.path.splitext(ifilenames)
                 md_withoutExt.append(fname)
 
-        print("\nMegaDetected JSON filenames WITHOUT `.json`: ")
-        print(md_withoutExt)
-
         for inameNoExt in md_withoutExt:
             inameRaw = '_'.join(inameNoExt.split('_')[0:5])
             iname_list.append(inameRaw)
-
-        # Sort the two lists in ordered
+        # Sort the list
         iname_list.sort()
 
-        # print("\nPaths to image folders need cross-checking: ")
-        # print(self.img_folderpaths)
-
-        print("\nList of all JSON files currently in the `MD` folder: ")
+        print("\nList of `MD` JSON files currently in the `MD` folder: ")
         print(md_withoutExt)
 
-        print("\nList of file-names that need cross-checking: ")
-        print(self.station_session)
-
-        print("\nList of matched file-names:")
+        print("\nList of MATCHED sessions in both the image folders and JSON files in the `MD` folder:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
         matchNames_list.sort()
         print(matchNames_list)
 
         for ista, isess, iorg_dirpath, imatch_name in zip(self.station, self.session, self.img_folderpaths,
                                                           matchNames_list):
-            create = open(f"{txtOutputDir}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
+            create = open(f"{self.outputTxtDirPath}pf3_mdJSONToCSV_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"2\n"
-                         f"{mdJSONDir}{imatch_name}_MD.json\n"
-                         f"{csvDir}{imatch_name}_Meta.csv\n"
+                         f"{self.mdJSONDirPath}{imatch_name}_MD.json\n"
+                         f"{self.outputCSVDirPath}{imatch_name}_Meta.csv\n"
                          f"{input_iSessionIndex}\n"
                          f"{input_iStationIndex}")
             create.close()
@@ -936,6 +933,7 @@ class Batchrun_MetadataCSV(ttk.Frame):
         self.session.clear()
         self.station_session.clear()
         self.img_folderpaths.clear()
+        iname_list.sort()
         matchNames_list.clear()
 
         print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
@@ -1014,25 +1012,32 @@ class Batchrun_SortImages(ttk.Frame):
 
         print('\nSELECTED CSV `METADATA` FOLDER: ' + '\n' + self.inputCSVDirPath)
 
-        csvList = []
+        csvSet = set()
+        imgDirSet = set()
 
         for iCSV in os.listdir(self.inputCSVDirPath):
             csvPaths = os.path.join(self.inputCSVDirPath, iCSV)
-            csvList.append(csvPaths)
-        csvList.sort()
+            csvSet.add(csvPaths)
+        print(csvSet)
 
-        exampleCSV = str(csvList[0])
-        print(exampleCSV)
+        for c in csvSet:
+            csv_file = pd.read_csv(c)
+            df_csv = pd.DataFrame(csv_file)
+            print(len(list(df_csv['Image Path'])))
+            for i in range(len(list(df_csv['Image Path']))):
+                imagePath = list(df_csv['Image Path'])[i]
+                # print(imagePath)
+                imgDir = os.path.dirname(imagePath)
+                imgDirSet.add(imgDir)
 
-        csv_file = pd.read_csv(exampleCSV)
-        df_csv = pd.DataFrame(csv_file)
-
-        sampleImagePath = df_csv['Image Path'].iloc[0]
-        print(sampleImagePath)
+        self.org_img_dirpath = list(imgDirSet)
+        self.org_img_dirpath.sort()
+        print("\nList of all the image folders found from CSV `Metadata` files:")
+        print(self.org_img_dirpath)
 
         self.exampleImgPath_label = ttk.Label(self.sw.scrollwindow,
                                               text="2/ Is the below path of the first image correct? \n"
-                                                   + sampleImagePath)
+                                                   + self.org_img_dirpath[0])
         self.exampleImgPath_label.grid(row=2, pady=4, sticky='n')
 
         self.confirmExampleImgPath_btn = ttk.Button(self.sw.scrollwindow, text="CONFIRM FIRST IMAGE PATH !!",
@@ -1040,18 +1045,17 @@ class Batchrun_SortImages(ttk.Frame):
         self.confirmExampleImgPath_btn.grid(row=3, sticky='n')
 
     def confirmPath(self):
-
-        self.sessName_label = ttk.Label(
-            self.sw.scrollwindow, text="5/ Which index is the `Session` in the above folder "
-                                       "\npath when it is split with `/` as separator?")
+        self.sessName_label = ttk.Label(self.sw.scrollwindow,
+                                        text="3/ Which index is the `Session` in the above folder "
+                                             "\npath when it is split with `/` as separator?")
         self.sessName_label.grid(row=4, sticky='')
 
         self.sessName_entry = ttk.Entry(self.sw.scrollwindow)
         self.sessName_entry.grid(row=5, ipady=10, ipadx=10, pady=4, sticky='')
 
-        self.stationName_label = ttk.Label(
-            self.sw.scrollwindow, text="6/ Which index is the `Station` in the above folder "
-                                       "\npath when it is split with `/` as separator?")
+        self.stationName_label = ttk.Label(self.sw.scrollwindow,
+                                           text="4/ Which index is the `Station` in the above folder "
+                                                "\npath when it is split with `/` as separator?")
         self.stationName_label.grid(row=6, sticky='')
 
         self.stationName_entry = ttk.Entry(self.sw.scrollwindow)
@@ -1074,37 +1078,34 @@ class Batchrun_SortImages(ttk.Frame):
                 if not files:
                     break
 
-        print("\nList of all image folders matches the above patterns: ")
-        print(self.img_folderpaths)
-
-        print("\nList of stations: ")
-        print(self.dataset_station)
-
         for name in self.dataset_station:
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
+        print("\nList of all the image folders available on the machine that matched matches the list above: ")
+        print(self.img_folderpaths)
+
         print("\nDataset name: " + self.dataset)
 
-        print("\nList of stations #: ")
-        print(self.station)
+        print("\nList of available stations from image folders: ")
+        print(self.dataset_station)
 
-        print("\nList of sessions: ")
+        print("\nList of available sessions from image folders: ")
         print(self.session)
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of file-names for cross-checking later: ")
+        print("\nList of sessions from image folders on the machine for cross-checking later: ")
         print(self.station_session)
 
         self.sorted_label = ttk.Label(self.sw.scrollwindow,
-                                      text="9/ Would you like the `sorted images` to be saved in a separate "
+                                      text="5/ Would you like the `sorted images` to be saved in a separate "
                                            "\nfolder called `*_Sorted`? (please answer with 'Y' or 'N') ")
         self.sorted_label.grid(row=9, sticky='n')
 
         self.sorted_entry = ttk.Entry(self.sw.scrollwindow)
         self.sorted_entry.grid(row=10, ipady=10, ipadx=10, pady=4, sticky='n')
 
-        self.outputTxtDir_btn = ttk.Button(self.sw.scrollwindow, text="10/ Select the folder where you want "
+        self.outputTxtDir_btn = ttk.Button(self.sw.scrollwindow, text="6/ Select the folder where you want "
                                                                       "all the '.txt' files to be saved at",
                                            command=self.outputTxtDir)
         self.outputTxtDir_btn.grid(row=11, ipadx=10, ipady=10, pady=4, sticky='n')
@@ -1126,14 +1127,14 @@ class Batchrun_SortImages(ttk.Frame):
         print('\nSELECTED FOLDER FOR TXT FILES: ' + '\n' + self.outputTxtDirPath)
 
     def sortImageTxt(self):
-        csvInputDir = self.inputCSVDirPath
-        txtOutputDir = self.outputTxtDirPath
+        # csvInputDir = self.inputCSVDirPath
+        # txtOutputDir = self.outputTxtDirPath
         sortedInput = self.sorted_entry.get()
 
         csv_withoutExt = []
         iname_list = []
 
-        for dirpath, dirnames, filenames in os.walk(csvInputDir):
+        for dirpath, dirnames, filenames in os.walk(self.inputCSVDirPath):
             for ifilenames in filenames:
                 fname, extension = os.path.splitext(ifilenames)
                 csv_withoutExt.append(fname)
@@ -1143,31 +1144,27 @@ class Batchrun_SortImages(ttk.Frame):
             inameRaw = '_'.join(inameNoExt.split('_')[0:5])
             print(inameRaw)
             iname_list.append(inameRaw)
-
-        # Sort the list in ordered
+        # Sort the list
         iname_list.sort()
 
-        print("\nList of all CSV files currently in the `CSV` folder: ")
+        print("\nList of CSV files currently in the `Metadata` folder: ")
         print(csv_withoutExt)
 
-        print("\nList of file-names that need cross-checking: ")
-        print(self.station_session)
-
-        print("\nList of matched file-names:")
+        print("\nList of MATCHED sessions between image folders and CSV files in `Metadata` folder:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
         matchNames_list.sort()
         print(matchNames_list)
 
         for ista, isess, iorg_dirpath, iname in zip(self.station, self.session, self.img_folderpaths, matchNames_list):
-            create = open(f"{txtOutputDir}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
+            create = open(f"{self.outputTxtDirPath}pf4_sortImages_{self.dataset}_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"3\n"
                          f"{iorg_dirpath}/\n"
-                         f"{csvInputDir}{iname}_Meta.csv\n"
+                         f"{self.inputCSVDirPath}{iname}_Meta.csv\n"
                          f"{sortedInput}\n")
             create.close()
 
-            self.success_label = ttk.Label(self.sw.scrollwindow, text="THE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
+            self.success_label = ttk.Label(self.sw.scrollwindow, text="`*.TXT` FILES CREATED SUCCESSFULLY !!!"
                                                                       "\nPlease adjust the steps for a new run")
             self.success_label.grid(row=36, sticky='n', pady=4)
 
@@ -1183,11 +1180,11 @@ class Batchrun_SortImages(ttk.Frame):
 
         # Delete existing lists
         self.org_img_dirpath.clear()
-        self.dataset_station.clear()
+        self.img_folderpaths.clear()
         self.station.clear()
         self.session.clear()
+        self.dataset_station.clear()
         self.station_session.clear()
-        self.img_folderpaths.clear()
         csv_withoutExt.clear()
         iname_list.clear()
         matchNames_list.clear()
