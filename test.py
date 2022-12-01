@@ -350,7 +350,7 @@ if __name__ == '__main__':
     #     # Make copy of the image and sorted them in categories
     #     for o, ns in zip(org_imgPath, new_path_sorted):
     #         shutil.copy(o, ns)
-    #
+
     if sorted_input == 'N':
         for p, s in zip(parent_imgPath, classified_folder):
             new_img_path = os.path.join(p, s)
@@ -361,6 +361,3 @@ if __name__ == '__main__':
         # Move the images into their sorted categories
         for o, n in zip(org_imgPath, new_path):
             shutil.move(o, n)
-
-
-

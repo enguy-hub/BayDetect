@@ -238,9 +238,11 @@ class RunMegaDetector(ttk.Frame):
         inputDir = str(self.inputJSONPath)
         outputDir = str(self.outJSONPath)
 
-        exeMD = 'cd cameratraps/detection && ' \
+        exeMD = 'cd cameratraps/detection ' \
+                '&& ' \
                 'python run_detector_batch.py md_v5a.0.0.pt ' \
-                + inputDir + ' ' + outputDir + ' '
+                + inputDir + ' ' \
+                + outputDir + ' '
         # '--output_relative_filenames --recursive ' #  --checkpoint_frequency 10000'
 
         if os.system(exeMD) == 0:

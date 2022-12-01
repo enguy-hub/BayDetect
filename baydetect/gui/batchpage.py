@@ -660,15 +660,15 @@ class Batchrun_RunMegaDetector(ttk.Frame):
                             f"'../..{md_dirpath}{name_withoutBI}_MD.json ' \n"
                             f"'&& '\n")
 
-                self.BIJSONDirPathLabel.destroy()
-                self.MDJSONDirPathLabel.destroy()
-                self.outputTxtDirPathLabel.destroy()
-
                 self.runMDTxtButton.config(text="THE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!!"
                                                 "\nPlease adjust the previous steps for the new run")
 
-                print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!! "
-                      "\nPlease adjust the previous steps for the new run")
+        self.BIJSONDirPathLabel.destroy()
+        self.MDJSONDirPathLabel.destroy()
+        self.outputTxtDirPathLabel.destroy()
+
+        print("\nTHE `.TXT` FILE(S) WERE CREATED SUCCESSFULLY !!! "
+              "\nPlease adjust the previous steps for the new run")
 
 
 """
