@@ -1018,12 +1018,12 @@ class Batchrun_SortImages(ttk.Frame):
         for iCSV in os.listdir(self.inputCSVDirPath):
             csvPaths = os.path.join(self.inputCSVDirPath, iCSV)
             csvSet.add(csvPaths)
-        print(csvSet)
+        # print(csvSet)
 
         for c in csvSet:
             csv_file = pd.read_csv(c)
             df_csv = pd.DataFrame(csv_file)
-            print(len(list(df_csv['Image Path'])))
+            # print(len(list(df_csv['Image Path'])))
             for i in range(len(list(df_csv['Image Path']))):
                 imagePath = list(df_csv['Image Path'])[i]
                 # print(imagePath)
@@ -1082,19 +1082,16 @@ class Batchrun_SortImages(ttk.Frame):
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print("\nList of all the image folders available on the machine that matched matches the list above: ")
+        print("\nList of image folders available on the machine matched with the ones on the list above: ")
         print(self.img_folderpaths)
 
         print("\nDataset name: " + self.dataset)
 
-        print("\nList of available stations from image folders: ")
+        print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
 
-        print("\nList of available sessions from image folders: ")
-        print(self.session)
-
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
-        print("\nList of sessions from image folders on the machine for cross-checking later: ")
+        print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
         print(self.station_session)
 
         self.sorted_label = ttk.Label(self.sw.scrollwindow,
@@ -1142,7 +1139,7 @@ class Batchrun_SortImages(ttk.Frame):
 
         for inameNoExt in csv_withoutExt:
             inameRaw = '_'.join(inameNoExt.split('_')[0:5])
-            print(inameRaw)
+            # print(inameRaw)
             iname_list.append(inameRaw)
         # Sort the list
         iname_list.sort()
