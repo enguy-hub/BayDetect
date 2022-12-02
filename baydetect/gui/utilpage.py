@@ -54,7 +54,6 @@ class FindReplaceFolderNames(ttk.Frame):
 
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
-        self.dirPath = None
 
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the sub-folders "
@@ -110,8 +109,10 @@ class FindReplaceFolderNames(ttk.Frame):
                 self.exeButton.config(text="FIND/REPLACE FOLDER-NAMES SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
 
-                self.findEntry.delete(0, 'end')
-                self.replaceEntry.delete(0, 'end')
+        self.findEntry.delete(0, 'end')
+        self.replaceEntry.delete(0, 'end')
+
+        print('\nDone !!! \n')
 
 
 """
@@ -128,7 +129,6 @@ class FindReplaceFileNames(ttk.Frame):
 
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
-        self.dirPath = None
 
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the files "
@@ -184,8 +184,10 @@ class FindReplaceFileNames(ttk.Frame):
                 self.exeButton.config(text="FIND/REPLACE FILE-NAMES SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
 
-                self.findEntry.delete(0, 'end')
-                self.replaceEntry.delete(0, 'end')
+        self.findEntry.delete(0, 'end')
+        self.replaceEntry.delete(0, 'end')
+
+        print('\nDone !!! \n')
 
 
 """
@@ -202,7 +204,6 @@ class FindReplaceContentInFiles(ttk.Frame):
 
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
-        self.dirPath = None
 
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the files with the same"
@@ -269,9 +270,11 @@ class FindReplaceContentInFiles(ttk.Frame):
                 self.exeButton.config(text="FIND/REPLACE FILE CONTENT SUCCESSFULLY !!!"
                                            "\nAdjust the steps for the new run then CLICK this button to run again")
 
-                self.extensionEntry.delete(0, 'end')
-                self.findEntry.delete(0, 'end')
-                self.replaceEntry.delete(0, 'end')
+        self.extensionEntry.delete(0, 'end')
+        self.findEntry.delete(0, 'end')
+        self.replaceEntry.delete(0, 'end')
+
+        print('\nDone !!! \n')
 
 
 if __name__ == "__main__":

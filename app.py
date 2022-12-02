@@ -5,8 +5,8 @@ from tkinter import *
 from baydetect.gui.homepage import HomePage
 from baydetect.gui.processpage import ProcessingPage, JSONCreator, RunMegaDetector, CSVConvertor, ImageSorter
 from baydetect.gui.utilpage import UtilityPage, FindReplaceFolderNames, FindReplaceFileNames, FindReplaceContentInFiles
-from baydetect.gui.batchpage import BatchPage, Batchrun_ProcessingFunctions, Batchrun_CombinedTXT, \
-    Batchrun_RunMegaDetector
+from baydetect.gui.batchpage import BatchPage, Batchrun_BatchInputJSON, Batchrun_RunMegaDetector, \
+    Batchrun_MetadataCSV, Batchrun_SortImages, Batchrun_CombinedTXT
 
 pages = {
     "HomePage": HomePage,
@@ -20,9 +20,11 @@ pages = {
     "Find & Replace File Names": FindReplaceFileNames,
     "Find & Replace Content in File": FindReplaceContentInFiles,
     "BatchPage": BatchPage,
-    "Batchrun Processing Functions": Batchrun_ProcessingFunctions,
+    "Batchrun BatchInput JSON": Batchrun_BatchInputJSON,
+    "Batchrun Run MegaDetector": Batchrun_RunMegaDetector,
+    "Batchrun Metadata CSV": Batchrun_MetadataCSV,
+    "Batchrun Sort Images": Batchrun_SortImages,
     "Batchrun Create Combined TXT": Batchrun_CombinedTXT,
-    "Batchrun Run MegaDetector": Batchrun_RunMegaDetector
 }
 
 LARGE_FONT = ("Calibri", 12)

@@ -1,10 +1,10 @@
 """ This module contains processing functions used for PRE and POST MegaDetector batch processing """
 
 import os
+import ast
+import PIL
 import json
 import shutil
-import PIL
-# import PIL.Image
 import pandas as pd
 
 from PIL import Image
@@ -101,7 +101,9 @@ def get_exif(input_imageDir):
 
     for image_name in os.listdir(input_imageDir):
         imgPath = str(os.path.join(input_imageDir, image_name))
+        # print(imgPath)
         imgStat = os.stat(imgPath).st_size
+        # print(imgStat)
 
         if image_name.endswith(ext) and imgStat == 0:
             print("\nThe following image is broken:")
@@ -148,7 +150,6 @@ def md_csv_converter():
          file from MegaDetector batch processing".
 
          Parameters:
-             inputDir: the absolute path to the image folder that you ran MegaDetector batch processing on
 
              inputJSON: the absolute path to the '*_MegaDetected.json' file resulted from MegaDetector
              batch processing (end with .json)
@@ -162,26 +163,24 @@ def md_csv_converter():
              CSV classified_metadata file saved at where user defined in the "usr_output_csv" prompt
     """
 
-    input_usr_dir = input("\nEnter the absolute path of the image directory "
-                          "that you just created a `*_MD.json` file for: \n")
-
     usr_input_json = input("\nEnter the absolute path to the `*_MD.json` file that you would "
                            "like to perform the CSV conversion on (end with '*_MD.json'): \n")
 
     usr_output_csv = input("\nGive a name and absolute path to where the CSV `Metadata` "
                            "file will be saved at (end with '*_Meta.csv'): \n")
 
-    usr_input_dir = input_usr_dir.replace("\\", "/") + "/"
-
     input_json = open(usr_input_json, 'r')
     json_info = json.load(input_json)
 
-    df_exif = get_exif(usr_input_dir)
+    sampleImagePath = list(json_info['images'][0].values())[0]
+    imgDir = os.path.dirname(sampleImagePath)  # get path only
+    # imgDir = imgDir + "/"
+    print(imgDir)
+
+    df_exif = get_exif(imgDir)
     df_json = pd.DataFrame()
 
-    samplePath = list(json_info['images'][0].values())[0]
-
-    print("\nSample path to the FIRST image: \n" + samplePath)
+    print("\nSample path to the FIRST image: \n" + sampleImagePath)
 
     input_sessionIndex = input("\nWhich index order is the `Session` located the above "
                                "sample path string is split with `/` as separator? \n")
@@ -282,9 +281,9 @@ def sort_images_csv():  # input_path, csv_input
 
     img_input_dir = input_img_dir.replace("\\", "/") + "/"
 
-    old_path = []  # Old - full original paths of where the image files are currently stored
-    parent_path = []  # First half of the o_path (parent path) without the image name
-    parent_path_sorted = []
+    org_imgPath = []  # Old - full original paths of where the image files are currently stored
+    parent_imgPath = []  # First half of the o_path (parent path) without the image name
+    parent_imgPath_sorted = []
 
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
@@ -297,12 +296,14 @@ def sort_images_csv():  # input_path, csv_input
             print(image_name)
             continue
         else:
-            old_path.append(imgPath)
+            org_imgPath.append(imgPath)
 
-    for p in old_path:
+    org_imgPath.sort()
+
+    for p in org_imgPath:
         p_path = os.path.split(p)[0]
         p_path = os.path.normpath(p_path)
-        parent_path.append(p_path)
+        parent_imgPath.append(p_path)
 
     csv_file = pd.read_csv(input_csv_file)
     df_csv = pd.DataFrame(csv_file)
@@ -310,25 +311,40 @@ def sort_images_csv():  # input_path, csv_input
     classified_folder = []  # Classified categories of each image
 
     list_numbbs = df_csv['Number of BBs'].tolist()
+
     list_predcategory = df_csv['Predicted Category'].tolist()
+    intList_predcategory = [list(map(int, ast.literal_eval(i))) for i in list_predcategory]
+    # print(type(intList_predcategory))
+    # print(intList_predcategory)
 
     predclass = None
 
-    for num_bbs, category in zip(list_numbbs, list_predcategory):
+    for num_bbs, category in zip(list_numbbs, intList_predcategory):
+        # print(category)
         if num_bbs > 1:
             checking = all(element == category[0] for element in category)
+            # print(checking)
             if checking:
-                print("Same category for all bounding boxes")
+                # print("All bounding boxes have the same category")
+                # print(category)
+                if category[0] == 1:
+                    predclass = 'Animal'
+                elif category[0] == 2:
+                    predclass = 'Person'
+                elif category[0] == 3:
+                    predclass = 'Vehicle'
             else:
+                # print("More than one class detected among the bounding boxes --> Assistant required")
                 predclass = 'Assistant Required'
         else:
-            if '0' in category:
+            # print(category)
+            if category[0] == 0:
                 predclass = 'Empty'
-            elif '1' in category:
+            elif category[0] == 1:
                 predclass = 'Animal'
-            elif '2' in category:
+            elif category[0] == 2:
                 predclass = 'Person'
-            elif '3' in category:
+            elif category[0] == 3:
                 predclass = 'Vehicle'
             else:
                 predclass = None
@@ -337,30 +353,30 @@ def sort_images_csv():  # input_path, csv_input
     new_path = []  # New - new path where the image files will be moved to
     new_path_sorted = []
 
-    for i in parent_path:
+    for i in parent_imgPath:
         new_parent_path = i + '_Sorted'
-        parent_path_sorted.append(new_parent_path)
+        parent_imgPath_sorted.append(new_parent_path)
 
     if sorted_input == 'Y':
-        for ps, ss in zip(parent_path_sorted, classified_folder):
+        for ps, ss in zip(parent_imgPath_sorted, classified_folder):
             new_img_path_sorted = os.path.join(ps, ss)
             new_img_path_sorted = os.path.normpath(new_img_path_sorted)
             os.makedirs(new_img_path_sorted, exist_ok=True) if not os.path.exists(new_img_path_sorted) else None
             new_path_sorted.append(new_img_path_sorted)
 
         # Make copy of the image and sorted them in categories
-        for o, ns in zip(old_path, new_path_sorted):
+        for o, ns in zip(org_imgPath, new_path_sorted):
             shutil.copy(o, ns)
 
     elif sorted_input == 'N':
-        for p, s in zip(parent_path, classified_folder):
+        for p, s in zip(parent_imgPath, classified_folder):
             new_img_path = os.path.join(p, s)
             new_img_path = os.path.normpath(new_img_path)
             os.makedirs(new_img_path, exist_ok=True) if not os.path.exists(new_img_path) else None
             new_path.append(new_img_path)
 
         # Move the images into their sorted categories
-        for o, n in zip(old_path, new_path):
+        for o, n in zip(org_imgPath, new_path):
             shutil.move(o, n)
 
     else:
