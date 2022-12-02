@@ -143,7 +143,7 @@ class JSONCreator(ttk.Frame):
         # p = path, d = dirs, f = files
         for p, d, f in os.walk(inputDir):
             for name in f:
-                imgPath = str(os.path.join(usr_input_dir, name))
+                imgPath = str(os.path.join(inputDir, name))
                 imgStat = os.stat(imgPath).st_size
 
                 if name.endswith(ext) and imgStat == 0:

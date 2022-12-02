@@ -58,7 +58,7 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
       `git checkout c23a441c9df7ca9b1f275e8c8719c949269160d1`
 
-#### 3. Set `PYTHONPATH` for the three submodules `cameratraps`, `ai4eutils`, and `yolov5`
+#### 3. Set `PYTHONPATH` for the three `cameratraps`, `ai4eutils`, and `yolov5` submodules
 
 - For WINDOWS, following this [Windows' instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#windows-instructions-for-gitpython-stuff). For example:
 
@@ -71,6 +71,26 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 - For MAC, following this [Mac's instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#mac-instructions-for-gitpython-stuff). For example:
 
       `export PYTHONPATH="$PYTHONPATH:$HOME/baydetect/cameratraps:$HOME/baydetect/ai4eutils:$HOME/baydetect/yolov5"`
+
+#### 3a. Set `PYTHONPATH` for PyCharm users (also work for work-station with restrictive admin privileged)
+
+- Open `BayDetect` project in PyCharm
+
+- Click `Edit Configuration` after clicking on the `Select Run/Debug Configuration` dropdown bar
+
+  ![pyEnv1](src/images/pyEnv1.png)
+
+- Add a new python script by clicking the `+` icon on the top left-corner. Then define the `Script path`, `Python interpreter`, and `Working directory` accordingly
+
+  ![pyEnv2](src/images/pyEnv2.png)
+
+- Under `Environment variables` click on the little notebook icon on the right of the box
+
+  ![pyEnv3](src/images/pyEnv3.png)
+
+- Click on the `+` sign and add the `PYTHONPATH` variable with the absolute paths to the three submodules inside where you stored the `BayDetect` folder 
+
+  ![pyEnv4](src/images/pyEnv4.png) 
 
 #### 4. Download MegaDetector `md_v5a.0.0.pt` and/or `md_v5b.0.0` model files and save it in the `/cameratraps/detection/` folder
 
