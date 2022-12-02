@@ -154,7 +154,7 @@ class Batchrun_BatchInputJSON(ttk.Frame):
                                             "\nsub-folders in the above-mentioned folders? (`Y` or `N`): ")
         pattern2CheckLabel.grid(row=4, sticky='')
 
-        self.pattern2CheckYes_btn = ttk.Button(self.sw.scrollwindow, text="Yes", command=self.secondPattern)
+        self.pattern2CheckYes_btn = ttk.Button(self.sw.scrollwindow, text="Yes", command=self.clickedYes)
         self.pattern2CheckYes_btn.grid(row=5, ipady=3, ipadx=3, sticky='n')
 
         self.pattern2CheckNo_btn = ttk.Button(self.sw.scrollwindow, text="No", command=self.clickedNo)
@@ -363,7 +363,7 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         YES @ Question 3 | Initial functions
     """
 
-    def secondPattern(self):
+    def clickedYes(self):
 
         self.pattern2CheckNo_btn['state'] = 'disable'
 
@@ -384,10 +384,10 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         self.pattern2Entry.grid(row=8, ipady=10, ipadx=10, pady=4, sticky='n')
 
         self.confirmPattern2 = ttk.Button(self.sw.scrollwindow, text="CONFIRM SECOND PATTERN !!",
-                                          command=self.clickedYes)
+                                          command=self.secondPatternConfirm)
         self.confirmPattern2.grid(row=9, sticky='n')
 
-    def clickedYes(self):
+    def secondPatternConfirm(self):
 
         pattern2 = self.pattern2Entry.get()
         print("Pattern 2 is: " + pattern2)
@@ -1023,10 +1023,8 @@ class Batchrun_SortImages(ttk.Frame):
         for c in csvSet:
             csv_file = pd.read_csv(c)
             df_csv = pd.DataFrame(csv_file)
-            # print(len(list(df_csv['Image Path'])))
             for i in range(len(list(df_csv['Image Path']))):
                 imagePath = list(df_csv['Image Path'])[i]
-                # print(imagePath)
                 imgDir = os.path.dirname(imagePath)
                 imgDirSet.add(imgDir)
 
@@ -1139,7 +1137,6 @@ class Batchrun_SortImages(ttk.Frame):
 
         for inameNoExt in csv_withoutExt:
             inameRaw = '_'.join(inameNoExt.split('_')[0:5])
-            # print(inameRaw)
             iname_list.append(inameRaw)
         # Sort the list
         iname_list.sort()

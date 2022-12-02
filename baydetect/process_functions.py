@@ -76,7 +76,7 @@ def md_json_creator():
                 print(name + "\n")
                 continue
             else:
-                files.append(os.path.join(p, name))
+                files.append(os.path.join(p, name).replace("\\", "/"))
 
     with open(usr_input_name, 'w') as f:
         print(json.dump(files, f, indent=4))
@@ -174,7 +174,6 @@ def md_csv_converter():
 
     sampleImagePath = list(json_info['images'][0].values())[0]
     imgDir = os.path.dirname(sampleImagePath)  # get path only
-    # imgDir = imgDir + "/"
     print(imgDir)
 
     df_exif = get_exif(imgDir)
@@ -314,16 +313,13 @@ def sort_images_csv():  # input_path, csv_input
 
     list_predcategory = df_csv['Predicted Category'].tolist()
     intList_predcategory = [list(map(int, ast.literal_eval(i))) for i in list_predcategory]
-    # print(type(intList_predcategory))
     # print(intList_predcategory)
 
     predclass = None
 
     for num_bbs, category in zip(list_numbbs, intList_predcategory):
-        # print(category)
         if num_bbs > 1:
             checking = all(element == category[0] for element in category)
-            # print(checking)
             if checking:
                 # print("All bounding boxes have the same category")
                 # print(category)

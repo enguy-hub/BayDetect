@@ -5,6 +5,7 @@ from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
 import os
+import ast
 import json
 import shutil
 import PIL.Image
@@ -70,14 +71,14 @@ class JSONCreator(ttk.Frame):
         self.finalOutputDir = None
 
         inputDirButton = ttk.Button(self.sw.scrollwindow,
-                                    text="1/ Please select an IMAGE FOLDER which contains all the images "
-                                         "that will be classified using MegaDetector are located in",
+                                    text="1/ Please select an IMAGE FOLDER which you "
+                                         "want to create the `BatchInput` JSON file for",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
         jsonNameLabel = ttk.Label(self.sw.scrollwindow,
-                                  text="2/ Please give a name to the `BatchInput` JSON file that will be "
-                                       "created from this process. Ideally, it should ends with `*_BI.json`")
+                                  text="2/ Please give a name to the `BatchInput` JSON "
+                                       "file. Ideally, it should ends with `*_BI.json`")
         jsonNameLabel.grid(row=2, sticky='')
 
         self.jsonNameEntry = ttk.Entry(self.sw.scrollwindow)
@@ -137,23 +138,30 @@ class JSONCreator(ttk.Frame):
         outputDir = self.finalOutputDir
 
         ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
-
         files = []
+
         # p = path, d = dirs, f = files
         for p, d, f in os.walk(inputDir):
             for name in f:
-                if name.endswith(ext):
+                imgPath = str(os.path.join(usr_input_dir, name))
+                imgStat = os.stat(imgPath).st_size
+
+                if name.endswith(ext) and imgStat == 0:
+                    print("\nThe following image is broken and not included in the JSON list:")
+                    print(name + "\n")
+                    continue
+                else:
                     files.append(os.path.join(p, name).replace("\\", "/"))
 
         with open(outputDir, 'w') as f:
             print(json.dump(files, f, indent=4))
 
-            self.createJSONButton.config(text="THE `BATCH-INPUT` JSON WAS CREATED SUCCESSFULLY !!!"
-                                              "\nPlease adjust the previous steps for the "
-                                              "new run then CLICK this button to run again")
+            self.createJSONButton.config(text="CREATED `BATCH-INPUT` JSON SUCCESSFULLY !!!"
+                                              "\nPlease adjust the steps for the new "
+                                              "run then CLICK this button to run again")
             self.jsonNameEntry.delete(0, 'end')
 
-        return print("The `batch-input` JSON file was created successfully !!!")
+        return print("Created `BatchInput` JSON file successfully !!!")
 
 
 """
@@ -172,13 +180,12 @@ class RunMegaDetector(ttk.Frame):
         self.inputJSONPath = None
         self.outJSONPath = None
 
-        inputJSONButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select a `BatchInput` JSON file "
-                                                                "which will be used to run MegaDetector on",
+        inputJSONButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select a `BatchInput` JSON file",
                                      command=self.inputJSON)
         inputJSONButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
         outJSONNameLabel = ttk.Label(self.sw.scrollwindow,
-                                     text="2/ Please give a name to the resulted `MegaDetected` JSON file."
+                                     text="2/ Please give a name to the output `MegaDetected` JSON file."
                                           "Ideally it should be the\nsame as the `BatchInput` JSON file but "
                                           "ends with `*_MD.json` instead")
         outJSONNameLabel.grid(row=2, sticky='')
@@ -264,12 +271,12 @@ CSV Convertor Page
 
 
 # Supporting function for CSVConvertor
-def get_exif(source_images_path):
+def get_exif(input_imageDir):
     """
     This function takes the original images as input and returns the exif cameratrap_data of the corresponding images.
 
     Parameters:
-        source_images_path (str): the path of the images folder
+        input_imageDir (str): the path of the images folder
 
     Returns:
         df_exif: A dataframe containing the exif cameratrap_data of the images in the given folder
@@ -278,9 +285,19 @@ def get_exif(source_images_path):
     lstDict = []
     ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-    for image_name in os.listdir(source_images_path):
-        if image_name.endswith(ext):
-            image = PIL.Image.open(os.path.join(source_images_path, image_name))
+    for image_name in os.listdir(input_imageDir):
+        imgPath = str(os.path.join(input_imageDir, image_name))
+        # print(imgPath)
+        imgStat = os.stat(imgPath).st_size
+        # print(imgStat)
+
+        if image_name.endswith(ext) and imgStat == 0:
+            print("\nThe following image is broken:")
+            print(image_name)
+            continue
+
+        else:
+            image = PIL.Image.open(imgPath)
             exif = image.getexif()
             if exif is None:
                 return
@@ -314,7 +331,7 @@ class CSVConvertor(ttk.Frame):
         self.csvOutputDir = None
         self.org_img_dirpath = []
 
-        inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the IMAGE FOLDER which has a "
+        inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the IMAGE FOLDER that has a "
                                                                "`MegaDetected` JSON file 'associated' with it",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
@@ -399,7 +416,8 @@ class CSVConvertor(ttk.Frame):
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
-                                            title='Please select the folder where the CSV file will be saved at')
+                                            title='Please select the output folder for '
+                                                  'which the CSV file will be saved at')
         outputDirPath = str(outputDir) + "/"
 
         csvFilename = self.csvNameEntry.get()
@@ -415,6 +433,12 @@ class CSVConvertor(ttk.Frame):
 
         input_json = open(self.jsonFilePath, 'r')
         json_info = json.load(input_json)
+
+        sampleImagePath = list(json_info['images'][0].values())[0]
+        # imgDir = os.path.dirname(sampleImagePath)  # get path only
+        # print(imgDir)
+
+        print("\nSample path to the FIRST image: \n" + sampleImagePath)
 
         df_exif = get_exif(self.inputDirPath)
         df_json = pd.DataFrame()
@@ -432,46 +456,54 @@ class CSVConvertor(ttk.Frame):
 
             trigger = imageName[2:7]
 
-            detection_box = list(json_info['images'][i].values())[2]
-            bb_numbers = len(detection_box)
+            valLength = len(list(json_info['images'][i].values()))
 
-            pred_category, confidence, bb_locations, y_lower = [], [], [], []
+            if valLength == 3:
 
-            if bb_numbers != 0:
-                for b in range(bb_numbers):
-                    pred_category.append(list(detection_box[b].values())[0])
-                    confidence.append(list(detection_box[b].values())[1])
-                    bb_locations.append(list(detection_box[b].values())[2])
-            else:
-                pred_category.append('0')
+                detection_box = list(json_info['images'][i].values())[2]
+                bb_numbers = len(detection_box)
 
-            for loc in bb_locations:
-                # y_lower.append(max(loc[3] for loc in bb_locations))
-                y_lower.append(loc[3] + loc[1])
+                pred_category, confidence, bb_locations, y_lower = [], [], [], []
 
-            y_lower = list(set(y_lower))
+                if bb_numbers != 0:
+                    for b in range(bb_numbers):
+                        pred_category.append(list(detection_box[b].values())[0])
+                        confidence.append(list(detection_box[b].values())[1])
+                        bb_locations.append(list(detection_box[b].values())[2])
+                else:
+                    pred_category.append('0')
 
-            data = imageName, trigger, station, session, str(bb_numbers), \
-                pred_category, confidence, bb_locations, y_lower, imagePath
-            data = [list(data)]
+                for loc in bb_locations:
+                    # y_lower.append(max(loc[3] for loc in bb_locations))
+                    y_lower.append(loc[3] + loc[1])
 
-            df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
-                                                    'Number of BBs', 'Predicted Category', 'Confidence',
-                                                    'Location of BBs', 'Y Lower', 'Image Path'])
+                y_lower = list(set(y_lower))
 
-            df_json = pd.concat([df_json, df_single])
+                data = imageName, trigger, station, session, str(bb_numbers), \
+                    pred_category, confidence, bb_locations, y_lower, imagePath
+                data = [list(data)]
 
-            df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
+                df_single = pd.DataFrame(data, columns=['Image Name', 'Trigger', 'Station', 'Session',
+                                                        'Number of BBs', 'Predicted Category', 'Confidence',
+                                                        'Location of BBs', 'Y Lower', 'Image Path'])
 
-            df_final.to_csv(self.csvOutputDir, index=False)
+                df_json = pd.concat([df_json, df_single])
 
-            self.createCSVButton.config(text="THE CSV `METADATA` FILE WAS CREATED SUCCESSFULLY !!!"
-                                             "\nPlease adjust the previous steps for the "
-                                             "new run then CLICK this button to run again")
+                df_final = pd.merge(df_exif[['Image Name', 'DateTime']], df_json, on='Image Name')
 
+                df_final.to_csv(self.csvOutputDir, index=False)
+
+            elif valLength != 3:
+                print("\nThe following image is broken: ")
+                print(imagePath)
+                continue
+
+            self.createCSVButton.config(text="CREATED CSV `METADATA` FILE SUCCESSFULLY !!!"
+                                             "\nPlease adjust the steps for the new "
+                                             "run then CLICK this button to run again")
             self.csvNameEntry.delete(0, 'end')
 
-        return print("The `Metadata` CSV file was created successfully !!!")
+        return print("Created `Metadata` CSV file successfully !!!")
 
 
 """
@@ -491,20 +523,17 @@ class ImageSorter(ttk.Frame):
         self.inputCSVPath = None
 
         inputDirButton = ttk.Button(self.sw.scrollwindow,
-                                    text="1/ Please select the IMAGE FOLDER which has an associated "
-                                         "`Metadata` CSV file, and this image\nfolder is also where you want "
-                                         "the images inside it to be sorted into their `MegaDetected` classes",
+                                    text="1/ Please select the IMAGE FOLDER with an associated `Metadata` CSV file",
                                     command=self.inputDir)
         inputDirButton.grid(row=0, ipadx=10, ipady=10, pady=8, sticky='')
 
         inputCSVButton = ttk.Button(self.sw.scrollwindow,
-                                    text="2/ Please select the CSV `Metadata` file "
-                                         "associated with the chosen image folder",
+                                    text="2/ Please select the CSV `Metadata` file",
                                     command=self.inputCSV)
         inputCSVButton.grid(row=2, ipadx=10, ipady=10, pady=8, sticky='')
 
-        sortedLabel = ttk.Label(self.sw.scrollwindow, text="3/ Sorted images to be saved in a separate "
-                                                           "`*_Sorted` directory (`Y` or `N`)? ")
+        sortedLabel = ttk.Label(self.sw.scrollwindow, text="3/ Do you want the sorted images to be saved in "
+                                                           "a separate `*_Sorted` directory (`Y` or `N`)? ")
         sortedLabel.grid(row=4, sticky='')
 
         self.sortedEntry = ttk.Entry(self.sw.scrollwindow)
@@ -531,7 +560,7 @@ class ImageSorter(ttk.Frame):
 
     def inputCSV(self):
         inputCSV = filedialog.askopenfilename(initialdir=self.rootDir + "/metadata",
-                                              title='Please select CSV `metadata` file')
+                                              title='Please select the CSV `metadata` file')
         self.inputCSVPath = str(inputCSV)
 
         inputCSVLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
@@ -541,31 +570,36 @@ class ImageSorter(ttk.Frame):
         """
 
         """
-        predclass = None
-
         self.sortButton.config(text="IMAGES ARE BEING SORTED, PLEASE WAIT ......")
         self.sortButton.update_idletasks()
 
-        inputDir = self.inputDirPath
+        img_input_dir = self.inputDirPath
         inputCSV = self.inputCSVPath
         sortedInput = str(self.sortedEntry.get())
 
-        old_path = []  # Old - full original paths of where the image files are currently stored
-        parent_path = []  # First half of the o_path (parent path) without the image name
-        parent_path_sorted = []
+        org_imgPath = []  # Old - full original paths of where the image files are currently stored
+        parent_imgPath = []  # First half of the o_path (parent path) without the image name
+        parent_imgPath_sorted = []
 
         ext = ('rgb', 'gif', 'jpeg', 'jpg', 'png', 'JPG')
 
-        for root, dirs, files in os.walk(inputDir):
-            for fname in files:
-                if fname.endswith(ext):
-                    org_path = os.path.join(root, fname)
-                    org_path = os.path.normpath(org_path)
-                    old_path.append(org_path)
+        for image_name in os.listdir(img_input_dir):
+            imgPath = str(os.path.join(img_input_dir, image_name))
+            imgStat = os.stat(imgPath).st_size
 
-                    p_path = os.path.split(org_path)[0]
-                    p_path = os.path.normpath(p_path)
-                    parent_path.append(p_path)
+            if image_name.endswith(ext) and imgStat == 0:
+                print("\nThe following image is broken and not included in the sorting:")
+                print(image_name)
+                continue
+            else:
+                org_imgPath.append(imgPath)
+
+        org_imgPath.sort()
+
+        for p in org_imgPath:
+            p_path = os.path.split(p)[0]
+            p_path = os.path.normpath(p_path)
+            parent_imgPath.append(p_path)
 
         csv_file = pd.read_csv(inputCSV)
         df_csv = pd.DataFrame(csv_file)
@@ -574,22 +608,35 @@ class ImageSorter(ttk.Frame):
 
         list_numbbs = df_csv['Number of BBs'].tolist()
         list_predcategory = df_csv['Predicted Category'].tolist()
+        intList_predcategory = [list(map(int, ast.literal_eval(i))) for i in list_predcategory]
+        # print(intList_predcategory)
 
-        for num_bbs, category in zip(list_numbbs, list_predcategory):
+        predclass = None
+
+        for num_bbs, category in zip(list_numbbs, intList_predcategory):
             if num_bbs > 1:
                 checking = all(element == category[0] for element in category)
                 if checking:
-                    print("Same category for all bounding boxes")
+                    # print("All bounding boxes have the same category")
+                    # print(category)
+                    if category[0] == 1:
+                        predclass = 'Animal'
+                    elif category[0] == 2:
+                        predclass = 'Person'
+                    elif category[0] == 3:
+                        predclass = 'Vehicle'
                 else:
+                    # print("More than one class detected among the bounding boxes --> Assistant required")
                     predclass = 'Assistant Required'
             else:
-                if '0' in category:
+                # print(category)
+                if category[0] == 0:
                     predclass = 'Empty'
-                elif '1' in category:
+                elif category[0] == 1:
                     predclass = 'Animal'
-                elif '2' in category:
+                elif category[0] == 2:
                     predclass = 'Person'
-                elif '3' in category:
+                elif category[0] == 3:
                     predclass = 'Vehicle'
                 else:
                     predclass = None
@@ -598,19 +645,19 @@ class ImageSorter(ttk.Frame):
         new_path = []  # New - new path where the image files will be moved to
         new_path_sorted = []
 
-        for i in parent_path:
+        for i in parent_imgPath:
             new_parent_path = i + '_Sorted'
-            parent_path_sorted.append(new_parent_path)
+            parent_imgPath_sorted.append(new_parent_path)
 
         if sortedInput == 'Y':
-            for ps, ss in zip(parent_path_sorted, classified_folder):
+            for ps, ss in zip(parent_imgPath_sorted, classified_folder):
                 new_img_path_sorted = os.path.join(ps, ss)
                 new_img_path_sorted = os.path.normpath(new_img_path_sorted)
                 os.makedirs(new_img_path_sorted, exist_ok=True) if not os.path.exists(new_img_path_sorted) else None
                 new_path_sorted.append(new_img_path_sorted)
 
             # Make copy of the image and sorted them in categories
-            for o, ns in zip(old_path, new_path_sorted):
+            for o, ns in zip(org_imgPath, new_path_sorted):
                 shutil.copy(o, ns)
 
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
@@ -620,14 +667,14 @@ class ImageSorter(ttk.Frame):
             self.sortedEntry.delete(0, 'end')
 
         elif sortedInput == 'N':
-            for p, s in zip(parent_path, classified_folder):
+            for p, s in zip(parent_imgPath, classified_folder):
                 new_img_path = os.path.join(p, s)
                 new_img_path = os.path.normpath(new_img_path)
                 os.makedirs(new_img_path, exist_ok=True) if not os.path.exists(new_img_path) else None
                 new_path.append(new_img_path)
 
             # Make copy of the image and sorted them in categories
-            for o, n in zip(old_path, new_path):
+            for o, n in zip(org_imgPath, new_path):
                 shutil.move(o, n)
 
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
