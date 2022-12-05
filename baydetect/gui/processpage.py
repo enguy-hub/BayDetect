@@ -70,6 +70,10 @@ class JSONCreator(ttk.Frame):
         self.inputDirPath = None
         self.finalOutputDir = None
 
+        # To destroy later
+        self.inputDirLabel = None
+        self.outputDirLabel = None
+
         inputDirButton = ttk.Button(self.sw.scrollwindow,
                                     text="1/ Please select an IMAGE FOLDER which you "
                                          "want to create the `BatchInput` JSON file for",
@@ -106,14 +110,14 @@ class JSONCreator(ttk.Frame):
                                                  title='Please select the image folder')
         self.inputDirPath = str(inputDirectory) + "/"
 
-        inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
-        inputDirLabel.tag_configure("tag_name", justify='center')
-        inputDirLabel.insert("2.0", "FOLDER PATH: " + self.inputDirPath)
-        inputDirLabel.tag_add("tag_name", "2.0", "end")
-        inputDirLabel.grid(row=1, pady=8, sticky='n')
+        self.inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        self.inputDirLabel.tag_configure("tag_name", justify='center')
+        self.inputDirLabel.insert("2.0", "FOLDER PATH: " + str(inputDirectory))
+        self.inputDirLabel.tag_add("tag_name", "2.0", "end")
+        self.inputDirLabel.grid(row=1, pady=8, sticky='n')
 
-        inputDirLabel.configure(state="disabled")
-        inputDirLabel.configure(inactiveselectbackground=inputDirLabel.cget("selectbackground"))
+        self.inputDirLabel.configure(state="disabled")
+        self.inputDirLabel.configure(inactiveselectbackground=self.inputDirLabel.cget("selectbackground"))
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
@@ -124,8 +128,9 @@ class JSONCreator(ttk.Frame):
 
         self.finalOutputDir = os.path.join(outputDirPath, jsonFilename).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT `BATCH-INPUT` JSON: \n' + str(outputDir) + "/")
-        outputDirLabel.grid(row=5, pady=8, sticky='')
+        self.outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT `BATCH-INPUT` JSON: \n' +
+                                                                   str(outputDir) + "/")
+        self.outputDirLabel.grid(row=5, pady=8, sticky='')
 
     def createJSON(self):
         """
@@ -161,6 +166,10 @@ class JSONCreator(ttk.Frame):
                                               "run then CLICK this button to run again")
             self.jsonNameEntry.delete(0, 'end')
 
+            # Destroy
+            self.inputDirLabel.destroy()
+            self.outputDirLabel.destroy()
+
         return print("Created `BatchInput` JSON file successfully !!!")
 
 
@@ -179,6 +188,10 @@ class RunMegaDetector(ttk.Frame):
         self.rootDir = os.path.abspath(os.curdir)
         self.inputJSONPath = None
         self.outJSONPath = None
+
+        # To destroy later
+        self.inputJSONLabel = None
+        self.outputDirLabel = None
 
         inputJSONButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select a `BatchInput` JSON file",
                                      command=self.inputJSON)
@@ -214,14 +227,14 @@ class RunMegaDetector(ttk.Frame):
                                                title='Please select the `BatchInput` JSON file')
         self.inputJSONPath = str(inputJSON)
 
-        inputJSONLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
-        inputJSONLabel.tag_configure("tag_name", justify='center')
-        inputJSONLabel.insert("2.0", "`BI` JSON PATH: " + self.inputJSONPath)
-        inputJSONLabel.tag_add("tag_name", "2.0", "end")
-        inputJSONLabel.grid(row=1, pady=8, sticky='n')
+        self.inputJSONLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        self.inputJSONLabel.tag_configure("tag_name", justify='center')
+        self.inputJSONLabel.insert("2.0", "`BI` JSON PATH: " + str(inputJSON))
+        self.inputJSONLabel.tag_add("tag_name", "2.0", "end")
+        self.inputJSONLabel.grid(row=1, pady=8, sticky='n')
 
-        inputJSONLabel.configure(state="disabled")
-        inputJSONLabel.configure(inactiveselectbackground=inputJSONLabel.cget("selectbackground"))
+        self.inputJSONLabel.configure(state="disabled")
+        self.inputJSONLabel.configure(inactiveselectbackground=self.inputJSONLabel.cget("selectbackground"))
 
     def outputJSON(self):
         outputDir = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
@@ -232,8 +245,8 @@ class RunMegaDetector(ttk.Frame):
 
         self.outJSONPath = os.path.join(outputDirPath, outputJSONName).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='Output `MegaDetected` JSON file: \n' + outputDirPath)
-        outputDirLabel.grid(row=5, pady=8, sticky='')
+        self.outputDirLabel = ttk.Label(self.sw.scrollwindow, text='Output `MegaDetected` JSON: \n' + outputDirPath)
+        self.outputDirLabel.grid(row=5, pady=8, sticky='')
 
     def runMD(self):
         """
@@ -257,6 +270,10 @@ class RunMegaDetector(ttk.Frame):
                                            "\nPlease adjust the previous steps for the "
                                            "new run then CLICK this button to run again")
             self.outJSONNameEntry.delete(0, 'end')
+
+            self.inputJSONLabel.destroy()
+            self.outputDirLabel.destroy()
+
         else:
             self.executeButton.config(text="Error, please double check the commands !!")
 
@@ -331,6 +348,11 @@ class CSVConvertor(ttk.Frame):
         self.csvOutputDir = None
         self.org_img_dirpath = []
 
+        # To destroy later
+        self.outputDirLabel = None
+        self.jsonFileLabel = None
+        self.inputDirLabel = None
+
         inputDirButton = ttk.Button(self.sw.scrollwindow, text="1/ Please select the IMAGE FOLDER that has a "
                                                                "`MegaDetected` JSON file 'associated' with it",
                                     command=self.inputDir)
@@ -391,28 +413,28 @@ class CSVConvertor(ttk.Frame):
             for file in files:
                 self.org_img_dirpath.append(os.path.join(path, file).replace("\\", "/"))
 
-        inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
-        inputDirLabel.tag_configure("tag_name", justify='center')
-        inputDirLabel.insert("2.0", "FIRST IMAGE: " + self.org_img_dirpath[0])
-        inputDirLabel.tag_add("tag_name", "2.0", "end")
-        inputDirLabel.grid(row=1, pady=8, sticky='n')
+        self.inputDirLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        self.inputDirLabel.tag_configure("tag_name", justify='center')
+        self.inputDirLabel.insert("2.0", "FIRST IMAGE: " + self.org_img_dirpath[0])
+        self.inputDirLabel.tag_add("tag_name", "2.0", "end")
+        self.inputDirLabel.grid(row=1, pady=8, sticky='n')
 
-        inputDirLabel.configure(state="disabled")
-        inputDirLabel.configure(inactiveselectbackground=inputDirLabel.cget("selectbackground"))
+        self.inputDirLabel.configure(state="disabled")
+        self.inputDirLabel.configure(inactiveselectbackground=self.inputDirLabel.cget("selectbackground"))
 
     def inputJSON(self):
         jsonFile = filedialog.askopenfilename(initialdir=self.rootDir + "/metadata",
                                               title='Please select the `MegaDetected` JSON file')
         self.jsonFilePath = str(jsonFile)
 
-        jsonFileLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
-        jsonFileLabel.tag_configure("tag_name", justify='center')
-        jsonFileLabel.insert("2.0", "`MD` JSON PATH: " + self.jsonFilePath)
-        jsonFileLabel.tag_add("tag_name", "2.0", "end")
-        jsonFileLabel.grid(row=7, pady=8, sticky='n')
+        self.jsonFileLabel = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
+        self.jsonFileLabel.tag_configure("tag_name", justify='center')
+        self.jsonFileLabel.insert("2.0", "`MD` JSON PATH: " + self.jsonFilePath)
+        self.jsonFileLabel.tag_add("tag_name", "2.0", "end")
+        self.jsonFileLabel.grid(row=7, pady=8, sticky='n')
 
-        jsonFileLabel.configure(state="disabled")
-        jsonFileLabel.configure(inactiveselectbackground=jsonFileLabel.cget("selectbackground"))
+        self.jsonFileLabel.configure(state="disabled")
+        self.jsonFileLabel.configure(inactiveselectbackground=self.jsonFileLabel.cget("selectbackground"))
 
     def outputDir(self):
         outputDir = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
@@ -424,8 +446,8 @@ class CSVConvertor(ttk.Frame):
 
         self.csvOutputDir = os.path.join(outputDirPath, csvFilename).replace("\\", "/")
 
-        outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT CSV FILE: \n' + self.csvOutputDir)
-        outputDirLabel.grid(row=11, pady=8, sticky='')
+        self.outputDirLabel = ttk.Label(self.sw.scrollwindow, text='OUTPUT CSV FILE: \n' + self.csvOutputDir)
+        self.outputDirLabel.grid(row=11, pady=8, sticky='')
 
     def convertCSV(self):
         self.createCSVButton.config(text="CREATING CSV `METADATA` FILE, PLEASE WAIT ......")
@@ -502,6 +524,14 @@ class CSVConvertor(ttk.Frame):
                                              "\nPlease adjust the steps for the new "
                                              "run then CLICK this button to run again")
             self.csvNameEntry.delete(0, 'end')
+            self.sessionNameEntry.delete(0, 'end')
+            self.stationNameEntry.delete(0, 'end')
+
+            # Destroy
+            self.org_img_dirpath.clear()
+            self.inputDirLabel.destroy()
+            self.outputDirLabel.destroy()
+            self.jsonFileLabel.destroy()
 
         return print("Created `Metadata` CSV file successfully !!!")
 
@@ -521,6 +551,10 @@ class ImageSorter(ttk.Frame):
         self.rootDir = os.path.abspath(os.curdir)
         self.inputDirPath = None
         self.inputCSVPath = None
+
+        # To destroy
+        self.inputCSVLabel = None
+        self.inputDirLabel = None
 
         inputDirButton = ttk.Button(self.sw.scrollwindow,
                                     text="1/ Please select the IMAGE FOLDER with an associated `Metadata` CSV file",
@@ -555,16 +589,16 @@ class ImageSorter(ttk.Frame):
                                            title='Please select the image folder')
         self.inputDirPath = str(inputDir) + "/"
 
-        inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
-        inputDirLabel.grid(row=1, pady=8, sticky='')
+        self.inputDirLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED IMAGE FOLDER: \n' + self.inputDirPath)
+        self.inputDirLabel.grid(row=1, pady=8, sticky='')
 
     def inputCSV(self):
         inputCSV = filedialog.askopenfilename(initialdir=self.rootDir + "/metadata",
                                               title='Please select the CSV `metadata` file')
         self.inputCSVPath = str(inputCSV)
 
-        inputCSVLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
-        inputCSVLabel.grid(row=3, pady=8, sticky='')
+        self.inputCSVLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED CSV FILE: \n' + self.inputCSVPath)
+        self.inputCSVLabel.grid(row=3, pady=8, sticky='')
 
     def sortImages(self):
         """
@@ -663,8 +697,9 @@ class ImageSorter(ttk.Frame):
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
                                         "\nPlease adjust the previous steps for the "
                                         "new run then CLICK this button to run again")
-
             self.sortedEntry.delete(0, 'end')
+            self.inputCSVLabel.destroy()
+            self.inputDirLabel.destroy()
 
         elif sortedInput == 'N':
             for p, s in zip(parent_imgPath, classified_folder):
@@ -680,8 +715,9 @@ class ImageSorter(ttk.Frame):
             self.sortButton.config(text="THE IMAGES WERE SORTED SUCCESSFULLY !!!"
                                         "\nPlease adjust the previous steps for the "
                                         "new run then CLICK this button to run again")
-
             self.sortedEntry.delete(0, 'end')
+            self.inputCSVLabel.destroy()
+            self.inputDirLabel.destroy()
 
         else:
             self.sortButton.config(text="Error !! Please re-check the input for the previous steps")
