@@ -712,8 +712,8 @@ class Batchrun_MetadataCSV(ttk.Frame):
         self.sessStaConfirm_btn = None
 
         self.outputCSVDir_btn = None
-        self.outputTxtDir_btn = None
         self.outputCSVDir_label = None
+        self.outputTxtDir_btn = None
         self.outputTxtDir_label = None
 
         self.convertCSVTxt_btn = None
@@ -888,13 +888,16 @@ class Batchrun_MetadataCSV(ttk.Frame):
                 md_withoutExt.append(fname)
 
         for inameNoExt in md_withoutExt:
-            inameRaw = '_'.join(inameNoExt.split('_')[0:5])
+            inameRaw = '_'.join(inameNoExt.split('_')[:-1])
             iname_list.append(inameRaw)
         # Sort the list
         iname_list.sort()
 
         print("\nList of `MD` JSON files currently in the `MD` folder: ")
         print(md_withoutExt)
+
+        print("\nList of `MD` JSON files currently in the `MD` folder without `_MD` in the names: ")
+        print(iname_list)
 
         print("\nList of MATCHED sessions in both the image folders and JSON files in the `MD` folder:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
@@ -916,12 +919,10 @@ class Batchrun_MetadataCSV(ttk.Frame):
                                                                       "\nPlease adjust the steps for a new run")
             self.success_label.grid(row=36, sticky='n', pady=4)
 
-        destroy_these = [self.mdJSONDir_label, self.exampleImgPath_label,
-                         self.confirmExampleImgPath_btn, self.sessName_label,
-                         self.sessName_entry, self.stationName_label,
-                         self.stationName_entry, self.sessStaConfirm_btn,
-                         self.outputCSVDir_btn, self.outputTxtDir_btn, self.outputCSVDir_label,
-                         self.outputTxtDir_label, self.convertCSVTxt_btn, self.success_label]
+        destroy_these = [self.mdJSONDir_label, self.exampleImgPath_label, self.confirmExampleImgPath_btn,
+                         self.sessName_label, self.sessName_entry, self.stationName_label, self.stationName_entry,
+                         self.sessStaConfirm_btn, self.outputCSVDir_btn, self.outputTxtDir_btn, self.outputCSVDir_label,
+                         self.outputTxtDir_label, self.convertCSVTxt_btn]
 
         for widget in destroy_these:
             widget.destroy()
