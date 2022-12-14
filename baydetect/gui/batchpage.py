@@ -1031,6 +1031,7 @@ class Batchrun_SortImages(ttk.Frame):
 
         self.org_img_dirpath = list(imgDirSet)
         self.org_img_dirpath.sort()
+
         print("\nList of all the image folders found from CSV `Metadata` files:")
         print(self.org_img_dirpath)
 
@@ -1137,13 +1138,16 @@ class Batchrun_SortImages(ttk.Frame):
                 # CSV_paths.append(os.path.join(dirpath, ifilenames))
 
         for inameNoExt in csv_withoutExt:
-            inameRaw = '_'.join(inameNoExt.split('_')[0:5])
+            inameRaw = '_'.join(inameNoExt.split('_')[:-1])
             iname_list.append(inameRaw)
         # Sort the list
         iname_list.sort()
 
         print("\nList of CSV files currently in the `Metadata` folder: ")
         print(csv_withoutExt)
+
+        print("\nList of CSV files without `_Meta` that are currently in the `Metadata` folder: ")
+        print(iname_list)
 
         print("\nList of MATCHED sessions between image folders and CSV files in `Metadata` folder:")
         matchNames_list = list(set(self.station_session).intersection(iname_list))
@@ -1163,12 +1167,10 @@ class Batchrun_SortImages(ttk.Frame):
                                                                       "\nPlease adjust the steps for a new run")
             self.success_label.grid(row=36, sticky='n', pady=4)
 
-        destroy_these = [self.inputCSVDir_label, self.exampleImgPath_label,
-                         self.confirmExampleImgPath_btn, self.sessName_label,
-                         self.sessName_entry, self.stationName_label, self.stationName_entry,
+        destroy_these = [self.inputCSVDir_label, self.exampleImgPath_label, self.confirmExampleImgPath_btn,
+                         self.sessName_label, self.sessName_entry, self.stationName_label, self.stationName_entry,
                          self.sessStaConfirm_btn, self.sorted_label, self.sorted_entry,
-                         self.outputTxtDir_btn, self.sortImagesTxt_btn,
-                         self.outputTxtDir_label, self.success_label]
+                         self.outputTxtDir_btn, self.sortImagesTxt_btn, self.outputTxtDir_label]
 
         for widget in destroy_these:
             widget.destroy()
