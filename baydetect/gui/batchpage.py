@@ -326,7 +326,7 @@ class Batchrun_BatchInputJSON(ttk.Frame):
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
-                         f"{jsonInputDir}/{self.dataset}_{ista}_{isess}_BI.json\n")
+                         f"{jsonInputDir}{self.dataset}_{ista}_{isess}_BI.json\n")
             create.close()
 
             self.success_label = ttk.Label(self.sw.scrollwindow,
