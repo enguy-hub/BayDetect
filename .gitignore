@@ -25,4 +25,5 @@ Notebooks
 
 # Others
 GUI/__pycache__
-./batchrun*.py
+batchrun.py
+batchrun1.py
