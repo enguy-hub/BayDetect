@@ -105,31 +105,42 @@ def get_exif(input_imageDir):
         imgStat = os.stat(imgPath).st_size
         # print(imgStat)
 
-        if image_name.endswith(ext) and imgStat == 0:
-            print("\nThe following image is broken:")
+        imgNameExt = image_name.endswith(ext)
+
+        if imgNameExt and imgStat == 0:
+            print("\nThe following image has `0` byte in it:")
+            print(image_name)
+            continue
+
+        elif not imgNameExt:
+            print("\nThe following file is not an image:")
             print(image_name)
             continue
 
         else:
-            image = PIL.Image.open(imgPath)
-            exif = image.getexif()
-            if exif is None:
-                return
 
-            exif_data = {'Image Name': image_name}
+            try:
+                image = PIL.Image.open(imgPath)
+                exif = image.getexif()
+                if exif is None:
+                    return
+                exif_data = {'Image Name': image_name}
+                for tag_id, value in exif.items():
+                    tag = TAGS.get(tag_id, tag_id)
+                    if tag == "GPSInfo":
+                        gps_data = {}
+                        for t in value:
+                            gps_tag = GPSTAGS.get(t, t)
+                            gps_data[gps_tag] = value[t]
+                        exif_data[tag] = gps_data
+                    else:
+                        exif_data[tag] = value
+                lst_dict.append(exif_data)
 
-            for tag_id, value in exif.items():
-                tag = TAGS.get(tag_id, tag_id)
-                if tag == "GPSInfo":
-                    gps_data = {}
-                    for t in value:
-                        gps_tag = GPSTAGS.get(t, t)
-                        gps_data[gps_tag] = value[t]
-                    exif_data[tag] = gps_data
-                else:
-                    exif_data[tag] = value
-
-            lst_dict.append(exif_data)
+            except PIL.UnidentifiedImageError:
+                print("\nThe following image can't be open:")
+                print(imgPath)
+                continue
 
     # df_exif = pd.DataFrame.from_dict(lst_dict)
     df_exif = pd.DataFrame(lst_dict)
