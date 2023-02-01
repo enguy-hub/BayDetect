@@ -207,7 +207,7 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         self.noSampleFolderPath_label = tk.Text(self.sw.scrollwindow, height=2, width=100, borderwidth=0)
         self.noSampleFolderPath_label.tag_configure("tag_name", justify='center')
         self.noSampleFolderPath_label.insert("2.0", "Path to the first folder: " +
-                                             str(self.org_img_dirpath[1].split()[-1]) + "/")
+                                             str(self.org_img_dirpath[0].split()[-1]) + "/")
         self.noSampleFolderPath_label.tag_add("tag_name", "2.0", "end")
         self.noSampleFolderPath_label.grid(row=7, pady=7, sticky='n')
 
@@ -823,8 +823,12 @@ class Batchrun_MetadataCSV(ttk.Frame):
         print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
 
-        self.station_session = [a + '_' + b + '_' + c for a, b, c in
-                                zip(self.dataset_station, self.session, self.image_folder)]
+        # self.station_session = [a + '_' + b + '_' + c for a, b, c in
+        #                         zip(self.dataset_station, self.session, self.image_folder)]
+        # print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
+        # print(self.station_session)
+
+        self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
         print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
         print(self.station_session)
 
