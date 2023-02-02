@@ -815,18 +815,13 @@ class Batchrun_MetadataCSV(ttk.Frame):
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print("\nList of image folders available on the machine matched with the ones on the list above: ")
-        print(self.img_folderpaths)
+        # print("\nList of image folders available on the machine matched with the ones on the list above: ")
+        # print(self.img_folderpaths)
 
         print("\nDataset name: " + self.dataset)
 
         print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
-
-        # self.station_session = [a + '_' + b + '_' + c for a, b, c in
-        #                         zip(self.dataset_station, self.session, self.image_folder)]
-        # print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
-        # print(self.station_session)
 
         self.station_session = [a + '_' + b for a, b in zip(self.dataset_station, self.session)]
         print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
@@ -1077,19 +1072,19 @@ class Batchrun_SortImages(ttk.Frame):
             self.dataset = ''.join(name.split('_')[0])
             self.station.append('_'.join(name.split('_')[1:]))
 
-        print("\nList of names of folders where the images are in: ")
-        print(self.image_folder)
+        # print("\nList of names of folders where the images are in: ")
+        # print(self.image_folder)
 
-        print("\nList of image folders available on the machine matched with the ones on the list above: ")
-        print(self.img_folderpaths)
+        # print("\nList of image folders available on the machine matched with the ones on the list above: ")
+        # print(self.img_folderpaths)
 
         print("\nDataset name: " + self.dataset)
 
         print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
 
-        self.station_session = [a + '_' + b + '_' + c for a, b, c in
-                                zip(self.dataset_station, self.session, self.image_folder)]
+        self.station_session = [a + '_' + b for a, b in
+                                zip(self.dataset_station, self.session)]
         print("\nList of sessions from image folders present on the machine for CROSS-CHECKING later: ")
         print(self.station_session)
 
