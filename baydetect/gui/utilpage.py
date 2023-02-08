@@ -55,6 +55,9 @@ class FindReplaceFolderNames(ttk.Frame):
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
 
+        # To delete later
+        self.dirTitleLabel = None
+
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the sub-folders "
                                     "\nthat you wish to collectively change their FOLDER-NAMES with",
@@ -85,12 +88,12 @@ class FindReplaceFolderNames(ttk.Frame):
         home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(initialdir=self.rootDir,
+        directory = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
                                             title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
+        self.dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        self.dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -111,6 +114,7 @@ class FindReplaceFolderNames(ttk.Frame):
 
         self.findEntry.delete(0, 'end')
         self.replaceEntry.delete(0, 'end')
+        self.dirTitleLabel.destroy()
 
         print('\nDone !!! \n')
 
@@ -129,6 +133,9 @@ class FindReplaceFileNames(ttk.Frame):
 
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
+
+        # To delete later
+        self.dirTitleLabel = None
 
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the files "
@@ -160,12 +167,12 @@ class FindReplaceFileNames(ttk.Frame):
         home_btn.grid(row=9, ipadx=10, ipady=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(initialdir=self.rootDir,
+        directory = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
                                             title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
+        self.dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        self.dirTitleLabel.grid(row=1, ipadx=10, ipady=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -186,6 +193,7 @@ class FindReplaceFileNames(ttk.Frame):
 
         self.findEntry.delete(0, 'end')
         self.replaceEntry.delete(0, 'end')
+        self.dirTitleLabel.destroy()
 
         print('\nDone !!! \n')
 
@@ -204,6 +212,9 @@ class FindReplaceContentInFiles(ttk.Frame):
 
         self.rootDir = os.path.abspath(os.curdir)
         self.chosenDir = None
+
+        # To delete later
+        self.dirTitleLabel = None
 
         dirButton = ttk.Button(self.sw.scrollwindow,
                                text="1/ Please select the folder which contains all the files with the same"
@@ -241,12 +252,12 @@ class FindReplaceContentInFiles(ttk.Frame):
         home_btn.grid(row=11, ipady=10, ipadx=10, pady=4, sticky='n')
 
     def selectDir(self):
-        directory = filedialog.askdirectory(initialdir=self.rootDir,
+        directory = filedialog.askdirectory(initialdir=self.rootDir + "/metadata",
                                             title='Please select a directory')
         self.chosenDir = str(directory)
 
-        dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
-        dirTitleLabel.grid(row=1, ipady=10, ipadx=10, sticky='n')
+        self.dirTitleLabel = ttk.Label(self.sw.scrollwindow, text='SELECTED FOLDER: ' + self.chosenDir)
+        self.dirTitleLabel.grid(row=1, ipady=10, ipadx=10, sticky='n')
 
     def replaceAll(self):
         """
@@ -273,6 +284,7 @@ class FindReplaceContentInFiles(ttk.Frame):
         self.extensionEntry.delete(0, 'end')
         self.findEntry.delete(0, 'end')
         self.replaceEntry.delete(0, 'end')
+        self.dirTitleLabel.destroy()
 
         print('\nDone !!! \n')
 
