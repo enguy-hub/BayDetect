@@ -8,28 +8,13 @@ def pf_batchrun():
         # Insert new python commands below this line
 
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_004_100_BTCF.txt '
+        'C:/BayDetect/metadata/SF_BatchCmds/pf4_sortImages/pf4_sortImages_63_02_12_100_BTCF.txt '
         '&& '
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_004_101_BTCF.txt '
+        'C:/BayDetect/metadata/SF_BatchCmds/pf4_sortImages/pf4_sortImages_63_07_09_02_100_BTCF.txt '
         '&& '
         'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_004_102_BTCF.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_016_100_BTCF.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_016_101_BTCF.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_019_100_BTCF.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_019_101_BTCF.txt '
-        '&& '
-        'python main.py < '
-        'C:/LWF/BayDetect/metadata/Project_Hoehengradient/Jakelberg/JA_BatchCmds/pf1_createBIJSON/pf1_createBIJSON_JA_019_102_BTCF.txt '
+        'C:/BayDetect/metadata/SF_BatchCmds/pf4_sortImages/pf4_sortImages_63_10_13_100_BTCF.txt '
 
     )
     return print('Finished !!')
@@ -42,20 +27,16 @@ def md_batchrun():
         # Insert new python commands below this line
                 
         'python run_detector_batch.py md_v5a.0.0.pt ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_BatchInput/JA_011_100_BTCF_BI.json ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_MegaDetected/JA_011_100_BTCF_MD.json ' 
+        '../../metadata/SF_BatchInput/63_02_12_100_BTCF_BI.json ' 
+        '../../metadata/SF_MegaDetected/63_02_12_100_BTCF_MD.json ' 
         '&& '
         'python run_detector_batch.py md_v5a.0.0.pt ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_BatchInput/JA_013_100_BTCF_BI.json ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_MegaDetected/JA_013_100_BTCF_MD.json ' 
+        '../../metadata/SF_BatchInput/63_07_09_02_100_BTCF_BI.json ' 
+        '../../metadata/SF_MegaDetected/63_07_09_02_100_BTCF_MD.json ' 
         '&& '
         'python run_detector_batch.py md_v5a.0.0.pt ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_BatchInput/JA_014_100_BTCF_BI.json ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_MegaDetected/JA_014_100_BTCF_MD.json ' 
-        '&& '
-        'python run_detector_batch.py md_v5a.0.0.pt ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_BatchInput/JA_017_100_BTCF_BI.json ' 
-        '../../metadata/Project_Hoehengradient/Jakelberg/JA_JSON/JA2_MegaDetected/JA_017_100_BTCF_MD.json '
+        '../../metadata/SF_BatchInput/63_10_13_100_BTCF_BI.json ' 
+        '../../metadata/SF_MegaDetected/63_10_13_100_BTCF_MD.json ' 
 
     )
     return print('Finished !!')
