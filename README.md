@@ -38,7 +38,7 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 ------------------------------------------------------------------------------------------------------------------------
 ## Prerequisites / Installation guide
 
-#### 1. Clone the repo
+#### 1. Clone the repo *recursively*
 
     git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
