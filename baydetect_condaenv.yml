@@ -1,4 +1,4 @@
-name: cameratraps-detector
+name: baydetect_condaenv
 
 channels:
   - conda-forge

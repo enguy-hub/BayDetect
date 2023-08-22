@@ -259,15 +259,6 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         print("\nList of stations: ")
         print(self.dataset_station)
 
-        for name in self.dataset_station:
-            self.dataset = ''.join(name.split('_')[0])
-            self.station.append('_'.join(name.split('_')[1:]))
-
-        print("\nDataset name: " + self.dataset)
-
-        print("\nList of stations #: ")
-        print(self.station)
-
         print("\nList of sessions: ")
         print(self.session)
 
@@ -322,11 +313,11 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         txtOutputDir = self.noOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_folderpaths):
-            create = open(f"{txtOutputDir}pf1_createBIJSON_{self.dataset}_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf1_createBIJSON_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
-                         f"{jsonInputDir}{self.dataset}_{ista}_{isess}_BI.json\n")
+                         f"{jsonInputDir}{ista}_{isess}_BI.json\n")
             create.close()
 
             self.success_label = ttk.Label(self.sw.scrollwindow,
@@ -450,15 +441,6 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         print("\nList of stations: ")
         print(self.dataset_station)
 
-        for name in self.dataset_station:
-            self.dataset = ''.join(name.split('_')[0])
-            self.station.append('_'.join(name.split('_')[1:]))
-
-        print("\nDataset name: " + self.dataset)
-
-        print("\nList of stations #: ")
-        print(self.station)
-
         print("\nList of sessions: ")
         print(self.session)
 
@@ -513,11 +495,11 @@ class Batchrun_BatchInputJSON(ttk.Frame):
         txtOutputDir = self.yesOutputTxtDirPath1
 
         for ista, isess, ipaths in zip(self.station, self.session, self.img_folderpaths):
-            create = open(f"{txtOutputDir}pf1_createBIJSON_{self.dataset}_{ista}_{isess}.txt", "a")
+            create = open(f"{txtOutputDir}pf1_createBIJSON_{ista}_{isess}.txt", "a")
             create.write(f"1\n"
                          f"1\n"
                          f"{ipaths}/\n"
-                         f"{jsonInputDir}{self.dataset}_{ista}_{isess}_BI.json\n")
+                         f"{jsonInputDir}{ista}_{isess}_BI.json\n")
             create.close()
 
             self.success_label = ttk.Label(self.sw.scrollwindow,
