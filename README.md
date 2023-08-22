@@ -42,23 +42,25 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
     git clone --recursive https://github.com/enguy-hub/BayDetect.git
 
-#### 2. Fetch new updates for `cameratraps` and `ai4eutils` submodules and a specific snapshot for 'yolov5' submodule
+#### 2. Fetch new updates for `cameratraps`, `ai4eutils`, and `yolov5` submodules
 
-- For ai4eutils, cd into `/ai4eutils` directory and run the following commands:
+- For ai4eutils, "cd" into `/ai4eutils` directory and run the following commands:
 
       `git checkout master`
       `git pull`
 
-- For cameratraps, cd into `/cameratraps` directory and run the following commands:
+- For cameratraps, "cd" into `/cameratraps` directory and run the following commands:
 
       `git checkout main`
       `git pull`
 
-- For yolov5, cd into `/yolov5` directory and run the following command:
+- For yolov5, "cd" into `/yolov5` directory and run the following command:
 
-      `git checkout c23a441c9df7ca9b1f275e8c8719c949269160d1`
+      `git checkout main`
+      `git pull`
+      <!-- `git checkout c23a441c9df7ca9b1f275e8c8719c949269160d1` -->
 
-#### 3. Set `PYTHONPATH` for the three `cameratraps`, `ai4eutils`, and `yolov5` submodules
+#### 3. Set `PYTHONPATH` for the three `cameratraps`, `ai4eutils`, and `yolov5` submodules. Example below assumpts that BayDetect was installed and saved directly on "C:" drive
 
 - For WINDOWS, following this [Windows' instruction](https://github.com/microsoft/CameraTraps/blob/main/megadetector.md#windows-instructions-for-gitpython-stuff). For example:
 
@@ -105,11 +107,11 @@ exceeds GitHub's file size limit of 100.00 MB. Thus, please download it to your 
 
 #### 6. Create `cameratraps-detector` conda environment by running this command at root folder (`/BayDetect`):
 
-    conda env create --file environment-detector-lwf.yml
+    conda env create --file env.yml
 
 #### 7. Activate `cameratraps-detector` conda environment
 
-    conda activate cameratraps-detector
+    conda activate baydetectenv
 
 #### 8. Putting the images that you want to be classified inside `/image_data` directory
 

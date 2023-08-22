@@ -6,4 +6,4 @@
 	url = https://github.com/Microsoft/ai4eutils
 [submodule "yolov5"]
 	path = yolov5
-	url = https://github.com/ultralytics/yolov5/
+	url = https://github.com/ecologize/yolov5/
