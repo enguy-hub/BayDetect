@@ -751,7 +751,7 @@ class Batchrun_MetadataCSV(ttk.Frame):
 
         self.exampleImgPath_label = ttk.Label(self.sw.scrollwindow,
                                               text="2/ Is the below path of the image folder correct? \n"
-                                                   + self.org_img_dirpath[0])
+                                                   + self.org_img_dirpath[0] + "/")
         self.exampleImgPath_label.grid(row=2, pady=4, sticky='n')
 
         self.confirmExampleImgPath_btn = ttk.Button(self.sw.scrollwindow, text="CONFIRM FIRST IMAGE PATH !!",
@@ -793,14 +793,14 @@ class Batchrun_MetadataCSV(ttk.Frame):
         # Sort img_folderpaths list
         self.img_folderpaths.sort()
 
-        for name in self.dataset_station:
-            self.dataset = ''.join(name.split('_')[0])
-            self.station.append('_'.join(name.split('_')[1:]))
+        # for name in self.dataset_station:
+        #     self.dataset = ''.join(name.split('_')[0])
+        #     self.station.append('_'.join(name.split('_')[1:]))
 
         # print("\nList of image folders available on the machine matched with the ones on the list above: ")
         # print(self.img_folderpaths)
 
-        print("\nDataset name: " + self.dataset)
+        # print("\nDataset name: " + self.dataset)
 
         print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
@@ -1009,7 +1009,7 @@ class Batchrun_SortImages(ttk.Frame):
 
         self.exampleImgPath_label = ttk.Label(self.sw.scrollwindow,
                                               text="2/ Is the below path of the first image correct? \n"
-                                                   + self.org_img_dirpath[0])
+                                                   + self.org_img_dirpath[0] + "/")
         self.exampleImgPath_label.grid(row=2, pady=4, sticky='n')
 
         self.confirmExampleImgPath_btn = ttk.Button(self.sw.scrollwindow, text="CONFIRM FIRST IMAGE PATH !!",
@@ -1050,9 +1050,9 @@ class Batchrun_SortImages(ttk.Frame):
         # Sort the list
         self.img_folderpaths.sort()
 
-        for name in self.dataset_station:
-            self.dataset = ''.join(name.split('_')[0])
-            self.station.append('_'.join(name.split('_')[1:]))
+        # for name in self.dataset_station:
+        #     self.dataset = ''.join(name.split('_')[0])
+        #     self.station.append('_'.join(name.split('_')[1:]))
 
         # print("\nList of names of folders where the images are in: ")
         # print(self.image_folder)
@@ -1060,7 +1060,7 @@ class Batchrun_SortImages(ttk.Frame):
         # print("\nList of image folders available on the machine matched with the ones on the list above: ")
         # print(self.img_folderpaths)
 
-        print("\nDataset name: " + self.dataset)
+        # print("\nDataset name: " + self.dataset)
 
         print("\nList of stations available on the machine's image folders: ")
         print(self.dataset_station)
